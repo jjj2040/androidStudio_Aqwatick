@@ -38,6 +38,8 @@ dependencies:
   curved_navigation_bar: ^1.0.3 #latest version
   page_transition: ^2.1.0
   wstore: ^1.0.3
+  mysql1: ^0.20.0
+
 
 
   # The following adds the Cupertino Icons font to your application.

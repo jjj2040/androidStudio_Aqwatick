@@ -17,7 +17,6 @@ import '../../city_pirogovskiy_details/dimensions.dart';
 var rrr = '';
 var rrr3 = '';
 var rrr13242 = '';
-var iiii = '';
 
 class operatorButtle extends StatelessWidget {
   const operatorButtle({super.key});

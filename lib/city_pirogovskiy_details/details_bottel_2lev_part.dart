@@ -9,6 +9,14 @@ void main() {
   runApp(MyApp());
 }
 
+int _aa = todoList1.length;
+int countOrder = todoList1.length;
+
+String _userToDo = '';
+String _userLogo = '';
+String _userType = '';
+String _userNetto = '';
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -26,25 +34,11 @@ class MyTextPage111 extends StatefulWidget {
   State<MyTextPage111> createState() => _MyTextPage111State();
 }
 
-//List todoList = ['- 2500, Судогорская, Х, 710 +-10'];
-
-//todoList.addAll([]);
-int _aa = todoList1.length;
-int countOrder = todoList1.length;
-
-String _userToDo = '';
-String _userLogo = '';
-String _userType = '';
-String _userNetto = '';
-
 class _MyTextPage111State extends State<MyTextPage111> {
   @override
   initState() {
     super.initState();
-    //todoList.addAll(['- ddddd']);
-  }
-
-//todoList.addAll(['- ddddd']);
+      }
 
   @override
   Widget build(BuildContext context) {
@@ -59,146 +53,110 @@ class _MyTextPage111State extends State<MyTextPage111> {
           color: Colors.grey[300],
         ),
 
-        child: Column(
-            //padding: EdgeInsets.only(top:5, left:5, right:5),
-            //mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-
-            // ЗАГОЛОВОК ЦЕХА
-            children: [
-              Text(
-                'Пироговский, цех бутыли',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 20,
-                  //decoration: TextDecoration.underline,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+        child: SingleChildScrollView(
+          child: Column(
+              //padding: EdgeInsets.only(top:5, left:5, right:5),
+              //mainAxisAlignment: MainAxisAlignment.center,
+              //mainAxisSize: MainAxisSize.max,
+              //crossAxisAlignment: CrossAxisAlignment.stretch,
+          
+              // ЗАГОЛОВОК ЦЕХА
+              children: [
+                Text(
+                  'Пироговский, цех бутыли',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20,
+                    //decoration: TextDecoration.underline,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
                 ),
-              ),
-
-              //блок  с названием машины и ПОЛНЫМ СОДЕРЖАНИЕМ ЗАКАЗОВ
-
-              Container(
-                  //margin: const EdgeInsets.only(
-                   //   left: 1.0, right: 1.0, top: 5.0, bottom: 5.0),
-                  padding: const EdgeInsets.only(
-                      left: 5.0, right: 5.0, top: 5.0, bottom: 5.0),
-                  decoration: BoxDecoration(
-                      color: Colors.grey[100],
-                      borderRadius: BorderRadius.all(Radius.circular(9))),
-                  child: Column(
-                    children: [
-
-                      //строка с названием машины
-                      _stroka1(),
-
-                      _stroka4Oper(),
-
-                      // строка с кратким содержанием заказа
-                      stroka2(),
-
-
-                      _stroka3(),
-
-                      // Блок добавления и вывода заказов
-                      Container(
-                        margin: const EdgeInsets.only(
-                             left: 1.0, right: 1.0, top: 7.0, bottom: 7.0),
-                        decoration: BoxDecoration(
-
-                            color: Colors.grey[400],
-                            borderRadius: BorderRadius.all(Radius.circular(9))),
-
-
-                          child: Column(
-
-
-                            children: [
-
-                              _stroka5Order(),
-
-                             //окно вывода существующих заказов
-
-
-                              Container(
-                                child: ConstrainedBox(
-                                    constraints: BoxConstraints(
-                                       //minHeight: 50.0,
-                                       maxHeight: 100.0,
-
-                                    ),
-                                  child: _list2(),
-
-                              ),
-                              ),
-
-
-
-
-
-                              // КНОПКА ДОБАВЛЕНИЯ НОВОГО ЗАКАЗА
-                              _buttonNewOrder(),
-
-
-                            ],
-                          ),
-                       // ),
-                      ),
-
-
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey[400],
+          
+                //блок  с названием машины и ПОЛНЫМ СОДЕРЖАНИЕМ ЗАКАЗОВ
+          
+                Container(
+                    //margin: const EdgeInsets.only(
+                     //   left: 1.0, right: 1.0, top: 5.0, bottom: 5.0),
+                    padding: const EdgeInsets.only(
+                        left: 5.0, right: 5.0, top: 5.0, bottom: 5.0),
+                    decoration: BoxDecoration(
+                        color: Colors.grey[100],
                         borderRadius: BorderRadius.all(Radius.circular(9))),
+                    child: Column(
+                      //mainAxisAlignment: MainAxisAlignment.center,
+                      //mainAxisSize: MainAxisSize.max,
+                      //  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+          
+                        //строка с названием машины
+                        _stroka1(),
 
-                      //строка информации про последним данным выпуска продукции
-                      //_stroka7(),
-
-                      //пробная строка информации с переносом
 
 
-                    ),
+                        // строка с кратким содержанием заказа
 
-                      //фраза 'Данные по выпуску продукции'
-                      Container(
+
+                        //фраза 'Данные по выпуску продукции'
+                        Container(
+                          margin: const EdgeInsets.only(
+                              left: 1.0, right: 1.0, top: 7.0, bottom: 7.0),
+                          padding: EdgeInsets.only(top: 0, left: 5, right: 5),
+                            decoration: BoxDecoration(
+                                color: Colors.grey[400],
+                                borderRadius: BorderRadius.all(Radius.circular(9))),
+                            child: Column(
+                              children: [
+
+                                _stroka6(),
+                                _stroka4Oper(),
+                                stroka2(),
+                                _stroka8(),
+                                _stroka3(), // процент готовой продукции
+          
+                                _buttonOrder2()
+                              ],
+                          ),
+                        ),
+
+
+                        // Блок добавления и вывода заказов
+                        blockZakaz(),
+
+
+                        //блок по записи ремонтных работ с машиной
+                        Container(
                           decoration: BoxDecoration(
                               color: Colors.grey[400],
                               borderRadius: BorderRadius.all(Radius.circular(9))),
                           child: Column(
                             children: [
-                            _stroka8(),
-                            _stroka6(),
+                              _remontTitle(),
+                              _remontBriefly(),
                               _buttonOrder2()
+          
                             ],
+                          ),
                         ),
-                      ),
-
-                      _analitic()
-
-
-
-
-                    ],
-                  )),
-
-              //ПРОБНЫЙ ПУСТОЙ БЛОК ДЛЯ ВЫВОДА ЛИСТ ВЬЮ
-            ]),
+          
+          
+                        _analitic()
+          
+          
+          
+          
+                      ],
+                    )),
+          
+                //ПРОБНЫЙ ПУСТОЙ БЛОК ДЛЯ ВЫВОДА ЛИСТ ВЬЮ
+              ]),
+        ),
       ),
     );
   }
 
   int _qqq = 0;
 
-  /*
-  Widget _count1() {
-    for (int i = 1; i < _aa; i++)
-      {
-        return(i)1
-  }
-}
-
-  */
 
   Widget _list3() {
     return Scrollbar(
@@ -214,6 +172,53 @@ class _MyTextPage111State extends State<MyTextPage111> {
           Text(todoList1[_aa - 3]),
         ],
       ),
+    );
+  }
+
+// Блок добавления и вывода заказов
+  Widget blockZakaz() {
+    return Container(
+      margin: const EdgeInsets.only(
+          left: 1.0, right: 1.0, top: 7.0, bottom: 7.0),
+      decoration: BoxDecoration(
+
+          color: Colors.grey[400],
+          borderRadius: BorderRadius.all(Radius.circular(9))),
+
+
+      child: Column(
+
+
+        children: [
+
+          _stroka5Order(),
+
+          //окно вывода существующих заказов
+
+
+          Container(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                //minHeight: 50.0,
+                maxHeight: 100.0,
+
+              ),
+              child: _list2(),
+
+            ),
+          ),
+
+
+
+
+
+          // КНОПКА ДОБАВЛЕНИЯ НОВОГО ЗАКАЗА
+          _buttonNewOrder(),
+
+
+        ],
+      ),
+      // ),
     );
   }
 
@@ -249,7 +254,6 @@ class _MyTextPage111State extends State<MyTextPage111> {
       },
     );
   }
-
 /*
   Widget _displayList() {
     return Container(
@@ -271,7 +275,6 @@ class _MyTextPage111State extends State<MyTextPage111> {
   }
 
  */
-
 
   // КНОПКА 'ПОДРОБНО' ПО ВЫПУСКУ ПРОДУКЦИИ
   Widget _buttonOrder2() {
@@ -356,7 +359,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    countOrder ++;
+
                     return _dialog(); //_dialog диалоговое окно
                   });
             },
@@ -496,7 +499,17 @@ class _MyTextPage111State extends State<MyTextPage111> {
                 if (_userToDo != '') {
                   todoList1.add(
                       '- $_userToDo, $_userLogo, $_userType, $_userNetto');
+                  _userToDo = '';
+                  _userLogo = '';
+                  _userType = '';
+                  _userNetto = '';
+                  countOrder ++;
+
                 } else {
+                  _userToDo = '';
+                  _userLogo = '';
+                  _userType = '';
+                  _userNetto = '';
 
                 }
 
@@ -553,6 +566,8 @@ class _MyTextPage111State extends State<MyTextPage111> {
       children: [
         Container(
           padding: EdgeInsets.only(top: 0, left: 5, right: 5),
+          margin: EdgeInsets.only(top: 0, left: 5, right: 5),
+          //padding: EdgeInsets.only(top: 0, left: 5, right: 5),
           child: Text(vRabote1,
               style: TextStyle(fontSize: 13, color: Colors.black)),
         ),
@@ -608,6 +623,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
 
           Container(
             padding: EdgeInsets.only(top: 0, left: 5, right: 5),
+            margin: EdgeInsets.only(top: 0, left: 5, right: 5),
             child: Text('готово 50%, брак 12%',
                 style: TextStyle(
                     fontSize: 13, color: Colors.black)),
@@ -623,6 +639,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
 
           Container(
             padding: EdgeInsets.only(top: 0, left: 5, right: 5),
+            margin: EdgeInsets.only(top: 5, left: 5, right: 5),
             child: Text('Оператор: Иванов И.И.',
                 style: TextStyle(
                     fontSize: 13, color: Colors.black)),
@@ -663,6 +680,21 @@ class _MyTextPage111State extends State<MyTextPage111> {
       );
   }
 
+  //строка "Заголовок Ремонт машины"
+  Widget _remontTitle() {
+    return
+      Row(
+        children: [
+          Container(
+            padding: EdgeInsets.only(top: 0, left: 5, right: 5),
+            margin: EdgeInsets.only(top: 10, left: 5, right: 5),
+            child: Text('Данные по обслуживанию PL-1:',
+                style: TextStyle(
+                    fontSize: 18, color: Colors.black)),
+          ),
+        ],
+      );
+  }
 
   //строка информации про последним данным выпуска продукции
   Widget _stroka7() {
@@ -672,7 +704,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
 
           Container(
             padding: EdgeInsets.only(top: 0, left: 5, right: 5),
-            margin: EdgeInsets.only(top: 10, left: 5, right: 5),
+            margin: EdgeInsets.only(top: 0, left: 5, right: 5),
              child: Expanded(
               child: Text('Последнее добавление: 128 шт., брак - 15 шт, Время: 15:24, Дата: 21.03.2024 ',
                 style: TextStyle(
@@ -805,7 +837,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
     return
       Container(
         padding: EdgeInsets.only(top: 0, left: 5, right: 5),
-        margin: EdgeInsets.only(top: 10, left: 5, right: 5),
+        margin: EdgeInsets.only(top: 0, left: 5, right: 5),
         child: Row(
             textDirection: TextDirection.ltr,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -828,5 +860,34 @@ class _MyTextPage111State extends State<MyTextPage111> {
         ),
       );
   }
+
+  Widget _remontBriefly() {
+    return
+      Container(
+        padding: EdgeInsets.only(top: 0, left: 5, right: 5),
+        margin: EdgeInsets.only(top: 10, left: 5, right: 5),
+        child: Row(
+            textDirection: TextDirection.ltr,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            verticalDirection: VerticalDirection.down,
+            children: <Widget>[
+              Container(
+                //padding: EdgeInsets.only(top: 0, left: 5, right: 5),
+                //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
+                child: Expanded(
+                    child: Text('Время: 15:24, Дата: 21.03.2024, Ремонт машины, тех.обслуживание, просушка сырья. 2 часа',
+                        style: TextStyle(
+                          fontSize: 13, color: Colors.black,),
+                        textDirection: TextDirection.ltr)
+                ),
+              )
+            ]
+
+
+
+        ),
+      );
+  }
+
 
 }

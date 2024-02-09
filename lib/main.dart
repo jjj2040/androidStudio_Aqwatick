@@ -9,12 +9,16 @@ import 'package:flutter/material.dart';
 //import 'package:untitled111/bottomnavbar.dart';
 import 'package:untitled111/password.dart';
 //import 'package:page_transition/page_transition.dart';
-//import 'package:mysql1/mysql1.dart';
+import 'package:mysql1/mysql1.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+    runApp(const MyApp());
 }
+
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

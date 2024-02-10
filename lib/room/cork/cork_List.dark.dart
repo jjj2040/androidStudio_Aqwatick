@@ -13,7 +13,7 @@ class CorkVehiclList extends StatelessWidget{
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: Text('Лист корк',
+        title: const Text('Лист корк',
             style: TextStyle(
               color: Colors.cyan,
               fontSize: 16,
@@ -26,7 +26,7 @@ class CorkVehiclList extends StatelessWidget{
       ),
 
       body: Container(color: Colors.blue,
-        child: CorklList2Level(),
+        child: const CorklList2Level(),
 
 
       ),

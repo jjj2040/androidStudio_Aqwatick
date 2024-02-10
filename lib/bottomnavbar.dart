@@ -1,8 +1,6 @@
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:untitled111/screens/screen1.dart';
 import 'package:untitled111/screens/screen2.dart';
 import 'package:untitled111/screens/screen3.dart';
@@ -16,9 +14,9 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   List Screens = [
-    Screen1(),
-    Screen2(),
-    Screen3(),
+    const Screen1(),
+    const Screen2(),
+    const Screen3(),
   ];
   int _selectedIndex =0;
   @override

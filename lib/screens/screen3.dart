@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:untitled111/City/rostov.dart';
 
 import '../room/ASB/ASB_room.dart';
-import '../room/bottle/nameBottle.dart';
 
 class Screen3 extends StatelessWidget {
   const Screen3({super.key});
@@ -12,7 +9,7 @@ class Screen3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Container(
-      padding: EdgeInsets.only(top:15, left:10, right:10),
+      padding: const EdgeInsets.only(top:15, left:10, right:10),
       color: Colors.grey[100],
       child: Column(
 
@@ -20,7 +17,7 @@ class Screen3 extends StatelessWidget {
         children:
         [
           Container(
-              child: name_rostov()
+              child: const name_rostov()
           ),
 
           // цех бутыли
@@ -30,7 +27,7 @@ class Screen3 extends StatelessWidget {
 
           ),
           Container(
-              child: ASBroom(),
+              child: const ASBroom(),
           ),
 
           Container(

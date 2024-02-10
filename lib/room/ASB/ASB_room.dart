@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:untitled111/style/style_text_Name.dart';
 
 import 'AsbList.dart';
 
@@ -14,8 +11,8 @@ class ASBroom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top:2, left:10, right:10, bottom: 15),
-      margin: EdgeInsets.only(top:10),
+      padding: const EdgeInsets.only(top:2, left:10, right:10, bottom: 15),
+      margin: const EdgeInsets.only(top:10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(9),
         color: Colors.white,
@@ -55,9 +52,9 @@ class ASBroom extends StatelessWidget {
             ),
             onPressed: () {
               // Делаем что-нибудь, когда кнопка нажата.
-              Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: VehiclList()));
+              Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: const VehiclList()));
             },
-            child: Text('ЦЕХ ASB 1',
+            child: const Text('ЦЕХ ASB 1',
               style: TextStyle(
                   color: Colors.black
               ),
@@ -69,8 +66,8 @@ class ASBroom extends StatelessWidget {
           Row(
             children: [
               Container(
-                padding: EdgeInsets.only(top:5, left:5, right:5),
-                child: Text('Машина:',
+                padding: const EdgeInsets.only(top:5, left:5, right:5),
+                child: const Text('Машина:',
                     style: TextStyle(
                         fontSize: 20,
 
@@ -79,8 +76,8 @@ class ASBroom extends StatelessWidget {
               ),
 
               Container(
-                padding: EdgeInsets.only(top:5, left:5, right:5),
-                child: Text('в работе',
+                padding: const EdgeInsets.only(top:5, left:5, right:5),
+                child: const Text('в работе',
                     style: TextStyle(
                         fontSize: 20,
 
@@ -97,8 +94,8 @@ class ASBroom extends StatelessWidget {
           Row(
             children: [
               Container(
-                padding: EdgeInsets.only(top:0, left:5, right:5),
-                child: Text('Заказ:500 шт, нейтр., X71',
+                padding: const EdgeInsets.only(top:0, left:5, right:5),
+                child: const Text('Заказ:500 шт, нейтр., X71',
                     style: TextStyle(
                         fontSize: 10,
 
@@ -107,8 +104,8 @@ class ASBroom extends StatelessWidget {
               ),
 
               Container(
-                padding: EdgeInsets.only(top:0, left:5, right:5),
-                child: Text('готово 50%, брак 12%',
+                padding: const EdgeInsets.only(top:0, left:5, right:5),
+                child: const Text('готово 50%, брак 12%',
                     style: TextStyle(
                         fontSize: 10,
 

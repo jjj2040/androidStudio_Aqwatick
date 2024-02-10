@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:untitled111/city_pirogovskiy_details/pirog_proba.dart';
-import 'package:untitled111/style/style_text_Name.dart';
 
 import 'details_bottel_2lev_part.dart';
 
 var ddd = 'gggg';
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,7 +32,7 @@ class NameBottle2lev extends StatelessWidget {
     return Container(
 
 
-      padding: EdgeInsets.only(top:15, left:10, right:10),
+      padding: const EdgeInsets.only(top:15, left:10, right:10),
       color: Colors.grey[100],
 
 
@@ -44,7 +42,7 @@ class NameBottle2lev extends StatelessWidget {
         children:
         [
           Container(
-             child: MyTextPage111()
+             child: const MyTextPage111()
           ),
 
           // цех бутыли

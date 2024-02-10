@@ -1,20 +1,16 @@
 
 
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:untitled111/01Operator/01OperButtle/operatorButtle.dart';
-import 'package:untitled111/room/bottle/bottle.dart';
 
 
 import 'bottomnavbar.dart';
 
 void main() {
   runApp(
-    MaterialApp(
+    const MaterialApp(
       title: 'Named Routes Demo',
 
     ),
@@ -43,7 +39,7 @@ class Password extends StatelessWidget {
 
         child: Container(
           //color: Colors.lightBlue,
-         decoration: BoxDecoration(
+         decoration: const BoxDecoration(
           image: DecorationImage(
           image: NetworkImage(
           'https://foni.club/uploads/posts/2022-12/thumbs/1672492899_foni-club-p-kartinki-na-telefon-more-vertikalnie-32.jpg'),
@@ -68,7 +64,7 @@ class Password extends StatelessWidget {
                 decoration: BoxDecoration(
 
                   borderRadius: BorderRadius.circular(9),
-                  gradient: LinearGradient(
+                  gradient: const LinearGradient(
                       colors:[
                         Colors.lightBlueAccent,
                         Colors.lightGreenAccent,
@@ -76,7 +72,7 @@ class Password extends StatelessWidget {
                       ]
                   ),
                 ),
-                child: TextField(
+                child: const TextField(
                   decoration: InputDecoration(
                       hintText: "Ваше имя"
                   ),
@@ -89,7 +85,7 @@ class Password extends StatelessWidget {
                 margin: const EdgeInsets.only(left: 40.0, right: 40.0, top: 10.0, bottom: 10.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(9),
-                  gradient: LinearGradient(
+                  gradient: const LinearGradient(
                       colors:[
                         Colors.lightBlueAccent,
                         Colors.lightGreenAccent,
@@ -97,7 +93,7 @@ class Password extends StatelessWidget {
                       ]
                   ),
                 ),
-                child: TextField(
+                child: const TextField(
 
 
                   decoration: InputDecoration(
@@ -115,12 +111,12 @@ class Password extends StatelessWidget {
                   child: Center(
                     child: ElevatedButton(onPressed: (){
                       //Navigator.push(context, MaterialPageRoute(builder: (context) => BottomNavBar())
-                      Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: BottomNavBar())
+                      Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: const BottomNavBar())
                       );
 
-                    }, child: Text('ВХОД'),
+                    },
                       style: ButtonStyle(
-                        padding: MaterialStatePropertyAll(EdgeInsets.all(20)),
+                        padding: const MaterialStatePropertyAll(EdgeInsets.all(20)),
                         backgroundColor: MaterialStateProperty.all(Colors.cyanAccent),
                         overlayColor: MaterialStateProperty.all(Colors.green),
                         textStyle: MaterialStateProperty.all(
@@ -134,7 +130,7 @@ class Password extends StatelessWidget {
                               borderRadius: BorderRadius.circular(9.0),
                             ),
                           ),
-                      ),
+                      ), child: const Text('ВХОД'),
                       )
 
                   ),
@@ -152,12 +148,12 @@ class Password extends StatelessWidget {
                 child: Center(
                     child: ElevatedButton(onPressed: (){
                       //Navigator.push(context, MaterialPageRoute(builder: (context) => BottomNavBar())
-                      Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: operatorButtle())
+                      Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: const operatorButtle())
                       );
 
-                    }, child: Text('Временный вход для операторов'),
+                    },
                       style: ButtonStyle(
-                        padding: MaterialStatePropertyAll(EdgeInsets.all(20)),
+                        padding: const MaterialStatePropertyAll(EdgeInsets.all(20)),
                         backgroundColor: MaterialStateProperty.all(Colors.cyanAccent),
                         overlayColor: MaterialStateProperty.all(Colors.green),
                         textStyle: MaterialStateProperty.all(
@@ -171,7 +167,7 @@ class Password extends StatelessWidget {
                             borderRadius: BorderRadius.circular(9.0),
                           ),
                         ),
-                      ),
+                      ), child: const Text('Временный вход для операторов'),
                     )
 
                 ),
@@ -203,7 +199,7 @@ class SecondScreen extends StatelessWidget {
       //),
         body: Center(
             child: ElevatedButton(onPressed: () { Navigator.pushNamed(context, '/third'); },
-              child: Text('ВХОД'),
+              child: const Text('ВХОД'),
             )
         )
     );

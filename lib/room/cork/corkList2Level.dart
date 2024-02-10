@@ -10,8 +10,8 @@ class CorklList2Level extends StatelessWidget {
 
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(top: 5, left: 5, right: 5),
-          child: Text('в работе',
+          padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
+          child: const Text('в работе',
               style: TextStyle(
                   fontSize: 20, color: Colors.orange)),
         ),
@@ -23,8 +23,8 @@ class CorklList2Level extends StatelessWidget {
         ),
 
         Container(
-          padding: EdgeInsets.only(top: 5, left: 5, right: 5),
-          child: Text('в работе',
+          padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
+          child: const Text('в работе',
               style: TextStyle(
                   fontSize: 20, color: Colors.orange)),
         ),
@@ -38,7 +38,7 @@ class CorklList2Level extends StatelessWidget {
 
   Widget _list2() {
     return ListView(
-      children: [
+      children: const [
         Text('333'),
         Text('3331'),
         Text('333'),
@@ -58,7 +58,7 @@ class CorklList2Level extends StatelessWidget {
     return Container(
       height: 200,
       color: Colors.white10,
-      child: Text('1111111111'),
+      child: const Text('1111111111'),
     );
   }
 
@@ -67,7 +67,7 @@ class CorklList2Level extends StatelessWidget {
     return Container(
       height: 200,
       color: Colors.white10,
-      child: Text('1111111111'),
+      child: const Text('1111111111'),
     );
   }
 
@@ -76,7 +76,7 @@ class CorklList2Level extends StatelessWidget {
     return ListView.separated(
         itemCount: 15,
         separatorBuilder: (BuildContext context, int index) {
-          return SizedBox(height: height8);
+          return const SizedBox(height: height8);
         },
         itemBuilder: (BuildContext context, int index) {
           return Container(

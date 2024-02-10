@@ -14,12 +14,12 @@ Widget _list3() {
   return ListView.separated(
     itemCount: todoList1.length,
     separatorBuilder: (BuildContext context, int index) {
-      return SizedBox(height: height2);
+      return const SizedBox(height: height2);
     },
     itemBuilder: (BuildContext context, int index) {
       return Dismissible(
         key: Key(todoList1[index]),
-        child: Container(
+        child: SizedBox(
           height: 45,
 
           child: Card(

@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:untitled111/style/style_text_Name.dart';
 
 var ddd = 'gggg';
 
@@ -12,8 +9,8 @@ class name_rostov extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
 
-      padding: EdgeInsets.only(top:5, left:30, right:30, bottom: 15),
-      margin: EdgeInsets.only(top:20,  bottom:10),
+      padding: const EdgeInsets.only(top:5, left:30, right:30, bottom: 15),
+      margin: const EdgeInsets.only(top:20,  bottom:10),
 
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(9),
@@ -33,7 +30,7 @@ class name_rostov extends StatelessWidget {
         ),*/
       ),
       //color: Colors.lightBlueAccent,
-      child: Column(
+      child: const Column(
 
         //mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,

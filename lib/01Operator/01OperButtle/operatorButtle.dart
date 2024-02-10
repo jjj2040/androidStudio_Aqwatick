@@ -1,6 +1,6 @@
 
 
-import 'dart:async';
+//import 'dart:async';
 
 import 'package:flutter/material.dart';
 //import 'package:animated_text_kit/animated_text_kit.dart';
@@ -23,14 +23,16 @@ var _userToDo = '';
 
 
 class operatorButtle extends StatefulWidget {
+  const operatorButtle({super.key});
 
+  @override
   State<operatorButtle> createState() => _operatorButtle();
 }
 
 class _operatorButtle extends State<operatorButtle> {
 
-  final _formKey = GlobalKey<FormState>(debugLabel: '_GuestBookState');
-  final _controller = TextEditingController();
+ // final _formKey = GlobalKey<FormState>(debugLabel: '_GuestBookState');
+ // final _controller = TextEditingController();
 
 
   @override
@@ -43,11 +45,11 @@ class _operatorButtle extends State<operatorButtle> {
       // ),
 
       body: Container(
-          margin: EdgeInsets.only(top: 35, left: 10, right: 10),
-          padding: EdgeInsets.only(top: 5, left: 5, right: 5),
+          margin: const EdgeInsets.only(top: 35, left: 10, right: 10),
+          padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
           decoration: BoxDecoration(
               color: Colors.grey[300],
-              borderRadius: BorderRadius.all(Radius.circular(9))),
+              borderRadius: const BorderRadius.all(Radius.circular(9))),
 
           child: Column(
             //padding: EdgeInsets.only(top:5, left:5, right:5),
@@ -132,12 +134,12 @@ class _operatorButtle extends State<operatorButtle> {
     return ListView.separated(
       itemCount: todoList1.length,
       separatorBuilder: (BuildContext context, int index) {
-        return SizedBox(height: height2);
+        return const SizedBox(height: height2);
       },
       itemBuilder: (BuildContext context, int index) {
         return Dismissible(
           key: Key(todoList1[index]),
-          child: Container(
+          child: SizedBox(
             height: 45,
 
             child: Card(
@@ -162,11 +164,11 @@ class _operatorButtle extends State<operatorButtle> {
 
   Widget _operatorZakaz() {
     return Container(
-      padding: EdgeInsets.only(top: 5, left: 5, right: 5),
-      margin: EdgeInsets.only(top: 15, left: 5, right: 5),
+      padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
+      margin: const EdgeInsets.only(top: 15, left: 5, right: 5),
       decoration: BoxDecoration(
           color: Colors.grey[400],
-          borderRadius: BorderRadius.all(Radius.circular(9))),
+          borderRadius: const BorderRadius.all(Radius.circular(9))),
       child: Column(
         children: [stroka4(),
           _stroka3(),
@@ -174,11 +176,11 @@ class _operatorButtle extends State<operatorButtle> {
           _button04(),
           Container(
             child: Text(vRabote1,
-                style: TextStyle(fontSize: 13, color: Colors.black)),
+                style: const TextStyle(fontSize: 13, color: Colors.black)),
           ),
           Container(
             child: ConstrainedBox(
-              constraints: BoxConstraints(
+              constraints: const BoxConstraints(
                 //minHeight: 50.0,
                 maxHeight: 100.0,
 
@@ -197,9 +199,9 @@ class _operatorButtle extends State<operatorButtle> {
     return Row(
       children: [
         Container(
-          padding: EdgeInsets.only(top: 0, left: 5, right: 5),
+          padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
           child: Text(vRabote1,
-              style: TextStyle(fontSize: 15, color: Colors.black)),
+              style: const TextStyle(fontSize: 15, color: Colors.black)),
         ),
 
       ],
@@ -212,8 +214,8 @@ class _operatorButtle extends State<operatorButtle> {
         children: [
 
           Container(
-            padding: EdgeInsets.only(top: 0, left: 5, right: 5),
-            child: Text('готово: 270 шт. (50%)',
+            padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+            child: const Text('готово: 270 шт. (50%)',
                 style: TextStyle(
                     fontSize: 15, color: Colors.black)),
           ),
@@ -227,8 +229,8 @@ class _operatorButtle extends State<operatorButtle> {
         children: [
 
           Container(
-            padding: EdgeInsets.only(top: 0, left: 5, right: 5),
-            child: Text('брак: 27 шт. (12%)',
+            padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+            child: const Text('брак: 27 шт. (12%)',
                 style: TextStyle(
                     fontSize: 15, color: Colors.black)),
           ),
@@ -241,7 +243,7 @@ class _operatorButtle extends State<operatorButtle> {
 
       style: ButtonStyle(
         backgroundColor: MaterialStatePropertyAll<Color>(Colors.green[300]!),
-        textStyle: MaterialStateProperty.all(TextStyle(fontSize: 20)),
+        textStyle: MaterialStateProperty.all(const TextStyle(fontSize: 20)),
 
 
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -256,7 +258,7 @@ class _operatorButtle extends State<operatorButtle> {
         // );
         // Делаем что-нибудь, когда кнопка нажата.
       },
-      child: Text('Начать смену',
+      child: const Text('Начать смену',
         style: TextStyle(
             color: Colors.black
         ),
@@ -268,8 +270,8 @@ class _operatorButtle extends State<operatorButtle> {
   Widget _button02() {
     return ElevatedButton(
       style: ButtonStyle(
-        backgroundColor: MaterialStatePropertyAll<Color>(Colors.green),
-        textStyle: MaterialStateProperty.all(TextStyle(fontSize: 20)),
+        backgroundColor: const MaterialStatePropertyAll<Color>(Colors.green),
+        textStyle: MaterialStateProperty.all(const TextStyle(fontSize: 20)),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(9.0),
@@ -282,7 +284,7 @@ class _operatorButtle extends State<operatorButtle> {
         // );
         // Делаем что-нибудь, когда кнопка нажата.
       },
-      child: Text('Закончить смену',
+      child: const Text('Закончить смену',
         style: TextStyle(
             color: Colors.black
         ),),);
@@ -306,7 +308,7 @@ class _operatorButtle extends State<operatorButtle> {
         // );
         // Делаем что-нибудь, когда кнопка нажата.
       },
-      child: Text('Закрыть заказ',
+      child: const Text('Закрыть заказ',
         style: TextStyle(
             color: Colors.black
         ),),);
@@ -349,8 +351,8 @@ class _operatorButtle extends State<operatorButtle> {
           child: Row(
             children: [
               Container(
-                padding: EdgeInsets.only(top: 5, left: 5, right: 5),
-                child: Text('PL-1:',
+                padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
+                child: const Text('PL-1:',
                     style: TextStyle(
                         fontSize: 20,
 
@@ -359,8 +361,8 @@ class _operatorButtle extends State<operatorButtle> {
               ),
 
               Container(
-                padding: EdgeInsets.only(top: 5, left: 5, right: 5),
-                child: Text('в работе',
+                padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
+                child: const Text('в работе',
                     style: TextStyle(
                         fontSize: 20,
 
@@ -368,7 +370,7 @@ class _operatorButtle extends State<operatorButtle> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.only(top: 5, left: 5, right: 5),
+                padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
                 child: Image.network(
                     'https://s1.iconbird.com/ico/0612/vistabasesoftwareicons/w256h2561339252506CircleGreen.png',
                     width: 15,
@@ -409,7 +411,7 @@ class _operatorButtle extends State<operatorButtle> {
         // );
         // Делаем что-нибудь, когда кнопка нажата.
       },
-      child: Text('Изменить статус1',
+      child: const Text('Изменить статус1',
         style: TextStyle(
             color: Colors.black
         ),),);
@@ -418,7 +420,7 @@ class _operatorButtle extends State<operatorButtle> {
 //--- ДИАЛОГОВОЕ ОКНО, ПОДРОБНО ПРО ВЫПУСК ПРОДУКЦИИ
   Widget _dialog1() {
     return AlertDialog(
-      title: Text('Выпуск продукции'),
+      title: const Text('Выпуск продукции'),
       //child: ListView(
       content: ListView(
         children: [
@@ -426,7 +428,7 @@ class _operatorButtle extends State<operatorButtle> {
             onChanged: (String value) {
               _userToDo = value;
             },
-            decoration: InputDecoration(hintText: "Количество"),
+            decoration: const InputDecoration(hintText: "Количество"),
             textAlign: TextAlign.center,
           ),
         ],
@@ -450,7 +452,7 @@ class _operatorButtle extends State<operatorButtle> {
               //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
               Navigator.of(context).pop();
             },
-            child: Text('Отправить')),
+            child: const Text('Отправить')),
       ],
       //--------------------------------------
     );
@@ -463,7 +465,7 @@ class _operatorButtle extends State<operatorButtle> {
       decoration: BoxDecoration(
 
           color: Colors.grey[400],
-          borderRadius: BorderRadius.all(Radius.circular(9))),
+          borderRadius: const BorderRadius.all(Radius.circular(9))),
 
 
       child: Column(
@@ -478,7 +480,7 @@ class _operatorButtle extends State<operatorButtle> {
 
           Container(
             child: ConstrainedBox(
-              constraints: BoxConstraints(
+              constraints: const BoxConstraints(
                 //minHeight: 50.0,
                 maxHeight: 100.0,
 
@@ -506,18 +508,18 @@ class _operatorButtle extends State<operatorButtle> {
     return ListView.separated(
       itemCount: todoList1.length,
       separatorBuilder: (BuildContext context, int index) {
-        return SizedBox(height: height2);
+        return const SizedBox(height: height2);
       },
       itemBuilder: (BuildContext context, int index) {
         return Dismissible(
             key: Key(todoList1[index]),
-            child: Container(
+            child: SizedBox(
               height: 45,
 
               child: Card(
                 color: Colors.grey[300],
                 child: ListTile(
-                    title: Text(todoList1[index]), leading: Icon(Icons.star)
+                    title: Text(todoList1[index]), leading: const Icon(Icons.star)
                 ),
 
 
@@ -542,10 +544,10 @@ class _operatorButtle extends State<operatorButtle> {
         children: [
 
           Container(
-            padding: EdgeInsets.only(top: 0, left: 5, right: 5),
+            padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
             //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
 
-            child: Text('Итог смены:',
+            child: const Text('Итог смены:',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16, color: Colors.red,)),

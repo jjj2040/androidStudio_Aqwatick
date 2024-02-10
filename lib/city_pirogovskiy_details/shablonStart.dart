@@ -8,7 +8,7 @@ class startNew extends StatelessWidget{
 
 @override
   Widget build(BuildContext context){
-  return Card(
+  return const Card(
 
   );
 

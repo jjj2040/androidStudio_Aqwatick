@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 
 void main() {
   runApp(
-    MaterialApp(
+    const MaterialApp(
       title: 'Named Routes Demo',
       // Start the app with the "/" named route. In this case, the app starts
       // on the FirstScreen widget.
@@ -33,9 +31,9 @@ class FirstScreen extends StatelessWidget {
       Padding(padding: const EdgeInsets.all(0.0),
 
         child: Container(
-            padding: EdgeInsets.only(top:25, left:10, right:10),
+            padding: const EdgeInsets.only(top:25, left:10, right:10),
             color: Colors.white,
-            child: Text("Hello Flutter from Metanit.com",
+            child: const Text("Hello Flutter from Metanit.com",
                 textDirection: TextDirection.ltr,       // текст слева направо
                 textAlign: TextAlign.center,            // выравнивание по центру
                 style: TextStyle(color: Colors.green,   // зеленый цвет текста

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
-import 'package:page_transition/page_transition.dart';
 
 
 import 'dimensions.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 int _aa = todoList1.length;
@@ -18,6 +16,8 @@ String _userType = '';
 String _userNetto = '';
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,6 +30,8 @@ class MyApp extends StatelessWidget {
 }
 
 class MyTextPage111 extends StatefulWidget {
+  const MyTextPage111({super.key});
+
   @override
   State<MyTextPage111> createState() => _MyTextPage111State();
 }
@@ -44,11 +46,11 @@ class _MyTextPage111State extends State<MyTextPage111> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Вернуться"),
+        title: const Text("Вернуться"),
         backgroundColor: Colors.grey[500],
       ),
       body: Container(
-        padding: EdgeInsets.only(top: 2, left: 10, right: 10, bottom: 15),
+        padding: const EdgeInsets.only(top: 2, left: 10, right: 10, bottom: 15),
         decoration: BoxDecoration(
           color: Colors.grey[300],
         ),
@@ -62,7 +64,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
           
               // ЗАГОЛОВОК ЦЕХА
               children: [
-                Text(
+                const Text(
                   'Пироговский, цех бутыли',
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -82,7 +84,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
                         left: 5.0, right: 5.0, top: 5.0, bottom: 5.0),
                     decoration: BoxDecoration(
                         color: Colors.grey[100],
-                        borderRadius: BorderRadius.all(Radius.circular(9))),
+                        borderRadius: const BorderRadius.all(Radius.circular(9))),
                     child: Column(
                       //mainAxisAlignment: MainAxisAlignment.center,
                       //mainAxisSize: MainAxisSize.max,
@@ -101,10 +103,10 @@ class _MyTextPage111State extends State<MyTextPage111> {
                         Container(
                           margin: const EdgeInsets.only(
                               left: 1.0, right: 1.0, top: 7.0, bottom: 7.0),
-                          padding: EdgeInsets.only(top: 0, left: 5, right: 5),
+                          padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
                             decoration: BoxDecoration(
                                 color: Colors.grey[400],
-                                borderRadius: BorderRadius.all(Radius.circular(9))),
+                                borderRadius: const BorderRadius.all(Radius.circular(9))),
                             child: Column(
                               children: [
 
@@ -128,7 +130,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
                         Container(
                           decoration: BoxDecoration(
                               color: Colors.grey[400],
-                              borderRadius: BorderRadius.all(Radius.circular(9))),
+                              borderRadius: const BorderRadius.all(Radius.circular(9))),
                           child: Column(
                             children: [
                               _remontTitle(),
@@ -155,7 +157,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
     );
   }
 
-  int _qqq = 0;
+  final int _qqq = 0;
 
 
   Widget _list3() {
@@ -183,7 +185,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
       decoration: BoxDecoration(
 
           color: Colors.grey[400],
-          borderRadius: BorderRadius.all(Radius.circular(9))),
+          borderRadius: const BorderRadius.all(Radius.circular(9))),
 
 
       child: Column(
@@ -198,7 +200,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
 
           Container(
             child: ConstrainedBox(
-              constraints: BoxConstraints(
+              constraints: const BoxConstraints(
                 //minHeight: 50.0,
                 maxHeight: 100.0,
 
@@ -227,12 +229,12 @@ class _MyTextPage111State extends State<MyTextPage111> {
     return ListView.separated(
       itemCount: todoList1.length,
       separatorBuilder: (BuildContext context, int index) {
-        return SizedBox(height: height2);
+        return const SizedBox(height: height2);
       },
       itemBuilder: (BuildContext context, int index) {
         return Dismissible(
             key: Key(todoList1[index]),
-            child: Container(
+            child: SizedBox(
               height: 45,
 
               child: Card(
@@ -289,7 +291,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(9.0),
-                        side: BorderSide(color: Colors.black12)))),
+                        side: const BorderSide(color: Colors.black12)))),
             onPressed: () {
               // ВСПЛЫВАЮЩЕЕ ОКНО ДЛЯ ВНЕСЕНИЯ ДАННЫХ
               showDialog(
@@ -298,7 +300,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
                     return _dialog1(); //_dialog диалоговое окно
                   });
             },
-            child: Text(
+            child: const Text(
               'Подробно',
               style: TextStyle(color: Colors.black),
             ),
@@ -321,7 +323,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(9.0),
-                        side: BorderSide(color: Colors.black12)))),
+                        side: const BorderSide(color: Colors.black12)))),
             onPressed: () {
               // ВСПЛЫВАЮЩЕЕ ОКНО ДЛЯ ВНЕСЕНИЯ ДАННЫХ
               showDialog(
@@ -330,7 +332,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
                     return _analiticDetails(); //_dialog диалоговое окно
                   });
             },
-            child: Text(
+            child: const Text(
               'Аналитика',
               style: TextStyle(color: Colors.black),
             ),
@@ -353,7 +355,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(9.0),
-                        side: BorderSide(color: Colors.black12)))),
+                        side: const BorderSide(color: Colors.black12)))),
             onPressed: () {
               // ВСПЛЫВАЮЩЕЕ ОКНО ДЛЯ ВНЕСЕНИЯ ДАННЫХ
               showDialog(
@@ -363,7 +365,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
                     return _dialog(); //_dialog диалоговое окно
                   });
             },
-            child: Text(
+            child: const Text(
               'Добавить заказ',
               style: TextStyle(color: Colors.black),
             ),
@@ -376,7 +378,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
   //--- ДИАЛОГОВОЕ ОКНО, ПОДРОБНО ПРО ВЫПУСК ПРОДУКЦИИ
   Widget _dialog1() {
     return AlertDialog(
-      title: Text('Выпуск продукции'),
+      title: const Text('Выпуск продукции'),
       //child: ListView(
       content: ListView(
         children: [
@@ -438,7 +440,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
               //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
               Navigator.of(context).pop();
             },
-            child: Text('Закрыть')),
+            child: const Text('Закрыть')),
       ],
       //--------------------------------------
     );
@@ -457,7 +459,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
   //--- ДИАЛОГОВОЕ ОКНО
   Widget _dialog() {
     return AlertDialog(
-      title: Text('Добавление заказа'),
+      title: const Text('Добавление заказа'),
        //child: ListView(
        content: ListView(
         children: [
@@ -465,28 +467,28 @@ class _MyTextPage111State extends State<MyTextPage111> {
             onChanged: (String value) {
               _userToDo = value;
             },
-            decoration: InputDecoration(hintText: "Количество"),
+            decoration: const InputDecoration(hintText: "Количество"),
             textAlign: TextAlign.center,
           ),
           TextField(
             onChanged: (String value) {
               _userLogo = value;
             },
-            decoration: InputDecoration(hintText: "Логотип"),
+            decoration: const InputDecoration(hintText: "Логотип"),
             textAlign: TextAlign.center,
           ),
           TextField(
             onChanged: (String value) {
               _userType = value;
             },
-            decoration: InputDecoration(hintText: "Тип бутыли (X,G или др.)"),
+            decoration: const InputDecoration(hintText: "Тип бутыли (X,G или др.)"),
             textAlign: TextAlign.center,
           ),
           TextField(
             onChanged: (String value) {
               _userNetto = value;
             },
-            decoration: InputDecoration(hintText: "Вес бутыли"),
+            decoration: const InputDecoration(hintText: "Вес бутыли"),
             textAlign: TextAlign.center,
           ),
         ],
@@ -519,7 +521,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
               //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
               Navigator.of(context).pop();
             },
-            child: Text('ОТПРАВИТЬ')),
+            child: const Text('ОТПРАВИТЬ')),
       ],
     //--------------------------------------
     );
@@ -528,12 +530,12 @@ class _MyTextPage111State extends State<MyTextPage111> {
   //--- ДИАЛОГОВОЕ ОКНО АНАЛИТИКИ
   Widget _analiticDetails() {
     return AlertDialog(
-      title: Text('Анализ данных'),
+      title: const Text('Анализ данных'),
       //child: ListView(
       content: ListView(
         children: [
           Container(
-          child: Text('Здесь будет возможность строить графики и проводить аналитику по операторам, по машинам, по продукции. Но это потом.')),
+          child: const Text('Здесь будет возможность строить графики и проводить аналитику по операторам, по машинам, по продукции. Но это потом.')),
           // ввести
         ],
       ),
@@ -555,7 +557,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
               //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
               Navigator.of(context).pop();
             },
-            child: Text('Закрыть')),
+            child: const Text('Закрыть')),
       ],
       //--------------------------------------
     );
@@ -565,11 +567,11 @@ class _MyTextPage111State extends State<MyTextPage111> {
     return Row(
       children: [
         Container(
-          padding: EdgeInsets.only(top: 0, left: 5, right: 5),
-          margin: EdgeInsets.only(top: 0, left: 5, right: 5),
+          padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+          margin: const EdgeInsets.only(top: 0, left: 5, right: 5),
           //padding: EdgeInsets.only(top: 0, left: 5, right: 5),
           child: Text(vRabote1,
-              style: TextStyle(fontSize: 13, color: Colors.black)),
+              style: const TextStyle(fontSize: 13, color: Colors.black)),
         ),
 
       ],
@@ -580,8 +582,8 @@ class _MyTextPage111State extends State<MyTextPage111> {
     return Row(
       children: [
         Container(
-          padding: EdgeInsets.only(top: 0, left: 5, right: 5),
-          child: Text('-----------------',
+          padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+          child: const Text('-----------------',
               style: TextStyle(fontSize: 13, color: Colors.black)),
         ),
 
@@ -592,20 +594,20 @@ class _MyTextPage111State extends State<MyTextPage111> {
   Widget _stroka1() {
     return Row(children: [
       Container(
-        padding: EdgeInsets.only(top: 5, left: 5, right: 5),
-        child: Text('PL-1:',
+        padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
+        child: const Text('PL-1:',
             style: TextStyle(
                 fontSize: 20, color: Colors.orange)),
       ),
       Container(
 
-        child: Text('в работе',
+        child: const Text('в работе',
             style: TextStyle(
                 fontSize: 20, color: Colors.orange)),
       ),
       Container(
         //margin: EdgeInsets.only(top: 25),
-        padding: EdgeInsets.only(top: 5, left: 5, right: 5),
+        padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
         child: Image.network(
             'https://s1.iconbird.com/ico/0612/vistabasesoftwareicons/w256h2561339252506CircleGreen.png',
             width: 15,
@@ -622,9 +624,9 @@ class _MyTextPage111State extends State<MyTextPage111> {
         children: [
 
           Container(
-            padding: EdgeInsets.only(top: 0, left: 5, right: 5),
-            margin: EdgeInsets.only(top: 0, left: 5, right: 5),
-            child: Text('готово 50%, брак 12%',
+            padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+            margin: const EdgeInsets.only(top: 0, left: 5, right: 5),
+            child: const Text('готово 50%, брак 12%',
                 style: TextStyle(
                     fontSize: 13, color: Colors.black)),
           ),
@@ -638,9 +640,9 @@ class _MyTextPage111State extends State<MyTextPage111> {
         children: [
 
           Container(
-            padding: EdgeInsets.only(top: 0, left: 5, right: 5),
-            margin: EdgeInsets.only(top: 5, left: 5, right: 5),
-            child: Text('Оператор: Иванов И.И.',
+            padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+            margin: const EdgeInsets.only(top: 5, left: 5, right: 5),
+            child: const Text('Оператор: Иванов И.И.',
                 style: TextStyle(
                     fontSize: 13, color: Colors.black)),
           ),
@@ -654,10 +656,10 @@ class _MyTextPage111State extends State<MyTextPage111> {
       Row(
         children: [
           Container(
-            padding: EdgeInsets.only(top: 0, left: 5, right: 5),
-            margin: EdgeInsets.only(top: 10, left: 5, right: 5),
+            padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+            margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
             child: Text('Заказы в очереди: $countOrder шт.',
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 18, color: Colors.black)),
           ),
         ],
@@ -670,9 +672,9 @@ class _MyTextPage111State extends State<MyTextPage111> {
       Row(
         children: [
           Container(
-            padding: EdgeInsets.only(top: 0, left: 5, right: 5),
-            margin: EdgeInsets.only(top: 10, left: 5, right: 5),
-            child: Text('Данные по выпуску продукции:',
+            padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+            margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
+            child: const Text('Данные по выпуску продукции:',
                 style: TextStyle(
                     fontSize: 18, color: Colors.black)),
           ),
@@ -686,9 +688,9 @@ class _MyTextPage111State extends State<MyTextPage111> {
       Row(
         children: [
           Container(
-            padding: EdgeInsets.only(top: 0, left: 5, right: 5),
-            margin: EdgeInsets.only(top: 10, left: 5, right: 5),
-            child: Text('Данные по обслуживанию PL-1:',
+            padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+            margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
+            child: const Text('Данные по обслуживанию PL-1:',
                 style: TextStyle(
                     fontSize: 18, color: Colors.black)),
           ),
@@ -703,9 +705,9 @@ class _MyTextPage111State extends State<MyTextPage111> {
         children: [
 
           Container(
-            padding: EdgeInsets.only(top: 0, left: 5, right: 5),
-            margin: EdgeInsets.only(top: 0, left: 5, right: 5),
-             child: Expanded(
+            padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+            margin: const EdgeInsets.only(top: 0, left: 5, right: 5),
+             child: const Expanded(
               child: Text('Последнее добавление: 128 шт., брак - 15 шт, Время: 15:24, Дата: 21.03.2024 ',
                 style: TextStyle(
                     fontSize: 13, color: Colors.black,))),
@@ -720,10 +722,10 @@ class _MyTextPage111State extends State<MyTextPage111> {
         children: [
 
           Container(
-            padding: EdgeInsets.only(top: 0, left: 5, right: 5),
+            padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
             //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
 
-            child: Text('Итог смены:',
+            child: const Text('Итог смены:',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16, color: Colors.red,)),
@@ -740,10 +742,10 @@ class _MyTextPage111State extends State<MyTextPage111> {
         children: [
 
           Container(
-            padding: EdgeInsets.only(top: 0, left: 5, right: 5),
+            padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
             //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
 
-                child: Text('Время: 12:00, Дата: 21.03.2024',
+                child: const Text('Время: 12:00, Дата: 21.03.2024',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 14, color: Colors.black,)),
@@ -760,10 +762,10 @@ class _MyTextPage111State extends State<MyTextPage111> {
         children: [
 
           Container(
-            padding: EdgeInsets.only(top: 0, left: 5, right: 5),
+            padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
             //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
 
-            child: Text('Время: 16:00, Дата: 21.03.2024',
+            child: const Text('Время: 16:00, Дата: 21.03.2024',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 14, color: Colors.black,)),
@@ -780,10 +782,10 @@ class _MyTextPage111State extends State<MyTextPage111> {
         children: [
 
           Container(
-            padding: EdgeInsets.only(top: 0, left: 5, right: 5),
+            padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
             //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
 
-            child: Text('Время: 20:00, Дата: 21.03.2024',
+            child: const Text('Время: 20:00, Дата: 21.03.2024',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 14, color: Colors.black,)),
@@ -800,10 +802,10 @@ class _MyTextPage111State extends State<MyTextPage111> {
         children: [
 
           Container(
-            padding: EdgeInsets.only(top: 0, left: 5, right: 5),
+            padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
             //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
 
-            child: Text('Время: 20:00, Дата: 21.03.2024',
+            child: const Text('Время: 20:00, Дата: 21.03.2024',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 14, color: Colors.black,)),
@@ -820,10 +822,10 @@ class _MyTextPage111State extends State<MyTextPage111> {
         children: [
 
           Container(
-            padding: EdgeInsets.only(top: 0, left: 5, right: 5, bottom: 5),
+            padding: const EdgeInsets.only(top: 0, left: 5, right: 5, bottom: 5),
             //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
 
-            child: Text('240 шт., брак 26 шт.',
+            child: const Text('240 шт., брак 26 шт.',
                 style: TextStyle(
                   fontSize: 14, color: Colors.black,)),
           ),
@@ -836,8 +838,8 @@ class _MyTextPage111State extends State<MyTextPage111> {
   Widget _stroka8() {
     return
       Container(
-        padding: EdgeInsets.only(top: 0, left: 5, right: 5),
-        margin: EdgeInsets.only(top: 0, left: 5, right: 5),
+        padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+        margin: const EdgeInsets.only(top: 0, left: 5, right: 5),
         child: Row(
             textDirection: TextDirection.ltr,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -846,7 +848,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
                   Container(
                     //padding: EdgeInsets.only(top: 0, left: 5, right: 5),
                     //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
-                    child: Expanded(
+                    child: const Expanded(
                         child: Text('Последнее добавление: 128 шт., брак - 15 шт, Время: 15:24, Дата: 21.03.2024',
                             style: TextStyle(
                               fontSize: 13, color: Colors.black,),
@@ -864,8 +866,8 @@ class _MyTextPage111State extends State<MyTextPage111> {
   Widget _remontBriefly() {
     return
       Container(
-        padding: EdgeInsets.only(top: 0, left: 5, right: 5),
-        margin: EdgeInsets.only(top: 10, left: 5, right: 5),
+        padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+        margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
         child: Row(
             textDirection: TextDirection.ltr,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -874,7 +876,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
               Container(
                 //padding: EdgeInsets.only(top: 0, left: 5, right: 5),
                 //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
-                child: Expanded(
+                child: const Expanded(
                     child: Text('Время: 15:24, Дата: 21.03.2024, Ремонт машины, тех.обслуживание, просушка сырья. 2 часа',
                         style: TextStyle(
                           fontSize: 13, color: Colors.black,),

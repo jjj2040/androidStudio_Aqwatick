@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:untitled111/room/ASB/ASB_room.dart';
 import 'package:untitled111/room/cork/cork_room.dart';
 
-import '../room/bottle/bottle.dart';
 import '../room/bottle/nameBottle.dart';
 import '../room/bottle/pirogovskiy.dart';
 
@@ -14,7 +11,7 @@ class PirigCityDatails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Container(
-      padding: EdgeInsets.only(top:15, left:10, right:10),
+      padding: const EdgeInsets.only(top:15, left:10, right:10),
       color: Colors.grey[100],
 
       child: Column(
@@ -23,21 +20,21 @@ class PirigCityDatails extends StatelessWidget {
         children:
         [
           Container(
-              child: name_pirogov()
+              child: const name_pirogov()
           ),
 
           // цех бутыли
 
           Container(
-            child: nameBottle(),
+            child: const nameBottle(),
 
           ),
           Container(
-            child: ASBroom(),
+            child: const ASBroom(),
           ),
 
           Container(
-            child: CorkRoom(),
+            child: const CorkRoom(),
           ),
 
 

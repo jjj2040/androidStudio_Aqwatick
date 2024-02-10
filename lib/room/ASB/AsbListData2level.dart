@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:untitled111/city_pirogovskiy_details/dimensions.dart';
 
 class VehiclList2Level extends StatelessWidget {
   //const VehiclList2Level({super.key});
 
-  List _todoList = [];
+  final List _todoList = [];
+
+  VehiclList2Level({super.key});
 
 /*@override
  void initState(){
@@ -31,7 +32,7 @@ class VehiclList2Level extends StatelessWidget {
 
         itemBuilder: (BuildContext context, int index) {
           return Dismissible(key: Key(_todoList[index]),
-              child: Card()
+              child: const Card()
           );
         });
   }
@@ -43,7 +44,7 @@ class VehiclList2Level extends StatelessWidget {
       height: 200,
       color: Colors.white10,
 
-      child: Text('1111111111'),
+      child: const Text('1111111111'),
     );
   }
 

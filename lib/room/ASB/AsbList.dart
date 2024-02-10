@@ -12,7 +12,7 @@ class VehiclList extends StatelessWidget{
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-      title: Text('Лист1',
+      title: const Text('Лист1',
       style: TextStyle(
         color: Colors.cyan,
         fontSize: 16,

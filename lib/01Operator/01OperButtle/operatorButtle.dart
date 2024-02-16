@@ -2,6 +2,7 @@
 
 //import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 //import 'package:animated_text_kit/animated_text_kit.dart';
 //import 'package:convex_bottom_bar/convex_bottom_bar.dart';
@@ -10,12 +11,19 @@ import 'package:flutter/material.dart';
 //import 'package:untitled111/password.dart';
 //import 'package:page_transition/page_transition.dart';
 //private var rrr = '';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:untitled111/firebase_options.dart';
 import '../../city_pirogovskiy_details/dimensions.dart';
+import 'package:firebase_core/firebase_core.dart';
+//import 'firebase_options.dart';
 
 
 var rrr = '';
 var _userToDo = '';
+var user = '1111qwert111';
+
+
 
 //void main() {
 //  runApp(YourClassName());
@@ -24,15 +32,37 @@ var _userToDo = '';
 
 class operatorButtle extends StatefulWidget {
   const operatorButtle({super.key});
-
   @override
   State<operatorButtle> createState() => _operatorButtle();
+
 }
 
 class _operatorButtle extends State<operatorButtle> {
 
+  void initFireBase()async{
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  }
+
+  // переменные для изменения данных
+//  final auth = FirebaseAuth.instance;
+//  final editController = TextEditingController();
+  final fireStore = FirebaseFirestore.instance.collection('/01/qq/33').snapshots();
+
+  final ref = FirebaseFirestore.instance.collection('/01/qq/33');
+  //final ref1 = FirebaseFirestore.instance.collection('/01/qq/33');
+
+
+  @override
+  void initState(){
+    super.initState();
+    initFireBase();
+  }
+
  // final _formKey = GlobalKey<FormState>(debugLabel: '_GuestBookState');
  // final _controller = TextEditingController();
+
 
 
   @override
@@ -420,7 +450,7 @@ class _operatorButtle extends State<operatorButtle> {
 //--- ДИАЛОГОВОЕ ОКНО, ПОДРОБНО ПРО ВЫПУСК ПРОДУКЦИИ
   Widget _dialog1() {
     return AlertDialog(
-      title: const Text('Выпуск продукции'),
+      title: const Text('Статус'),
       //child: ListView(
       content: ListView(
         children: [
@@ -439,20 +469,34 @@ class _operatorButtle extends State<operatorButtle> {
       actions: [
         ElevatedButton(
             onPressed: () {
-              setState(() {
-                if (_userToDo != '') {
-                  todoList1.add(
-                      '- $_userToDo');
-                } else {
+             ref.doc('Rqsf7xk1vJmTgz0EU7Be').update({
+               'mes1': 'Исправление'
+             })
 
-                }
+
+             /*  Future update() async{
+                final userCollection = FirebaseFirestore.instance.collection('/01/qq/33');
+                final docRef = userCollection.doc('Rqsf7xk1vJmTgz0EU7Be');
+
+                await docRef.update({
+                  'mes1': 'Исправление'
+                });
+
               }
-              );
 
+              */
+
+
+              //nFirebaseFirestore.instance.collectio('/01/qq/33').update[
+                //({'mes1': _userToDo});
+
+              //FirebaseFirestore.instance.collection('/01/qq/33').add({'mes1': _userToDo});
+
+;
               //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
               Navigator.of(context).pop();
             },
-            child: const Text('Отправить')),
+            child: const Text('Отправить1')),
       ],
       //--------------------------------------
     );
@@ -558,6 +602,8 @@ class _operatorButtle extends State<operatorButtle> {
       );
   }
 }
+
+
 
 
 

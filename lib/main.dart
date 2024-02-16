@@ -11,14 +11,22 @@ import 'package:untitled111/password.dart';
 //import 'package:page_transition/page_transition.dart';
 
 
+
 Future<void> main() async {
   runApp(const MyApp());
+
+
 }
 
 
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
+
+
+
+
 
   // This widget is the root of your application.
   @override

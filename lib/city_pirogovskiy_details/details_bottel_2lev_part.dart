@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'dimensions.dart';
 
@@ -34,11 +35,22 @@ class MyTextPage111 extends StatefulWidget {
 
   @override
   State<MyTextPage111> createState() => _MyTextPage111State();
+
+
 }
 
 class _MyTextPage111State extends State<MyTextPage111> {
   @override
+
+  void initFirebase() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+  }
+  
   initState() {
+
+    initFirebase();
+
     super.initState();
       }
 
@@ -890,6 +902,8 @@ class _MyTextPage111State extends State<MyTextPage111> {
         ),
       );
   }
+
+
 
 
 }

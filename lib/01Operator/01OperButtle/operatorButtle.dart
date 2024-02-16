@@ -48,9 +48,9 @@ class _operatorButtle extends State<operatorButtle> {
   // переменные для изменения данных
 //  final auth = FirebaseAuth.instance;
 //  final editController = TextEditingController();
-  final fireStore = FirebaseFirestore.instance.collection('/01/qq/33').snapshots();
+ // final fireStore = FirebaseFirestore.instance.collection('/01/qq/33').snapshots();
 
-  final ref = FirebaseFirestore.instance.collection('/01/qq/33');
+ // final ref = FirebaseFirestore.instance.collection('/01/qq/33');
   //final ref1 = FirebaseFirestore.instance.collection('/01/qq/33');
 
 
@@ -469,22 +469,21 @@ class _operatorButtle extends State<operatorButtle> {
       actions: [
         ElevatedButton(
             onPressed: () {
-             ref.doc('Rqsf7xk1vJmTgz0EU7Be').update({
-               'mes1': 'Исправление'
-             })
+              FirebaseFirestore.instance.collection('/01/qq/33').add({'mes1': _userToDo});
+      /*
+
+*/
+              //Future update() async{
+               // final userCollection = FirebaseFirestore.instance.collection('/01/qq/33');
+              //  final docRef = userCollection.doc('Rqsf7xk1vJmTgz0EU7Be');
+
+              //  await docRef.update({
+              //    'mes1': 'Исправление'
+             //   });
+
+            //  }
 
 
-             /*  Future update() async{
-                final userCollection = FirebaseFirestore.instance.collection('/01/qq/33');
-                final docRef = userCollection.doc('Rqsf7xk1vJmTgz0EU7Be');
-
-                await docRef.update({
-                  'mes1': 'Исправление'
-                });
-
-              }
-
-              */
 
 
               //nFirebaseFirestore.instance.collectio('/01/qq/33').update[

@@ -198,6 +198,31 @@ class _operatorButtle extends State<operatorButtle> {
     );
   }
 
+
+
+  Widget read() {
+    CollectionReference student = FirebaseFirestore.instance.collection('01/');
+    return FutureBuilder<DocumentSnapshot>(
+        future: student.doc('MBCgykpboKR3gKg3YQ3c').get(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                //Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+                var data = snapshot.data!.data();
+                return Text("$data");
+              }
+
+              return Text('ff');
+            }
+
+    );
+  }
+
+
+
+
+
+
   Widget stroka4() {
     return Row(
       children: [
@@ -354,6 +379,7 @@ class _operatorButtle extends State<operatorButtle> {
 
                   },
                 )*/
+
                 child:  Text(qwe,  //'в работе'
 
                     style: TextStyle(
@@ -362,6 +388,13 @@ class _operatorButtle extends State<operatorButtle> {
                         color: Colors.orange)
                 ),
               ),
+
+              read(),
+
+              //read2(),
+
+
+
               Container(
                 padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
                 child: Image.network(

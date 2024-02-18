@@ -207,9 +207,10 @@ class _operatorButtle extends State<operatorButtle> {
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
-                //Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
-                var data = snapshot.data!.data();
-                return Text("$data");
+                Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+                //var data = snapshot.data!.data();
+                var data1 = data['mes1'];
+                return Text('$data1');
               }
 
               return Text('ff');
@@ -218,6 +219,19 @@ class _operatorButtle extends State<operatorButtle> {
     );
   }
 
+
+  Widget read2 (BuildContext context) {
+    return  StreamBuilder(
+        stream: FirebaseFirestore.instance.collection('01/').doc('MBCgykpboKR3gKg3YQ3c').snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return new Text("Loading");
+          }
+          var userDocument = snapshot.data;
+          return Text(userDocument?["mes1"]);
+        }
+    );
+  }
 
 
 

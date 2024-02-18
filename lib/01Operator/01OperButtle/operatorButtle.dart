@@ -4,12 +4,12 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-//import 'package:animated_text_kit/animated_text_kit.dart';
-//import 'package:convex_bottom_bar/convex_bottom_bar.dart';
-//import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-//import 'package:untitled111/bottomnavbar.dart';
-//import 'package:untitled111/password.dart';
-//import 'package:page_transition/page_transition.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:untitled111/bottomnavbar.dart';
+import 'package:untitled111/password.dart';
+import 'package:page_transition/page_transition.dart';
 //private var rrr = '';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -22,6 +22,7 @@ import 'package:firebase_core/firebase_core.dart';
 var rrr = '';
 var _userToDo = '';
 var user = '1111qwert111';
+
 
 
 
@@ -39,11 +40,26 @@ class operatorButtle extends StatefulWidget {
 
 class _operatorButtle extends State<operatorButtle> {
 
+  /*
+  void initFireBase() async {
+    //Initializing Database when starting the application.
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform,);
+    //runApp(App());
+  }
+    */
+
+
   void initFireBase()async{
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
   }
+
+
+
+
+ // FirebaseFirestore.instance.collection('/01').doc('MBCgykpboKR3gKg3YQ3c').update({'mes1': '$_userToDo'});
 
   // переменные для изменения данных
 //  final auth = FirebaseAuth.instance;
@@ -62,6 +78,12 @@ class _operatorButtle extends State<operatorButtle> {
 
  // final _formKey = GlobalKey<FormState>(debugLabel: '_GuestBookState');
  // final _controller = TextEditingController();
+   var qwe = 'llk';
+  //FirebaseFirestore.instance.collection('/01').doc('MBCgykpboKR3gKg3YQ3c').get();
+
+
+
+
 
 
 
@@ -109,55 +131,6 @@ class _operatorButtle extends State<operatorButtle> {
       ),
     );
   }
-
-/*
- Widget _dbase(){
-  Image.asset('assets/codelab.png'),
-  const SizedBox(height: 8),
-  const IconAndDetail(Icons.calendar_today, 'October 30'),
-  const IconAndDetail(Icons.location_city, 'San Francisco'),
-  Consumer<ApplicationState>(
-  builder: (context, appState, _) => AuthFunc(
-  loggedIn: appState.loggedIn,
-  signOut: () {
-  FirebaseAuth.instance.signOut();
-  }),
-  ),
-  const Divider(
-  height: 8,
-  thickness: 1,
-  indent: 8,
-  endIndent: 8,
-  color: Colors.grey,
-  ),
-  const Header("What we'll be doing"),
-  const Paragraph(
-  'Join us for a day full of Firebase Workshops and Pizza!',
-  ),
-  // Modify from here...
-  Consumer<ApplicationState>(
-  builder: (context, appState, _) => Column(
-  crossAxisAlignment: CrossAxisAlignment.start,
-  children: [
-  if (appState.loggedIn) ...[
-  const Header('Discussion'),
-  GuestBook(
-  addMessage: (message) =>
-  appState.addMessageToGuestBook(message),
-  ),
-  ],
-  ],
-  ),
-  ),
-   )
-  // ...to here.
-
-}
-
- */
-
-
-
 
 
   Widget _list2() {
@@ -344,37 +317,9 @@ class _operatorButtle extends State<operatorButtle> {
         ),),);
   }
 
-/*
-  Widget _text1() {
-    return
-      Container(
-        //padding: EdgeInsets.only(top: 0, left: 5, right: 5),
-        // margin: EdgeInsets.only(top: 10, left: 5, right: 5),
-        child: Row(
-            textDirection: TextDirection.ltr,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            verticalDirection: VerticalDirection.down,
-            children: <Widget>[
-              Container(
-                //padding: EdgeInsets.only(top: 0, left: 5, right: 5),
-                //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
-                child: Expanded(
-                    child: Text(
-                        'Последнее добавление: 128 шт., брак - 15 шт, Время: 15:24, Дата: 21.03.2024',
-                        style: TextStyle(
-                          fontSize: 13, color: Colors.black,),
-                        textDirection: TextDirection.ltr)
-                ),
-              )
-            ]
 
-
-        ),
-      );
-  }
-
- */
   Widget _text2() {
+
     return
       SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -392,7 +337,25 @@ class _operatorButtle extends State<operatorButtle> {
 
               Container(
                 padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
-                child: const Text('в работе',
+                //child:
+                /*StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance.collection('/01/qq/33').snapshots(),
+                  builder: (context, snapshot){
+                    final clientWidgets = '';
+                    //List<Row> clientWidgets = [];
+
+                    return Expanded(
+                     child: Text(
+                         clientWidgets,
+                      )
+
+                    );
+
+
+                  },
+                )*/
+                child:  Text(qwe,  //'в работе'
+
                     style: TextStyle(
                         fontSize: 20,
 
@@ -468,8 +431,14 @@ class _operatorButtle extends State<operatorButtle> {
       // КНОПКА ВНИЗУ У ВСПЛЫВАЮЩЕГО ОКНА
       actions: [
         ElevatedButton(
-            onPressed: () {
-              FirebaseFirestore.instance.collection('/01/qq/33').add({'mes1': _userToDo});
+            onPressed: () async {
+              //внесение данных
+              //FirebaseFirestore.instance.collection('/01').add({'mes1': _userToDo});
+
+              //изменение данных
+              FirebaseFirestore.instance.collection('/01').doc('MBCgykpboKR3gKg3YQ3c').update({'mes1': '$_userToDo'});
+
+             // var qwe = await FirebaseFirestore.instance.collection('/01/qq/33').get('T2896v8O1R1bCEw8BBmq' as GetOptions?);
       /*
 
 */

@@ -47,8 +47,8 @@ class _operatorButtle extends State<operatorButtle> {
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform,);
     //runApp(App());
   }
-    */
 
+*/
 
   void initFireBase()async{
     await Firebase.initializeApp(
@@ -58,34 +58,11 @@ class _operatorButtle extends State<operatorButtle> {
 
 
 
-
- // FirebaseFirestore.instance.collection('/01').doc('MBCgykpboKR3gKg3YQ3c').update({'mes1': '$_userToDo'});
-
-  // переменные для изменения данных
-//  final auth = FirebaseAuth.instance;
-//  final editController = TextEditingController();
- // final fireStore = FirebaseFirestore.instance.collection('/01/qq/33').snapshots();
-
- // final ref = FirebaseFirestore.instance.collection('/01/qq/33');
-  //final ref1 = FirebaseFirestore.instance.collection('/01/qq/33');
-
-
   @override
   void initState(){
     super.initState();
     initFireBase();
   }
-
- // final _formKey = GlobalKey<FormState>(debugLabel: '_GuestBookState');
- // final _controller = TextEditingController();
-   var qwe = 'llk';
-  //FirebaseFirestore.instance.collection('/01').doc('MBCgykpboKR3gKg3YQ3c').get();
-
-
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -199,8 +176,9 @@ class _operatorButtle extends State<operatorButtle> {
   }
 
 
-
+//чтение данных из FireBase, статус машины
   Widget read() {
+
     CollectionReference student = FirebaseFirestore.instance.collection('01/');
     return FutureBuilder<DocumentSnapshot>(
         future: student.doc('MBCgykpboKR3gKg3YQ3c').get(),
@@ -208,31 +186,51 @@ class _operatorButtle extends State<operatorButtle> {
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
-                //var data = snapshot.data!.data();
+
                 var data1 = data['mes1'];
-                return Text('$data1');
+                return Text('$data1',
+                    style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.orange)
+
+                );
               }
 
-              return Text('ff');
+              return Text('',
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.orange));
             }
 
     );
   }
 
-
-  Widget read2 (BuildContext context) {
-    return  StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('01/').doc('MBCgykpboKR3gKg3YQ3c').snapshots(),
+  Widget read3() {
+    return  StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('01').snapshots(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return new Text("Loading");
+          List <Row> clientWidgets = [];
+          if (snapshot.hasData){
+            final clients = snapshot.data!.docs.reversed.toList();
+            for(var client in clients){
+              final clientWidget = Row(
+                children: [
+                  Text(client['mes1']),
+                ],
+              );
+              clientWidgets.add(clientWidget);
+            }
           }
-          var userDocument = snapshot.data;
-          return Text(userDocument?["mes1"]);
+
+          return Expanded(
+            child: ListView(
+              children: clientWidgets,
+            ),
+          );
         }
     );
-  }
 
+  }
 
 
 
@@ -376,37 +374,10 @@ class _operatorButtle extends State<operatorButtle> {
 
               Container(
                 padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
-                //child:
-                /*StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance.collection('/01/qq/33').snapshots(),
-                  builder: (context, snapshot){
-                    final clientWidgets = '';
-                    //List<Row> clientWidgets = [];
 
-                    return Expanded(
-                     child: Text(
-                         clientWidgets,
-                      )
-
-                    );
-
-
-                  },
-                )*/
-
-                child:  Text(qwe,  //'в работе'
-
-                    style: TextStyle(
-                        fontSize: 20,
-
-                        color: Colors.orange)
-                ),
               ),
 
               read(),
-
-              //read2(),
-
 
 
               Container(
@@ -457,7 +428,7 @@ class _operatorButtle extends State<operatorButtle> {
         ),),);
   }
 
-//--- ДИАЛОГОВОЕ ОКНО, ПОДРОБНО ПРО ВЫПУСК ПРОДУКЦИИ
+//--- ДИАЛОГОВОЕ ОКНО, изменение статуса состояния машины
   Widget _dialog1() {
     return AlertDialog(
       title: const Text('Статус'),
@@ -468,7 +439,7 @@ class _operatorButtle extends State<operatorButtle> {
             onChanged: (String value) {
               _userToDo = value;
             },
-            decoration: const InputDecoration(hintText: "Количество"),
+            decoration: const InputDecoration(hintText: "Статус машины"),
             textAlign: TextAlign.center,
           ),
         ],
@@ -479,39 +450,17 @@ class _operatorButtle extends State<operatorButtle> {
       actions: [
         ElevatedButton(
             onPressed: () async {
-              //внесение данных
-              //FirebaseFirestore.instance.collection('/01').add({'mes1': _userToDo});
+              setState(() {
+                FirebaseFirestore.instance.collection('/01').doc('MBCgykpboKR3gKg3YQ3c').update({'mes1': '$_userToDo'});
+              });
 
-              //изменение данных
-              FirebaseFirestore.instance.collection('/01').doc('MBCgykpboKR3gKg3YQ3c').update({'mes1': '$_userToDo'});
-
-             // var qwe = await FirebaseFirestore.instance.collection('/01/qq/33').get('T2896v8O1R1bCEw8BBmq' as GetOptions?);
-      /*
-
-*/
-              //Future update() async{
-               // final userCollection = FirebaseFirestore.instance.collection('/01/qq/33');
-              //  final docRef = userCollection.doc('Rqsf7xk1vJmTgz0EU7Be');
-
-              //  await docRef.update({
-              //    'mes1': 'Исправление'
-             //   });
-
-            //  }
+              //FirebaseFirestore.instance.collection('/01').doc('MBCgykpboKR3gKg3YQ3c').add({'mes1': '$_userToDo'});
 
 
-
-
-              //nFirebaseFirestore.instance.collectio('/01/qq/33').update[
-                //({'mes1': _userToDo});
-
-              //FirebaseFirestore.instance.collection('/01/qq/33').add({'mes1': _userToDo});
-
-;
               //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
               Navigator.of(context).pop();
             },
-            child: const Text('Отправить1')),
+            child: const Text('Отправить2')),
       ],
       //--------------------------------------
     );

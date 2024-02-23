@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:untitled111/firebase_options.dart';
 
 import 'dimensions.dart';
 
@@ -9,7 +10,9 @@ void main() {
 }
 
 int _aa = todoList1.length;
-int countOrder = todoList1.length;
+
+
+
 
 String _userToDo = '';
 String _userLogo = '';
@@ -46,13 +49,22 @@ class _MyTextPage111State extends State<MyTextPage111> {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
   }
-  
+
+
+  void initFireBase()async{
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  }
+
   initState() {
 
     initFirebase();
 
     super.initState();
       }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -105,10 +117,6 @@ class _MyTextPage111State extends State<MyTextPage111> {
           
                         //строка с названием машины
                         _stroka1(),
-
-
-
-                        // строка с кратким содержанием заказа
 
 
                         //фраза 'Данные по выпуску продукции'
@@ -208,16 +216,14 @@ class _MyTextPage111State extends State<MyTextPage111> {
           _stroka5Order(),
 
           //окно вывода существующих заказов
-
-
           Container(
             child: ConstrainedBox(
               constraints: const BoxConstraints(
                 //minHeight: 50.0,
-                maxHeight: 100.0,
+                maxHeight: 90.0,
 
               ),
-              child: _list2(),
+              child: read3(),
 
             ),
           ),
@@ -257,38 +263,63 @@ class _MyTextPage111State extends State<MyTextPage111> {
 
             ),
 
-            onDismissed:(direction){
+    /*   onDismissed:(direction){
           setState((){
             countOrder --;
             todoList1.removeAt(index);
           });
         },
 
+     */
+
         );
       },
     );
   }
-/*
-  Widget _displayList() {
-    return Container(
-      //СТРОКА С LISTVIEW
-      // /*
-      child: ListView.builder(
-          //itemCount: 2, //todoList.length,
-          itemBuilder: (BuildContext context, int index) {
-        return Dismissible(
-          key: todoList1[index],
-          child: ListTile(
-            title: Text(todoList1[index]),
-          ),
-        );
-      }),
 
-      //        */
+
+
+//отображение заказов из базы данных, основа c интернета, все новое
+  Widget read3() {
+    return  StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('zakaznew').snapshots(),
+          builder: (context, snapshot) {
+          List <Row> clientWidgets = [];
+          if (snapshot.hasData){
+            final clients = snapshot.data!.docs.reversed.toList();
+            for(var client in clients){
+              final clientWidget = Row(
+                children: [
+                  Text(client['number']),
+                  Text(', '),
+                  Text(client['logo']),
+                  Text(client['type']),
+                  Text(client['netto']),
+
+
+
+                ],
+              );
+              clientWidgets.add(clientWidget);
+
+            }
+          }
+
+          return Expanded(
+            child: ListView(
+              children: clientWidgets,
+
+            ),
+
+          );
+        }
     );
-  }
 
- */
+  }
+  int countOrder = 6;  //clientWidgets.length;
+
+
+
 
   // КНОПКА 'ПОДРОБНО' ПО ВЫПУСКУ ПРОДУКЦИИ
   Widget _buttonOrder2() {
@@ -374,7 +405,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
                   context: context,
                   builder: (BuildContext context) {
 
-                    return _dialog(); //_dialog диалоговое окно
+                    return _dialog(); //_dialog диалоговое окно добавление нового заказа менеджером
                   });
             },
             child: const Text(
@@ -452,7 +483,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
               //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
               Navigator.of(context).pop();
             },
-            child: const Text('Закрыть')),
+            child: const Text('Закрытm')),
       ],
       //--------------------------------------
     );
@@ -468,7 +499,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
     );
   }
 
-  //--- ДИАЛОГОВОЕ ОКНО
+  //--- ДИАЛОГОВОЕ ОКНО ДОБАВЛЕНИЕ ЗАКАЗА
   Widget _dialog() {
     return AlertDialog(
       title: const Text('Добавление заказа'),
@@ -505,35 +536,22 @@ class _MyTextPage111State extends State<MyTextPage111> {
           ),
         ],
       ),
-      // КНОПКА ВНИЗУ У ВСПЛЫВАЮЩЕГО ОКНА
+      // КНОПКА ВНИЗУ У ВСПЛЫВАЮЩЕГО ОКНА. ОТПРАВЛЯЕТ ДАННЫЕ В БАЗУ ДАННЫХ
       actions: [
         ElevatedButton(
-            onPressed: () {
-              setState(() {
-                if (_userToDo != '') {
-                  todoList1.add(
-                      '- $_userToDo, $_userLogo, $_userType, $_userNetto');
-                  _userToDo = '';
-                  _userLogo = '';
-                  _userType = '';
-                  _userNetto = '';
-                  countOrder ++;
+            onPressed: ()
 
-                } else {
-                  _userToDo = '';
-                  _userLogo = '';
-                  _userType = '';
-                  _userNetto = '';
+            {FirebaseFirestore.instance.collection('/zakaznew').add({
+                'number': _userToDo,
+                'logo': _userLogo,
+                'type': _userType,
+                'netto': _userNetto
 
-                }
-
-              }
-                );
-
+              });
               //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
               Navigator.of(context).pop();
             },
-            child: const Text('ОТПРАВИТЬ')),
+            child: const Text('ОТПРАВИТЬ11')),
       ],
     //--------------------------------------
     );
@@ -556,12 +574,6 @@ class _MyTextPage111State extends State<MyTextPage111> {
         ElevatedButton(
             onPressed: () {
               setState(() {
-                if (_userToDo != '') {
-                  todoList1.add(
-                      '- $_userToDo, $_userLogo, $_userType, $_userNetto');
-                } else {
-
-                }
 
               }
               );
@@ -611,12 +623,10 @@ class _MyTextPage111State extends State<MyTextPage111> {
             style: TextStyle(
                 fontSize: 20, color: Colors.orange)),
       ),
-      Container(
 
-        child: const Text('в работе',
-            style: TextStyle(
-                fontSize: 20, color: Colors.orange)),
-      ),
+      read(),
+
+
       Container(
         //margin: EdgeInsets.only(top: 25),
         padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
@@ -627,6 +637,35 @@ class _MyTextPage111State extends State<MyTextPage111> {
             fit: BoxFit.fill),
       ),
     ],
+    );
+  }
+
+  //чтение данных из FireBase, статус машины
+  Widget read() {
+
+    CollectionReference student = FirebaseFirestore.instance.collection('01/');
+    return FutureBuilder<DocumentSnapshot>(
+        future: student.doc('MBCgykpboKR3gKg3YQ3c').get(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+
+            var data1 = data['mes1'];
+            return Text('$data1',
+                style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.orange)
+
+            );
+          }
+
+          return Text('',
+              style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.orange));
+        }
+
     );
   }
 

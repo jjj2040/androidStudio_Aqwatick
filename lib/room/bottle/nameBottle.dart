@@ -105,7 +105,7 @@ class nameBottle extends StatelessWidget {
             children: [
               Container(
                 padding: const EdgeInsets.only(top:0, left:5, right:5),
-                child: const Text('Заказ:500 шт, нейтр., X71',
+                child: const Text('Заказ:50000 шт, нейтр., X71',
                     style: TextStyle(
                         fontSize: 10,
 

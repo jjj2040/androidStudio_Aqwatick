@@ -44,7 +44,11 @@ class Password extends StatelessWidget {
          decoration: const BoxDecoration(
           image: DecorationImage(
           image: NetworkImage(
-          'https://foni.club/uploads/posts/2022-12/thumbs/1672492899_foni-club-p-kartinki-na-telefon-more-vertikalnie-32.jpg'),
+          //'https://foni.club/uploads/posts/2022-12/thumbs/1672492899_foni-club-p-kartinki-na-telefon-more-vertikalnie-32.jpg'),
+            'https://i.pinimg.com/236x/46/72/b2/4672b272e8cf10aece1739a67e0c60a8--beach-rocks-seychelles.jpg'),
+            //'https://i.pinimg.com/236x/4a/68/85/4a688599095faf37fb33fcdc5e7c40e7.jpg'),
+
+
            fit: BoxFit.cover,
     ),
 

@@ -1,8 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:untitled111/firebase_options.dart';
-
+import 'package:flutter/foundation.dart';
 import 'dimensions.dart';
 
 void main() {
@@ -43,6 +45,8 @@ class MyTextPage111 extends StatefulWidget {
 }
 
 class _MyTextPage111State extends State<MyTextPage111> {
+
+
   @override
 
   void initFirebase() async {
@@ -85,7 +89,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
               //mainAxisAlignment: MainAxisAlignment.center,
               //mainAxisSize: MainAxisSize.max,
               //crossAxisAlignment: CrossAxisAlignment.stretch,
-          
+
               // ЗАГОЛОВОК ЦЕХА
               children: [
                 const Text(
@@ -98,9 +102,9 @@ class _MyTextPage111State extends State<MyTextPage111> {
                     color: Colors.black,
                   ),
                 ),
-          
+
                 //блок  с названием машины и ПОЛНЫМ СОДЕРЖАНИЕМ ЗАКАЗОВ
-          
+
                 Container(
                     //margin: const EdgeInsets.only(
                      //   left: 1.0, right: 1.0, top: 5.0, bottom: 5.0),
@@ -114,7 +118,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
                       //mainAxisSize: MainAxisSize.max,
                       //  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-          
+
                         //строка с названием машины
                         _stroka1(),
 
@@ -135,7 +139,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
                                 stroka2(),
                                 _stroka8(),
                                 _stroka3(), // процент готовой продукции
-          
+
                                 _buttonOrder2()
                               ],
                           ),
@@ -156,20 +160,20 @@ class _MyTextPage111State extends State<MyTextPage111> {
                               _remontTitle(),
                               _remontBriefly(),
                               _buttonOrder2()
-          
+
                             ],
                           ),
                         ),
-          
-          
+
+
                         _analitic()
-          
-          
-          
-          
+
+
+
+
                       ],
                     )),
-          
+
                 //ПРОБНЫЙ ПУСТОЙ БЛОК ДЛЯ ВЫВОДА ЛИСТ ВЬЮ
               ]),
         ),
@@ -198,6 +202,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
   }
 
 // Блок добавления и вывода заказов
+
   Widget blockZakaz() {
     return Container(
       margin: const EdgeInsets.only(
@@ -223,14 +228,11 @@ class _MyTextPage111State extends State<MyTextPage111> {
                 maxHeight: 90.0,
 
               ),
-              child: read3(),
 
-            ),
-          ),
+                //child: _list2(),
+               child: newlist(),
 
-
-
-
+            ),         ),
 
           // КНОПКА ДОБАВЛЕНИЯ НОВОГО ЗАКАЗА
           _buttonNewOrder(),
@@ -241,6 +243,8 @@ class _MyTextPage111State extends State<MyTextPage111> {
       // ),
     );
   }
+
+
 
   // ОТОБРАЖЕНИЕ СОДЕРЖАНИЯ viewList
   Widget _list2() {
@@ -279,6 +283,139 @@ class _MyTextPage111State extends State<MyTextPage111> {
 
 
 
+  // микс, отображение заказов из базы данных, основа c интернета, все новое, но дизайн старый
+  Widget newlist() {
+      return  StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance.collection('zakaznew').snapshots(),
+          builder: (context, snapshot) {
+            var clientWidgets = [];
+            var idList = [];
+            var countindex = [];
+           // List clientWidgets = [];
+            if (snapshot.hasData){
+              final clients = snapshot.data!.docs.reversed.toList();
+                 for(var client in clients){
+                var _userToDo1 = client['number'];
+                var _userLogo1 = client['logo'];
+                 var _userType1 = client['type'];
+                var _userNetto1= client['netto'];
+                var _userId= client['id'];
+                var docId = client.id;
+                clientWidgets.add('- $_userToDo1, $_userLogo1, $_userType1,  $_userNetto1'); // список для отображения данных
+                idList.add(docId); // список для id, потом по этому id происходит удаление.
+              }
+              for(var count in countindex){
+                var _count = count;
+              }
+            }
+
+            return ListView.separated(
+              itemCount: clientWidgets.length,
+              separatorBuilder: (BuildContext context, int index) {
+                return const SizedBox(height: height2);
+              },
+              itemBuilder: (BuildContext context, int index) {
+                return Dismissible(
+                  key: Key(clientWidgets[index]),
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                        left: 5.0, right: 5.0, top: 2.0, bottom: 2.0),
+                    //padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+
+                    //height: 45,
+
+                    child: Card(
+                      margin: const EdgeInsets.only(
+                          left: 1.0, right: 1.0, top: 1.0, bottom: 1.0),
+                      //padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+                      color: Colors.grey[300],
+                      child: ListTile(title: Text(clientWidgets[index]),),
+                    ),
+                  ),
+                    onDismissed:(direction){
+                      //clientWidgets.removeAt(index);
+                       FirebaseFirestore.instance.collection("zakaznew").doc(idList[index]).delete();
+                      },
+                );
+              },
+            );
+          }
+      );
+  }
+
+
+  // микс-2, отображение заказов из базы данных, основа c интернета, все новое, но дизайн старый
+  //Widget newlist22() {
+ //   return ()
+ // }
+
+
+  /*
+  Widget newlist22() {
+    var userId;
+    var note;
+    return  StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('zakaznew').where('userId', isEqualTo: userId?.uid).snapshots(),
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
+          if (snapshot != Null){
+                   return  ListView.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index){
+                      var _userLogo = snapshot.data!.docs[index]['logo'];
+                      var _userId = snapshot.data!.docs[index].id;
+                      return Card(
+                       // key: Key(_userLogo[index]),
+                       // child: SizedBox(
+                         // height: 45,
+
+
+                            child: ListTile(title: Text(note),
+                            subtitle: Text(userId),),
+                          ),
+                        ),
+                        onDismissed:(direction) async {
+                          await FirebaseFirestore.instance.collection('zakaznew').doc(_userId).delete();
+                          //clientWidgets.removeAt(index);
+                          //async firestoreInstance.collection("zakaznew").doc(userId).delete().then();
+                        },
+                      );
+
+
+                    }
+
+    );
+    }
+    }
+
+    );
+  }
+
+   */
+
+
+
+
+  /*
+  // колво
+  Widget kolvo() {
+  return  StreamBuilder<QuerySnapshot>(
+  stream: FirebaseFirestore.instance.collection('zakaznew').snapshots(),
+  builder: (context, snapshot) {
+  var clientWidgets = [];
+  // List clientWidgets = [];
+  if (snapshot.hasData){
+    final clients = snapshot.data!.docs.reversed.toList();
+    for(var client in clients){
+    var _userToDo1 = client['number'];
+
+    clientWidgets.add(
+    '- $_userToDo1');
+    }
+    int countOrder = clientWidgets.length;
+    }
+
+   */
+
 //отображение заказов из базы данных, основа c интернета, все новое
   Widget read3() {
     return  StreamBuilder<QuerySnapshot>(
@@ -290,11 +427,11 @@ class _MyTextPage111State extends State<MyTextPage111> {
             for(var client in clients){
               final clientWidget = Row(
                 children: [
-                  Text(client['number']),
-                  Text(', '),
-                  Text(client['logo']),
-                  Text(client['type']),
+                  //Text(client['number']),
+                  //Text(client['logo']),
+                  //Text(client['type']),
                   Text(client['netto']),
+                  Text(client['id']),
 
 
 
@@ -316,7 +453,9 @@ class _MyTextPage111State extends State<MyTextPage111> {
     );
 
   }
-  int countOrder = 6;  //clientWidgets.length;
+
+
+
 
 
 
@@ -401,6 +540,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
                         side: const BorderSide(color: Colors.black12)))),
             onPressed: () {
               // ВСПЛЫВАЮЩЕЕ ОКНО ДЛЯ ВНЕСЕНИЯ ДАННЫХ
+              var intValue = Random().nextInt(10);
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -469,16 +609,16 @@ class _MyTextPage111State extends State<MyTextPage111> {
       actions: [
         ElevatedButton(
             onPressed: () {
-              setState(() {
-                if (_userToDo != '') {
-                  todoList1.add(
-                      '- $_userToDo, $_userLogo, $_userType, $_userNetto');
-                } else {
+              //setState(() {
+                //if (_userToDo != '') {
+                  //todoList1.add(
+                  //    '- $_userToDo, $_userLogo, $_userType, $_userNetto');
+               // } else {
 
-                }
+               // }
 
-              }
-              );
+              //}
+             // );
 
               //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
               Navigator.of(context).pop();
@@ -499,13 +639,16 @@ class _MyTextPage111State extends State<MyTextPage111> {
     );
   }
 
+
   //--- ДИАЛОГОВОЕ ОКНО ДОБАВЛЕНИЕ ЗАКАЗА
   Widget _dialog() {
     return AlertDialog(
       title: const Text('Добавление заказа'),
+
+
        //child: ListView(
        content: ListView(
-        children: [
+        children: <Widget>[
           TextField(
             onChanged: (String value) {
               _userToDo = value;
@@ -534,23 +677,43 @@ class _MyTextPage111State extends State<MyTextPage111> {
             decoration: const InputDecoration(hintText: "Вес бутыли"),
             textAlign: TextAlign.center,
           ),
+
+
+
         ],
       ),
       // КНОПКА ВНИЗУ У ВСПЛЫВАЮЩЕГО ОКНА. ОТПРАВЛЯЕТ ДАННЫЕ В БАЗУ ДАННЫХ
       actions: [
         ElevatedButton(
             onPressed: ()
+            {
+               int intValue1  ;
+               intValue1 = Random().nextInt(100000000);
+               int intValue2  ;
+               intValue2 = Random().nextInt(100000000);
+               int intValue22  ;
+               intValue22 = Random().nextInt(100000000);
+               var intValue3= '';
+               intValue3 = intValue1.toString() + intValue2.toString() + intValue22.toString();
 
-            {FirebaseFirestore.instance.collection('/zakaznew').add({
+              FirebaseFirestore.instance.collection('zakaznew').add({
                 'number': _userToDo,
                 'logo': _userLogo,
                 'type': _userType,
-                'netto': _userNetto
+               'netto': _userNetto,
+                  'id': intValue3,
 
               });
+
               //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
               Navigator.of(context).pop();
+            _userToDo = '';
+            _userLogo = '-';
+            _userType = '-';
+            _userNetto = '-';
+
             },
+
             child: const Text('ОТПРАВИТЬ11')),
       ],
     //--------------------------------------
@@ -643,7 +806,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
   //чтение данных из FireBase, статус машины
   Widget read() {
 
-    CollectionReference student = FirebaseFirestore.instance.collection('01/');
+    CollectionReference student = FirebaseFirestore.instance.collection('status/');
     return FutureBuilder<DocumentSnapshot>(
         future: student.doc('MBCgykpboKR3gKg3YQ3c').get(),
         builder:

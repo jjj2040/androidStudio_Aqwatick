@@ -179,7 +179,7 @@ class _operatorButtle extends State<operatorButtle> {
 //чтение данных из FireBase, статус машины
   Widget read() {
 
-    CollectionReference student = FirebaseFirestore.instance.collection('01/');
+    CollectionReference student = FirebaseFirestore.instance.collection('status/');
     return FutureBuilder<DocumentSnapshot>(
         future: student.doc('MBCgykpboKR3gKg3YQ3c').get(),
         builder:
@@ -451,10 +451,10 @@ class _operatorButtle extends State<operatorButtle> {
         ElevatedButton(
             onPressed: () async {
               setState(() {
-                FirebaseFirestore.instance.collection('/01').doc('MBCgykpboKR3gKg3YQ3c').update({'mes1': '$_userToDo'});
+                FirebaseFirestore.instance.collection('/status').doc('MBCgykpboKR3gKg3YQ3c').update({'mes1': '$_userToDo'});
               });
 
-              //FirebaseFirestore.instance.collection('/01').doc('MBCgykpboKR3gKg3YQ3c').add({'mes1': '$_userToDo'});
+              //FirebaseFirestore.instance.collection('/status').doc('MBCgykpboKR3gKg3YQ3c').add({'mes1': '$_userToDo'});
 
 
               //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА

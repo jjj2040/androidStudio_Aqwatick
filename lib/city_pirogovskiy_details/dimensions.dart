@@ -4,11 +4,15 @@ const double height8 = 8;
 const double height2 = 2;
 
 const double height64 = 64;
+
+const TextStyle kstyle = TextStyle(fontSize: 20);
 List todoList1 = ['= 2500, Судогорска, Х, 710 +-10'];
 String  vRabote1 = "Заказ:500 шт, нейтр., X711111";
 
 
 int countOrder = 0;
+
+
 
 Widget _list3() {
   return ListView.separated(

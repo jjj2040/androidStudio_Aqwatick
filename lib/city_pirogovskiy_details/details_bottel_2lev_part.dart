@@ -7,14 +7,9 @@ import 'package:untitled111/firebase_options.dart';
 import 'package:flutter/foundation.dart';
 import 'dimensions.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+
 
 int _aa = todoList1.length;
-
-
-
 
 String _userToDo = '';
 String _userLogo = '';
@@ -40,35 +35,25 @@ class MyTextPage111 extends StatefulWidget {
 
   @override
   State<MyTextPage111> createState() => _MyTextPage111State();
-
-
 }
 
 class _MyTextPage111State extends State<MyTextPage111> {
-
-
   @override
-
   void initFirebase() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
   }
 
-
-  void initFireBase()async{
+  void initFireBase() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
   }
 
   initState() {
-
     initFirebase();
-
     super.initState();
-      }
-
-
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,13 +67,8 @@ class _MyTextPage111State extends State<MyTextPage111> {
         decoration: BoxDecoration(
           color: Colors.grey[300],
         ),
-
         child: SingleChildScrollView(
           child: Column(
-              //padding: EdgeInsets.only(top:5, left:5, right:5),
-              //mainAxisAlignment: MainAxisAlignment.center,
-              //mainAxisSize: MainAxisSize.max,
-              //crossAxisAlignment: CrossAxisAlignment.stretch,
 
               // ЗАГОЛОВОК ЦЕХА
               children: [
@@ -107,70 +87,63 @@ class _MyTextPage111State extends State<MyTextPage111> {
 
                 Container(
                     //margin: const EdgeInsets.only(
-                     //   left: 1.0, right: 1.0, top: 5.0, bottom: 5.0),
+                    //   left: 1.0, right: 1.0, top: 5.0, bottom: 5.0),
                     padding: const EdgeInsets.only(
                         left: 5.0, right: 5.0, top: 5.0, bottom: 5.0),
                     decoration: BoxDecoration(
                         color: Colors.grey[100],
-                        borderRadius: const BorderRadius.all(Radius.circular(9))),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(9))),
                     child: Column(
                       //mainAxisAlignment: MainAxisAlignment.center,
                       //mainAxisSize: MainAxisSize.max,
                       //  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-
                         //строка с названием машины
                         _stroka1(),
-
 
                         //фраза 'Данные по выпуску продукции'
                         Container(
                           margin: const EdgeInsets.only(
                               left: 1.0, right: 1.0, top: 7.0, bottom: 7.0),
-                          padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
-                            decoration: BoxDecoration(
-                                color: Colors.grey[400],
-                                borderRadius: const BorderRadius.all(Radius.circular(9))),
-                            child: Column(
-                              children: [
+                          padding:
+                              const EdgeInsets.only(top: 0, left: 5, right: 5),
+                          decoration: BoxDecoration(
+                              color: Colors.grey[400],
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(9))),
+                          child: Column(
+                            children: [
+                              _stroka6(),
+                              _stroka4Oper(),
+                              stroka2(),
+                              _stroka8(),
+                              _stroka3(), // процент готовой продукции
 
-                                _stroka6(),
-                                _stroka4Oper(),
-                                stroka2(),
-                                _stroka8(),
-                                _stroka3(), // процент готовой продукции
-
-                                _buttonOrder2()
-                              ],
+                              _buttonOrder2()
+                            ],
                           ),
                         ),
 
-
                         // Блок добавления и вывода заказов
                         blockZakaz(),
-
 
                         //блок по записи ремонтных работ с машиной
                         Container(
                           decoration: BoxDecoration(
                               color: Colors.grey[400],
-                              borderRadius: const BorderRadius.all(Radius.circular(9))),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(9))),
                           child: Column(
                             children: [
                               _remontTitle(),
                               _remontBriefly(),
                               _buttonOrder2()
-
                             ],
                           ),
                         ),
 
-
                         _analitic()
-
-
-
-
                       ],
                     )),
 
@@ -182,7 +155,6 @@ class _MyTextPage111State extends State<MyTextPage111> {
   }
 
   final int _qqq = 0;
-
 
   Widget _list3() {
     return Scrollbar(
@@ -205,19 +177,14 @@ class _MyTextPage111State extends State<MyTextPage111> {
 
   Widget blockZakaz() {
     return Container(
-      margin: const EdgeInsets.only(
-          left: 1.0, right: 1.0, top: 7.0, bottom: 7.0),
+      margin:
+          const EdgeInsets.only(left: 1.0, right: 1.0, top: 7.0, bottom: 7.0),
       decoration: BoxDecoration(
-
           color: Colors.grey[400],
           borderRadius: const BorderRadius.all(Radius.circular(9))),
 
-
       child: Column(
-
-
         children: [
-
           _stroka5Order(),
 
           //окно вывода существующих заказов
@@ -226,25 +193,19 @@ class _MyTextPage111State extends State<MyTextPage111> {
               constraints: const BoxConstraints(
                 //minHeight: 50.0,
                 maxHeight: 90.0,
-
               ),
 
-                //child: _list2(),
-               child: newlist(),
-
-            ),         ),
+              child: newlist(),
+            ),
+          ),
 
           // КНОПКА ДОБАВЛЕНИЯ НОВОГО ЗАКАЗА
           _buttonNewOrder(),
-
-
         ],
       ),
       // ),
     );
   }
-
-
 
   // ОТОБРАЖЕНИЕ СОДЕРЖАНИЯ viewList
   Widget _list2() {
@@ -255,19 +216,18 @@ class _MyTextPage111State extends State<MyTextPage111> {
       },
       itemBuilder: (BuildContext context, int index) {
         return Dismissible(
-            key: Key(todoList1[index]),
-            child: SizedBox(
-              height: 45,
-
-              child: Card(
-                color: Colors.grey[300],
-                child: ListTile(title: Text(todoList1[index]),),
+          key: Key(todoList1[index]),
+          child: SizedBox(
+            height: 45,
+            child: Card(
+              color: Colors.grey[300],
+              child: ListTile(
+                title: Text(todoList1[index]),
               ),
-
-
             ),
+          ),
 
-    /*   onDismissed:(direction){
+          /*   onDismissed:(direction){
           setState((){
             countOrder --;
             todoList1.removeAt(index);
@@ -275,188 +235,76 @@ class _MyTextPage111State extends State<MyTextPage111> {
         },
 
      */
-
         );
       },
     );
   }
 
-
-
   // микс, отображение заказов из базы данных, основа c интернета, все новое, но дизайн старый
   Widget newlist() {
-      return  StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection('zakaznew').snapshots(),
-          builder: (context, snapshot) {
-            var clientWidgets = [];
-            var idList = [];
-            var countindex = [];
-           // List clientWidgets = [];
-            if (snapshot.hasData){
-              final clients = snapshot.data!.docs.reversed.toList();
-                 for(var client in clients){
-                var _userToDo1 = client['number'];
-                var _userLogo1 = client['logo'];
-                 var _userType1 = client['type'];
-                var _userNetto1= client['netto'];
-                var _userId= client['id'];
-                var docId = client.id;
-                clientWidgets.add('- $_userToDo1, $_userLogo1, $_userType1,  $_userNetto1'); // список для отображения данных
-                idList.add(docId); // список для id, потом по этому id происходит удаление.
-              }
-              for(var count in countindex){
-                var _count = count;
-              }
+    return StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('zakaznew').snapshots(),
+        builder: (context, snapshot) {
+          var clientWidgets = [];
+          var idList = [];
+          var countindex = [];
+          // List clientWidgets = [];
+          if (snapshot.hasData) {
+            final clients = snapshot.data!.docs.reversed.toList();
+            for (var client in clients) {
+              var _userToDo1 = client['number'];
+              var _userLogo1 = client['logo'];
+              var _userType1 = client['type'];
+              var _userNetto1 = client['netto'];
+              var _userId = client['id'];
+              var docId = client.id;
+              clientWidgets.add(
+                  '- $_userToDo1, $_userLogo1, $_userType1,  $_userNetto1'); // список для отображения данных
+              idList.add(
+                  docId); // список для id, потом по этому id происходит удаление.
             }
+            for (var count in countindex) {
+              var _count = count;
+            }
+          }
 
-            return ListView.separated(
-              itemCount: clientWidgets.length,
-              separatorBuilder: (BuildContext context, int index) {
-                return const SizedBox(height: height2);
-              },
-              itemBuilder: (BuildContext context, int index) {
-                return Dismissible(
-                  key: Key(clientWidgets[index]),
-                  child: Container(
+          return ListView.separated(
+            itemCount: clientWidgets.length,
+            separatorBuilder: (BuildContext context, int index) {
+              return const SizedBox(height: height2);
+            },
+            itemBuilder: (BuildContext context, int index) {
+              return Dismissible(
+                key: Key(clientWidgets[index]),
+                child: Container(
+                  margin: const EdgeInsets.only(
+                      left: 5.0, right: 5.0, top: 2.0, bottom: 2.0),
+                  //padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+
+                  //height: 45,
+
+                  child: Card(
                     margin: const EdgeInsets.only(
-                        left: 5.0, right: 5.0, top: 2.0, bottom: 2.0),
+                        left: 1.0, right: 1.0, top: 1.0, bottom: 1.0),
                     //padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
-
-                    //height: 45,
-
-                    child: Card(
-                      margin: const EdgeInsets.only(
-                          left: 1.0, right: 1.0, top: 1.0, bottom: 1.0),
-                      //padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
-                      color: Colors.grey[300],
-                      child: ListTile(title: Text(clientWidgets[index]),),
+                    color: Colors.grey[300],
+                    child: ListTile(
+                      title: Text(clientWidgets[index]),
                     ),
                   ),
-                    onDismissed:(direction){
-                      //clientWidgets.removeAt(index);
-                       FirebaseFirestore.instance.collection("zakaznew").doc(idList[index]).delete();
-                      },
-                );
-              },
-            );
-          }
-      );
-  }
-
-
-  // микс-2, отображение заказов из базы данных, основа c интернета, все новое, но дизайн старый
-  //Widget newlist22() {
- //   return ()
- // }
-
-
-  /*
-  Widget newlist22() {
-    var userId;
-    var note;
-    return  StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('zakaznew').where('userId', isEqualTo: userId?.uid).snapshots(),
-        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
-          if (snapshot != Null){
-                   return  ListView.builder(
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index){
-                      var _userLogo = snapshot.data!.docs[index]['logo'];
-                      var _userId = snapshot.data!.docs[index].id;
-                      return Card(
-                       // key: Key(_userLogo[index]),
-                       // child: SizedBox(
-                         // height: 45,
-
-
-                            child: ListTile(title: Text(note),
-                            subtitle: Text(userId),),
-                          ),
-                        ),
-                        onDismissed:(direction) async {
-                          await FirebaseFirestore.instance.collection('zakaznew').doc(_userId).delete();
-                          //clientWidgets.removeAt(index);
-                          //async firestoreInstance.collection("zakaznew").doc(userId).delete().then();
-                        },
-                      );
-
-
-                    }
-
-    );
-    }
-    }
-
-    );
-  }
-
-   */
-
-
-
-
-  /*
-  // колво
-  Widget kolvo() {
-  return  StreamBuilder<QuerySnapshot>(
-  stream: FirebaseFirestore.instance.collection('zakaznew').snapshots(),
-  builder: (context, snapshot) {
-  var clientWidgets = [];
-  // List clientWidgets = [];
-  if (snapshot.hasData){
-    final clients = snapshot.data!.docs.reversed.toList();
-    for(var client in clients){
-    var _userToDo1 = client['number'];
-
-    clientWidgets.add(
-    '- $_userToDo1');
-    }
-    int countOrder = clientWidgets.length;
-    }
-
-   */
-
-//отображение заказов из базы данных, основа c интернета, все новое
-  Widget read3() {
-    return  StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('zakaznew').snapshots(),
-          builder: (context, snapshot) {
-          List <Row> clientWidgets = [];
-          if (snapshot.hasData){
-            final clients = snapshot.data!.docs.reversed.toList();
-            for(var client in clients){
-              final clientWidget = Row(
-                children: [
-                  //Text(client['number']),
-                  //Text(client['logo']),
-                  //Text(client['type']),
-                  Text(client['netto']),
-                  Text(client['id']),
-
-
-
-                ],
+                ),
+                onDismissed: (direction) {
+                  //clientWidgets.removeAt(index);
+                  FirebaseFirestore.instance
+                      .collection("zakaznew")
+                      .doc(idList[index])
+                      .delete();
+                },
               );
-              clientWidgets.add(clientWidget);
-
-            }
-          }
-
-          return Expanded(
-            child: ListView(
-              children: clientWidgets,
-
-            ),
-
+            },
           );
-        }
-    );
-
+        });
   }
-
-
-
-
 
 
 
@@ -469,7 +317,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
           ElevatedButton(
             style: ButtonStyle(
                 textStyle:
-                MaterialStateProperty.all(const TextStyle(fontSize: 20)),
+                    MaterialStateProperty.all(const TextStyle(fontSize: 20)),
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(9.0),
@@ -501,7 +349,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
           ElevatedButton(
             style: ButtonStyle(
                 textStyle:
-                MaterialStateProperty.all(const TextStyle(fontSize: 20)),
+                    MaterialStateProperty.all(const TextStyle(fontSize: 20)),
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(9.0),
@@ -544,7 +392,6 @@ class _MyTextPage111State extends State<MyTextPage111> {
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
-
                     return _dialog(); //_dialog диалоговое окно добавление нового заказа менеджером
                   });
             },
@@ -565,8 +412,6 @@ class _MyTextPage111State extends State<MyTextPage111> {
       //child: ListView(
       content: ListView(
         children: [
-
-
           _itogSmeny(),
           _addOrderTime3(),
           _stroka4Oper(),
@@ -597,12 +442,6 @@ class _MyTextPage111State extends State<MyTextPage111> {
           _stroka3(),
           _stroka__(),
           //---------
-
-
-
-
-
-
         ],
       ),
       // КНОПКА ВНИЗУ У ВСПЛЫВАЮЩЕГО ОКНА
@@ -610,15 +449,15 @@ class _MyTextPage111State extends State<MyTextPage111> {
         ElevatedButton(
             onPressed: () {
               //setState(() {
-                //if (_userToDo != '') {
-                  //todoList1.add(
-                  //    '- $_userToDo, $_userLogo, $_userType, $_userNetto');
-               // } else {
+              //if (_userToDo != '') {
+              //todoList1.add(
+              //    '- $_userToDo, $_userLogo, $_userType, $_userNetto');
+              // } else {
 
-               // }
+              // }
 
               //}
-             // );
+              // );
 
               //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
               Navigator.of(context).pop();
@@ -631,23 +470,18 @@ class _MyTextPage111State extends State<MyTextPage111> {
 
 // 2ое диалоговое окно, информация вывод текста
   Widget _strokaDialogWindowOrder() {
-    return Row(children: [
-      stroka2()
-
-
-    ],
+    return Row(
+      children: [stroka2()],
     );
   }
-
 
   //--- ДИАЛОГОВОЕ ОКНО ДОБАВЛЕНИЕ ЗАКАЗА
   Widget _dialog() {
     return AlertDialog(
       title: const Text('Добавление заказа'),
 
-
-       //child: ListView(
-       content: ListView(
+      //child: ListView(
+      content: ListView(
         children: <Widget>[
           TextField(
             onChanged: (String value) {
@@ -667,7 +501,8 @@ class _MyTextPage111State extends State<MyTextPage111> {
             onChanged: (String value) {
               _userType = value;
             },
-            decoration: const InputDecoration(hintText: "Тип бутыли (X,G или др.)"),
+            decoration:
+                const InputDecoration(hintText: "Тип бутыли (X,G или др.)"),
             textAlign: TextAlign.center,
           ),
           TextField(
@@ -677,46 +512,41 @@ class _MyTextPage111State extends State<MyTextPage111> {
             decoration: const InputDecoration(hintText: "Вес бутыли"),
             textAlign: TextAlign.center,
           ),
-
-
-
         ],
       ),
       // КНОПКА ВНИЗУ У ВСПЛЫВАЮЩЕГО ОКНА. ОТПРАВЛЯЕТ ДАННЫЕ В БАЗУ ДАННЫХ
       actions: [
         ElevatedButton(
-            onPressed: ()
-            {
-               int intValue1  ;
-               intValue1 = Random().nextInt(100000000);
-               int intValue2  ;
-               intValue2 = Random().nextInt(100000000);
-               int intValue22  ;
-               intValue22 = Random().nextInt(100000000);
-               var intValue3= '';
-               intValue3 = intValue1.toString() + intValue2.toString() + intValue22.toString();
+            onPressed: () {
+              int intValue1;
+              intValue1 = Random().nextInt(100000000);
+              int intValue2;
+              intValue2 = Random().nextInt(100000000);
+              int intValue22;
+              intValue22 = Random().nextInt(100000000);
+              var intValue3 = '';
+              intValue3 = intValue1.toString() +
+                  intValue2.toString() +
+                  intValue22.toString();
 
               FirebaseFirestore.instance.collection('zakaznew').add({
                 'number': _userToDo,
                 'logo': _userLogo,
                 'type': _userType,
-               'netto': _userNetto,
-                  'id': intValue3,
-
+                'netto': _userNetto,
+                'id': intValue3,
               });
 
               //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
               Navigator.of(context).pop();
-            _userToDo = '';
-            _userLogo = '-';
-            _userType = '-';
-            _userNetto = '-';
-
+              _userToDo = '';
+              _userLogo = '-';
+              _userType = '-';
+              _userNetto = '-';
             },
-
             child: const Text('ОТПРАВИТЬ11')),
       ],
-    //--------------------------------------
+      //--------------------------------------
     );
   }
 
@@ -728,7 +558,8 @@ class _MyTextPage111State extends State<MyTextPage111> {
       content: ListView(
         children: [
           Container(
-          child: const Text('Здесь будет возможность строить графики и проводить аналитику по операторам, по машинам, по продукции. Но это потом.')),
+              child: const Text(
+                  'Здесь будет возможность строить графики и проводить аналитику по операторам, по машинам, по продукции. Но это потом.')),
           // ввести
         ],
       ),
@@ -736,10 +567,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
       actions: [
         ElevatedButton(
             onPressed: () {
-              setState(() {
-
-              }
-              );
+              setState(() {});
 
               //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
               Navigator.of(context).pop();
@@ -750,7 +578,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
     );
   }
 
-  Widget  stroka2() {
+  Widget stroka2() {
     return Row(
       children: [
         Container(
@@ -760,7 +588,6 @@ class _MyTextPage111State extends State<MyTextPage111> {
           child: Text(vRabote1,
               style: const TextStyle(fontSize: 13, color: Colors.black)),
         ),
-
       ],
     );
   }
@@ -773,339 +600,288 @@ class _MyTextPage111State extends State<MyTextPage111> {
           child: const Text('-----------------',
               style: TextStyle(fontSize: 13, color: Colors.black)),
         ),
-
       ],
     );
   }
 
   Widget _stroka1() {
-    return Row(children: [
-      Container(
-        padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
-        child: const Text('PL-1:',
-            style: TextStyle(
-                fontSize: 20, color: Colors.orange)),
-      ),
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
+          child: const Text('PL-1:',
+              style: TextStyle(fontSize: 20, color: Colors.red)),
+        ),
+        read(),
 
-      read(),
-
-
-      Container(
-        //margin: EdgeInsets.only(top: 25),
-        padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
-        child: Image.network(
-            'https://s1.iconbird.com/ico/0612/vistabasesoftwareicons/w256h2561339252506CircleGreen.png',
-            width: 15,
-            height: 15,
-            fit: BoxFit.fill),
-      ),
-    ],
+      ],
     );
   }
 
   //чтение данных из FireBase, статус машины
   Widget read() {
-
-    CollectionReference student = FirebaseFirestore.instance.collection('status/');
+    CollectionReference student =
+        FirebaseFirestore.instance.collection('status/');
     return FutureBuilder<DocumentSnapshot>(
         future: student.doc('MBCgykpboKR3gKg3YQ3c').get(),
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+            Map<String, dynamic> data =
+                snapshot.data!.data() as Map<String, dynamic>;
 
             var data1 = data['mes1'];
             return Text('$data1',
-                style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.orange)
-
-            );
+                style: TextStyle(fontSize: 15, color: Colors.orange));
           }
 
-          return Text('',
-              style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.orange));
-        }
+          return Text('', style: TextStyle(fontSize: 20, color: Colors.orange));
+        });
+  }
 
+
+
+  Widget _stroka3() {
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+          margin: const EdgeInsets.only(top: 0, left: 5, right: 5),
+          child: const Text('готово 50%, брак 12%',
+              style: TextStyle(fontSize: 13, color: Colors.black)),
+        ),
+      ],
     );
   }
 
-  Widget _stroka3() {
-    return
-      Row(
-        children: [
-
-          Container(
-            padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
-            margin: const EdgeInsets.only(top: 0, left: 5, right: 5),
-            child: const Text('готово 50%, брак 12%',
-                style: TextStyle(
-                    fontSize: 13, color: Colors.black)),
-          ),
-        ],
-      );
-  }
-
   Widget _stroka4Oper() {
-    return
-      Row(
-        children: [
-
-          Container(
-            padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
-            margin: const EdgeInsets.only(top: 5, left: 5, right: 5),
-            child: const Text('Оператор: Иванов И.И.',
-                style: TextStyle(
-                    fontSize: 13, color: Colors.black)),
-          ),
-        ],
-      );
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+          margin: const EdgeInsets.only(top: 5, left: 5, right: 5),
+          child: const Text('Оператор: Иванов И.И.',
+              style: TextStyle(fontSize: 13, color: Colors.black)),
+        ),
+      ],
+    );
   }
 
   //строка "Заказы в очереди"  itemCount: todoList.length,
   Widget _stroka5Order() {
-    return
-      Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
-            margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
-            child: Text('Заказы в очереди: $countOrder шт.',
-                style: const TextStyle(
-                    fontSize: 18, color: Colors.black)),
-          ),
-        ],
-      );
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+          margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
+          child: Text('Заказы в очереди: $countOrder шт.',
+              style: const TextStyle(fontSize: 18, color: Colors.black)),
+        ),
+      ],
+    );
   }
 
   //строка "Данные по выпуску продукции"
   Widget _stroka6() {
-    return
-      Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
-            margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
-            child: const Text('Данные по выпуску продукции:',
-                style: TextStyle(
-                    fontSize: 18, color: Colors.black)),
-          ),
-        ],
-      );
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+          margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
+          child: const Text('Данные по выпуску продукции:',
+              style: TextStyle(fontSize: 18, color: Colors.black)),
+        ),
+      ],
+    );
   }
 
-  //строка "Заголовок Ремонт машины"
+  //строка "Данные по обслуживанию PL-1"
   Widget _remontTitle() {
-    return
-      Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
-            margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
-            child: const Text('Данные по обслуживанию PL-1:',
-                style: TextStyle(
-                    fontSize: 18, color: Colors.black)),
-          ),
-        ],
-      );
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+          margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
+          child: const Text('Данные по обслуживанию PL-1:',
+              style: TextStyle(fontSize: 18, color: Colors.black)),
+        ),
+      ],
+    );
   }
 
-  //строка информации про последним данным выпуска продукции
+  //строка информации по последним данным выпуска продукции
   Widget _stroka7() {
-    return
-      Row(
-        children: [
-
-          Container(
-            padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
-            margin: const EdgeInsets.only(top: 0, left: 5, right: 5),
-             child: const Expanded(
-              child: Text('Последнее добавление: 128 шт., брак - 15 шт, Время: 15:24, Дата: 21.03.2024 ',
-                style: TextStyle(
-                    fontSize: 13, color: Colors.black,))),
-          ),
-        ],
-      );
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+          margin: const EdgeInsets.only(top: 0, left: 5, right: 5),
+          child: const Expanded(
+              child: Text(
+                  'Последнее добавление: 128 шт., брак - 15 шт, Время: 15:24, Дата: 21.03.2024 ',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: Colors.black,
+                  ))),
+        ),
+      ],
+    );
   }
 
   Widget _itogSmeny() {
-    return
-      Row(
-        children: [
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+          //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
 
-          Container(
-            padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
-            //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
-
-            child: const Text('Итог смены:',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16, color: Colors.red,)),
-          ),
-
-
-        ],
-      );
+          child: const Text('Итог смены:',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                color: Colors.red,
+              )),
+        ),
+      ],
+    );
   }
 
   Widget _addOrder() {
-    return
-      Row(
-        children: [
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+          //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
 
-          Container(
-            padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
-            //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
-
-                child: const Text('Время: 12:00, Дата: 21.03.2024',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14, color: Colors.black,)),
-          ),
-
-
-        ],
-      );
+          child: const Text('Время: 12:00, Дата: 21.03.2024',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+                color: Colors.black,
+              )),
+        ),
+      ],
+    );
   }
 
   Widget _addOrderTime1() {
-    return
-      Row(
-        children: [
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+          //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
 
-          Container(
-            padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
-            //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
-
-            child: const Text('Время: 16:00, Дата: 21.03.2024',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14, color: Colors.black,)),
-          ),
-
-
-        ],
-      );
+          child: const Text('Время: 16:00, Дата: 21.03.2024',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+                color: Colors.black,
+              )),
+        ),
+      ],
+    );
   }
 
   Widget _addOrderTime2() {
-    return
-      Row(
-        children: [
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+          //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
 
-          Container(
-            padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
-            //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
-
-            child: const Text('Время: 20:00, Дата: 21.03.2024',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14, color: Colors.black,)),
-          ),
-
-
-        ],
-      );
+          child: const Text('Время: 20:00, Дата: 21.03.2024',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+                color: Colors.black,
+              )),
+        ),
+      ],
+    );
   }
 
   Widget _addOrderTime3() {
-    return
-      Row(
-        children: [
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+          //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
 
-          Container(
-            padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
-            //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
-
-            child: const Text('Время: 20:00, Дата: 21.03.2024',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14, color: Colors.black,)),
-          ),
-
-
-        ],
-      );
+          child: const Text('Время: 20:00, Дата: 21.03.2024',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+                color: Colors.black,
+              )),
+        ),
+      ],
+    );
   }
 
   Widget _addOrder2() {
-    return
-      Row(
-        children: [
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.only(top: 0, left: 5, right: 5, bottom: 5),
+          //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
 
-          Container(
-            padding: const EdgeInsets.only(top: 0, left: 5, right: 5, bottom: 5),
-            //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
-
-            child: const Text('240 шт., брак 26 шт.',
-                style: TextStyle(
-                  fontSize: 14, color: Colors.black,)),
-          ),
-
-
-        ],
-      );
+          child: const Text('240 шт., брак 26 шт.',
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.black,
+              )),
+        ),
+      ],
+    );
   }
 
   Widget _stroka8() {
-    return
-      Container(
-        padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
-        margin: const EdgeInsets.only(top: 0, left: 5, right: 5),
-        child: Row(
-            textDirection: TextDirection.ltr,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                verticalDirection: VerticalDirection.down,
-                children: <Widget>[
-                  Container(
-                    //padding: EdgeInsets.only(top: 0, left: 5, right: 5),
-                    //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
-                    child: const Expanded(
-                        child: Text('Последнее добавление: 128 шт., брак - 15 шт, Время: 15:24, Дата: 21.03.2024',
-                            style: TextStyle(
-                              fontSize: 13, color: Colors.black,),
-                            textDirection: TextDirection.ltr)
-                    ),
-                  )
-                ]
-
-
-
-        ),
-      );
+    return Container(
+      padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+      margin: const EdgeInsets.only(top: 0, left: 5, right: 5),
+      child: Row(
+          textDirection: TextDirection.ltr,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          verticalDirection: VerticalDirection.down,
+          children: <Widget>[
+            Container(
+              //padding: EdgeInsets.only(top: 0, left: 5, right: 5),
+              //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
+              child: const Expanded(
+                  child: Text(
+                      'Последнее добавление: 128 шт., брак - 15 шт, Время: 15:24, Дата: 21.03.2024',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.black,
+                      ),
+                      textDirection: TextDirection.ltr)),
+            )
+          ]),
+    );
   }
 
   Widget _remontBriefly() {
-    return
-      Container(
-        padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
-        margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
-        child: Row(
-            textDirection: TextDirection.ltr,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            verticalDirection: VerticalDirection.down,
-            children: <Widget>[
-              Container(
-                //padding: EdgeInsets.only(top: 0, left: 5, right: 5),
-                //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
-                child: const Expanded(
-                    child: Text('Время: 15:24, Дата: 21.03.2024, Ремонт машины, тех.обслуживание, просушка сырья. 2 часа',
-                        style: TextStyle(
-                          fontSize: 13, color: Colors.black,),
-                        textDirection: TextDirection.ltr)
-                ),
-              )
-            ]
-
-
-
-        ),
-      );
+    return Container(
+      padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+      margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
+      child: Row(
+          textDirection: TextDirection.ltr,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          verticalDirection: VerticalDirection.down,
+          children: <Widget>[
+            Container(
+              //padding: EdgeInsets.only(top: 0, left: 5, right: 5),
+              //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
+              child: const Expanded(
+                  child: Text(
+                      'Время: 15:24, Дата: 21.03.2024, Ремонт машины, тех.обслуживание, просушка сырья. 2 часа',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.black,
+                      ),
+                      textDirection: TextDirection.ltr)),
+            )
+          ]),
+    );
   }
-
-
-
-
 }

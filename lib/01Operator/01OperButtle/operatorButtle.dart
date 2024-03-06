@@ -1,13 +1,20 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:untitled111/city_pirogovskiy_details/newClass.dart';
+import 'package:flutter/services.dart';
+
 import 'package:untitled111/firebase_options.dart';
 import '../../city_pirogovskiy_details/dimensions.dart';
 
 import 'package:flutter/foundation.dart';
 
+
+
 var _userToDo = '';
+var _kolichestvo = '';
+var _brack = '';
 
 
 class operatorButtle extends StatefulWidget {
@@ -35,7 +42,7 @@ class _operatorButtle extends State<operatorButtle> {
     return Scaffold(
       body: Container(
           margin: const EdgeInsets.only(top: 35, left: 10, right: 10),
-          padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
+          padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
           decoration: BoxDecoration(
               color: Colors.grey[300],
               borderRadius: const BorderRadius.all(Radius.circular(9))),
@@ -43,54 +50,525 @@ class _operatorButtle extends State<operatorButtle> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               returnFirebaseStartSesion(),
-              _text2(), //PL1 и ее состояние
-              _operatorZakaz(), // блок текущего заказа
-              blockZakaz(), // блок списка заказов
-              //read(),
+              _blockStatePL1(), //PL1 и ее состояние
+              _operatorZakaz(),
+              _displayOrderForOperator(),
+
+
             ],
           )),
     );
   }
 
-
-
-  Widget _operatorFutureZakaz() {
-    return Container();
-  }
-
+  // 01 блок текущего заказа
   Widget _operatorZakaz() {
     return Container(
-      padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
-      margin: const EdgeInsets.only(top: 15, left: 5, right: 5),
+      padding: const EdgeInsets.only(top: 15, left: 5, right: 5),
+      margin: const EdgeInsets.only(top: 0, left: 5, right: 5),
       decoration: BoxDecoration(
           color: Colors.grey[400],
           borderRadius: const BorderRadius.all(Radius.circular(9))),
       child: Column(
         children: [
           stroka4(),
-          _stroka3(),
-          _stroka31(),
-          _button04(),
-          Container(
-            child: Text(vRabote1,
-                style: const TextStyle(fontSize: 13, color: Colors.black)),
-          ),
-          Container(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(
-                //minHeight: 50.0,
-                maxHeight: 100.0,
-              ),
-              // child: todoList1(),
-            ),
-          ),
+          _displayOrderInWorkingDisplay(),
+          _buttonAddDataOrder(),
+          _buttoCloseOfer(),
+          _displaySummaDataOrder()
+
         ],
       ),
     );
   }
 
-//чтение данных из FireBase, статус машины
 
+//виджет отображения всего списка заказов, выбор для начала работы над ним
+  Widget _displayOrderForOperator() {
+    return StreamBuilder<QuerySnapshot>(
+      //создание списка из базы данных
+        stream: FirebaseFirestore.instance.collection('zakaznew').snapshots(),
+        builder: (context, snapshot) {
+          var clientWidgets = [];
+          var idList = [];
+          var countindex = [];
+          // List clientWidgets = [];
+          if (snapshot.hasData) {
+            final clients = snapshot.data!.docs.reversed.toList();
+            for (var client in clients) {
+              var _userToDo1 = client['number'];
+              var _userLogo1 = client['logo'];
+              var _userType1 = client['type'];
+              var _userNetto1 = client['netto'];
+              var _userId = client['id'];
+              var docId = client.id;
+              clientWidgets.add('$_userToDo1 шт, лого: $_userLogo1, тип: $_userType1, вес: $_userNetto1'); // список для отображения данных
+              idList.add(docId);
+
+            }
+            for (var count in countindex) {
+              var _count = count;
+
+            }
+          }
+
+          //возвращает вид в виде списка, также удаляет выбранный заказ и перемещает в текущий
+          return Container(
+            width: double.infinity,
+            height: 200,
+            margin: EdgeInsets.only(top: 5, left: 5, right: 5),
+            decoration: BoxDecoration(
+                color: Colors.grey[400],
+                borderRadius: const BorderRadius.all(Radius.circular(9))),
+
+            child: ListView.builder(
+              itemCount: clientWidgets.length,
+              itemBuilder: (BuildContext context, int index) {
+
+                return Column(
+                  children: [
+                    Row(
+
+                      children: <Widget>[
+                        IconButton(
+                            icon: const Icon(Icons.start_outlined),
+
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text('Начать выполнение заказа'),
+                                      //child: ListView(
+                                      content: Container(
+                                        width: double.infinity,
+                                        height: 100,
+                                        child: ListView(
+                                          children: [
+
+                                          ],
+                                        ),
+                                      ),
+                                      // КНОПКА ВНИЗУ У ВСПЛЫВАЮЩЕГО ОКНА
+                                      actions: [
+                                        Row(
+                                          children: [
+                                            ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    fixedSize: const Size(110, 50)
+                                                ),
+                                                onPressed: ()  {
+
+
+                                                  //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text('Нет')),
+                                            ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    fixedSize: const Size(110, 50)
+                                                ),
+                                                onPressed: ()  {
+                                                  setState(() {
+                                                    FirebaseFirestore.instance
+                                                        .collection('variablBlocForOrder')
+                                                        .doc('wOWxatVZnWr2s1kievXV')
+                                                        .update({'number': clientWidgets[index]});
+
+                                                    FirebaseFirestore.instance
+                                                        .collection("zakaznew")
+                                                        .doc(idList[index])
+                                                        .delete();
+                                                  });
+
+                                                  //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text('Да')),
+
+                                          ],
+
+
+                                        ),
+
+                                      ],
+                                      //--------------------------------------
+                                    ); //_dialog диалоговое окно
+                                  });
+
+                            }),
+                       Text(clientWidgets[index]) ,
+
+                      ],
+                    ),
+                    Divider(),
+                  ],
+                );
+              },
+            ),
+          );
+
+        });
+  }
+
+
+  //--- ДИАЛОГОВОЕ ОКНО, изменение статуса состояния машины
+  Widget _confirmStartOrder() {
+    return AlertDialog(
+      title: const Text('Начать выполнение заказа'),
+      //child: ListView(
+      content: ListView(
+        children: [
+
+        ],
+      ),
+      // КНОПКА ВНИЗУ У ВСПЛЫВАЮЩЕГО ОКНА
+      actions: [
+        Row(
+          children: [
+            ElevatedButton(
+                onPressed: ()  {
+                  setState(() {
+
+                  });
+
+                  //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Да')),
+
+          ],
+
+        ),
+
+      ],
+      //--------------------------------------
+    );
+  }
+
+
+  Widget _operatorFutureZakaz() {
+    return Container();
+  }
+
+
+  //01 виджет отображения краткого содержания заказа в блоке текущего выполнения заказа
+  Widget _displayOrderInWorkingDisplay() {
+    return Container(
+        child: Column(
+
+          children: [
+            StreamBuilder<QuerySnapshot>(
+              //создание списка из базы данных
+                stream: FirebaseFirestore.instance.collection('variablBlocForOrder').snapshots(),
+                builder: (context, snapshot) {
+                  var clientWidgets =[];
+                  if (snapshot.hasData) {
+                    final clients = snapshot.data!.docs.reversed.toList();
+                    for (var client in clients) {
+                      var _userToDo1 = client['number'];
+                      clientWidgets.add('$_userToDo1');
+                      // список для отображения данных
+                                  }
+                  }
+                  var fffgg = clientWidgets[0].toString();
+                  List<String> mylist = fffgg.split(' ');
+                  int intVal = int.parse(mylist[0]);
+                  double procent = (int.parse(mylist[0]))/10 ;
+
+                  //int asdf = mylist[0];
+                  //возвращает вид в виде списка
+                  return Container(
+                    alignment: Alignment.topLeft ,
+                    height: 80,
+                    padding:  EdgeInsets.only(top: 0, left: 5, right: 5),
+
+                    child: ListView.builder(
+                      padding: EdgeInsets.zero,
+                      itemCount: 1,
+                      itemBuilder: (BuildContext context, int index) {
+
+                        return Column(
+                          children: [
+                            Container(
+                              alignment: Alignment.topLeft ,
+                              child:Text(clientWidgets[index], style: TextStyle(fontStyle: FontStyle.italic)) ,
+
+                            ),
+                            Container(
+                              height: 1,
+                              color: Colors.grey[600],
+                            ),
+
+                            Container(
+                              alignment: Alignment.topLeft ,
+                              child:Text('Сделано: ${intVal.toString()} шт., ($procent%)') ,
+                            ),
+
+                            Container(
+                              alignment: Alignment.topLeft ,
+                              child:Text('Брак ${intVal.toString()} шт., $procent%') ,
+                            ),
+                            Container(
+                              alignment: Alignment.topLeft ,
+                              child:Text('Осталось сделать: ${intVal.toString()} шт.') ,
+                            ),
+
+                          ],
+                        );
+                      },
+                    ),
+
+                  );
+
+                }),
+          ],
+
+      ),
+    );
+  }
+
+
+  //02 виджет отображения суммы данных по определенному заказу
+  Widget _displaySummaDataOrder() {
+    return Container(
+
+      child: Column(
+
+        children: [
+          StreamBuilder<QuerySnapshot>(
+            //создание списка из базы данных
+              stream: FirebaseFirestore.instance.collection('OrderProgress').snapshots(),
+              builder: (context, snapshot) {
+                var clientWidgets =[];
+                var brackSt =[];
+                int intVal2 = 0;
+                int brackFinish2 = 0;
+                if (snapshot.hasData) {
+                  final clients = snapshot.data!.docs.reversed.toList();
+                  for (var client in clients) {
+                    int intVal1 = 0;
+                    int brackFinish = 0;
+
+                    var _userToDo1 = client['number'];
+                    intVal1 =  int.parse(_userToDo1);
+                    intVal2 = intVal2 + intVal1;
+
+
+                   var _brack2 = client['brack'];
+                    brackFinish =  int.parse(_brack2);
+                    brackFinish2 = brackFinish2 + brackFinish;
+
+
+
+
+
+                    //    /clientWidgets.add(_userToDo1);
+                    //brackSt.add(_brack2);
+
+                    // список для отображения данных
+                  }
+                }
+                //var fffgg = clientWidgets[0].toString();
+                //List<String> mylist = fffgg.split('');
+                //int intVal = int.parse(mylist[0]);
+
+               /* var startBrack =brackSt[0].toString();
+                List<String> mylist2 = startBrack.split('');
+                int brackFinish = int.parse(mylist2[0]);
+
+                */
+
+
+
+
+                return Container(
+                  alignment: Alignment.topLeft ,
+                  height: 80,
+                  padding:  EdgeInsets.only(top: 0, left: 5, right: 5),
+
+                  child: ListView.builder(
+                    padding: EdgeInsets.zero,
+                    itemCount: 1, //clientWidgets.length,
+                    itemBuilder: (BuildContext context, int index) {
+
+                      return Column(
+                        children: [
+                        Container(
+                        alignment: Alignment.topLeft ,
+                        child:Text('Сделано: ${intVal2.toString()}, (${(intVal2/intVal2*100).truncate().toString()}%)') ,
+                      ),
+
+                          Container(
+                            alignment: Alignment.topLeft ,
+                            child:Text('Брак: ${brackFinish2.toString()}, (${(intVal2/intVal2*100).truncate().toString()}%)') ,
+                          ),
+
+
+
+                        ]
+                      );
+
+
+                    },
+                  ),
+
+                );
+
+              }),
+        ],
+
+      ),
+    );
+  }
+
+  //01 кнопка закрыть заказ
+  Widget _buttoCloseOfer() {
+    return ElevatedButton(
+      style: ButtonStyle(
+        textStyle: MaterialStateProperty.all(const TextStyle(fontSize: 15)),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(9.0),
+          ),
+        ),
+      ),
+      onPressed: () {
+
+      },
+      child: const Text(
+        'Закрыть заказ',
+        style: TextStyle(color: Colors.black),
+      ),
+    );
+  }
+
+  //кнопка добавить данные по заказу
+  Widget _buttonAddDataOrder() {
+    return ElevatedButton(
+      style: ButtonStyle(
+        textStyle: MaterialStateProperty.all(const TextStyle(fontSize: 15)),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(9.0),
+          ),
+        ),
+      ),
+      onPressed: () {
+        showDialog(
+            context: context,
+
+            builder: (BuildContext context) {
+              return _button2_DialogAddDataOrder(); //_dialog диалоговое окно
+            });
+      },
+      child: const Text(
+        'Добавить данные по заказу',
+        style: TextStyle(color: Colors.black),
+      ),
+    );
+  }
+
+
+
+  //кнопка2 диалогового окна Добавить данные по заказу
+  Widget _button2_DialogAddDataOrder() {
+    var _controller;
+    return Container(
+      height: 200,
+      child: AlertDialog(
+             shape: RoundedRectangleBorder(
+            borderRadius:
+            BorderRadius.all(
+                Radius.circular(10.0))),
+
+
+        title: const Text('Добавить информацию'),
+        content: Container(
+        height: 150.0, //высота блока
+
+          child: ListView(
+          children: [
+            TextFormField(
+                onChanged: (String value) {
+                  _kolichestvo = value;
+                },
+                controller: _controller,
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  // for below version 2 use this
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+// for version 2 and greater youcan also use this
+                  FilteringTextInputFormatter.digitsOnly
+
+                ],
+                decoration: InputDecoration(
+                    labelText: "Количество бутылей",
+                    //hintText: "whatever you want",
+                    icon: Icon(Icons.opacity)
+                )
+            ),
+
+            TextFormField(
+                onChanged: (String value) {
+                  _brack = value;
+                },
+                controller: _controller,
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  // for below version 2 use this
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+// for version 2 and greater youcan also use this
+                  FilteringTextInputFormatter.digitsOnly
+
+                ],
+                decoration: InputDecoration(
+                    labelText: "Количество брака",
+                    icon: Icon(Icons.delete_rounded)
+                )
+            ),
+
+          ],
+          )
+        ),
+        // КНОПКА ВНИЗУ У ВСПЛЫВАЮЩЕГО ОКНА
+        actions: [
+          Row(
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    ;
+                    //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
+                    Navigator.of(context).pop();
+                    _kolichestvo = '0';
+                    _brack = '0';
+                  },
+                  child: const Text('закрыть')
+              ),
+
+              ElevatedButton(
+                      onPressed: () {
+
+              FirebaseFirestore.instance.collection('OrderProgress').add({
+                'number': _kolichestvo,
+                'brack': _brack,
+              });
+
+                    //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
+                    Navigator.of(context).pop();
+              _kolichestvo = '0';
+              _brack = '0';
+                      },
+                  child: const Text('Отправить')
+              ),
+            ],
+          ),
+
+        ],
+         ),
+    );
+  }
+
+//чтение данных из FireBase, статус машины
   Widget read() {
     CollectionReference student =
         FirebaseFirestore.instance.collection('status');
@@ -136,37 +614,15 @@ class _operatorButtle extends State<operatorButtle> {
         });
   }
 
+  // 01 фраза Текущий заказ
   Widget stroka4() {
     return Row(
       children: [
         Container(
+          //color: Colors.cyan,
           padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
-          child: Text(vRabote1,
-              style: const TextStyle(fontSize: 15, color: Colors.black)),
-        ),
-      ],
-    );
-  }
-
-  Widget _stroka3() {
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
-          child: const Text('готово: 270 шт. (50%)',
-              style: TextStyle(fontSize: 15, color: Colors.black)),
-        ),
-      ],
-    );
-  }
-
-  Widget _stroka31() {
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
-          child: const Text('брак: 27 шт. (12%)',
-              style: TextStyle(fontSize: 15, color: Colors.black)),
+          child: Text('Текущий заказ:',
+              style: const TextStyle(fontSize: 20, color: Colors.black)),
         ),
       ],
     );
@@ -256,32 +712,10 @@ class _operatorButtle extends State<operatorButtle> {
     );
   }
 
-  //кнопка закрыть заказ
-  Widget _button04() {
-    return ElevatedButton(
-      style: ButtonStyle(
-        textStyle: MaterialStateProperty.all(const TextStyle(fontSize: 15)),
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(9.0),
-          ),
-        ),
-      ),
-      onPressed: () {
-        //Navigator.push(context, PageTransition(
-        //    type: PageTransitionType.fade, child: MyTextPage111())
-        // );
-        // Делаем что-нибудь, когда кнопка нажата.
-      },
-      child: const Text(
-        'Закрыть заказ',
-        style: TextStyle(color: Colors.black),
-      ),
-    );
-  }
+
 
   //строка с именем машины, статусом и кнопкой изменения
-  Widget _text2() {
+  Widget _blockStatePL1() {
     return SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
@@ -303,7 +737,7 @@ class _operatorButtle extends State<operatorButtle> {
         ));
   }
 
-  //режим машины
+  //режим машины кнопка
   Widget _button03() {
     return ElevatedButton(
       style: ButtonStyle(
@@ -326,7 +760,7 @@ class _operatorButtle extends State<operatorButtle> {
         // Делаем что-нибудь, когда кнопка нажата.
       },
       child: const Text(
-        'Изменить режим машины',
+        'Изменить',
         style: TextStyle(color: Colors.black),
       ),
     );
@@ -364,7 +798,7 @@ class _operatorButtle extends State<operatorButtle> {
               //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
               Navigator.of(context).pop();
             },
-            child: const Text('Отправить2')),
+            child: const Text('Отправить')),
       ],
       //--------------------------------------
     );
@@ -474,3 +908,5 @@ class _operatorButtle extends State<operatorButtle> {
     );
   }
 }
+
+

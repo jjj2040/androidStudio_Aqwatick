@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:untitled111/01Operator/01OperButtle/clasesGiveDate.dart';
 import 'package:untitled111/firebase_options.dart';
 import 'package:flutter/foundation.dart';
 import 'dimensions.dart';
@@ -39,10 +40,15 @@ class MyTextPage111 extends StatefulWidget {
 
 class _MyTextPage111State extends State<MyTextPage111> {
   @override
+
   void initFirebase() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
   }
+
+
+
+
 
   void initFireBase() async {
     await Firebase.initializeApp(
@@ -138,7 +144,9 @@ class _MyTextPage111State extends State<MyTextPage111> {
                             children: [
                               _remontTitle(),
                               _remontBriefly(),
-                              _buttonOrder2()
+                              _buttonOrder2(),
+                              outMetod(),
+
                             ],
                           ),
                         ),
@@ -153,6 +161,9 @@ class _MyTextPage111State extends State<MyTextPage111> {
       ),
     );
   }
+
+
+
 
   final int _qqq = 0;
 
@@ -172,6 +183,9 @@ class _MyTextPage111State extends State<MyTextPage111> {
       ),
     );
   }
+
+
+
 
 // Блок добавления и вывода заказов
 
@@ -621,21 +635,23 @@ class _MyTextPage111State extends State<MyTextPage111> {
   //чтение данных из FireBase, статус машины
   Widget read() {
     CollectionReference student =
-        FirebaseFirestore.instance.collection('status/');
+        FirebaseFirestore.instance.collection('status');
     return FutureBuilder<DocumentSnapshot>(
         future: student.doc('MBCgykpboKR3gKg3YQ3c').get(),
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            Map<String, dynamic> data =
-                snapshot.data!.data() as Map<String, dynamic>;
+           Map<String, dynamic> data =
+           snapshot.data!.data() as Map<String, dynamic>;
+           //-   ??{'mes1': "Tom1111"}) - эта часть возвращается если получает null.
+           // До этого было- snapshot.data!.data() as Map<String, dynamic>;
+                 var data1 = data['mes1'];
 
-            var data1 = data['mes1'];
             return Text('$data1',
                 style: TextStyle(fontSize: 15, color: Colors.orange));
           }
 
-          return Text('', style: TextStyle(fontSize: 20, color: Colors.orange));
+          return Text('Процесс загрузки...', style: TextStyle(fontSize: 20, color: Colors.orange));
         });
   }
 
@@ -885,3 +901,5 @@ class _MyTextPage111State extends State<MyTextPage111> {
     );
   }
 }
+
+

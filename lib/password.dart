@@ -152,7 +152,7 @@ class Password extends StatelessWidget {
                 child: Center(
                     child: ElevatedButton(onPressed: (){
                       //Navigator.push(context, MaterialPageRoute(builder: (context) => BottomNavBar())
-                      Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: const operatorButtle())
+                      Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: const OperatorButtle())
                       );
 
                     },

@@ -1,12 +1,19 @@
 import 'dart:math';
 
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
+import 'package:untitled111/01Operator/01OperButtle/buttons.dart';
 import 'package:untitled111/01Operator/01OperButtle/clasesGiveDate.dart';
+import 'package:untitled111/01Operator/01OperButtle/forNull.dart';
+import 'package:untitled111/city_pirogovskiy_details/serviceMashine.dart';
+import 'package:untitled111/data/nameOperator.dart';
+
 
 import 'package:untitled111/firebase_options.dart';
+import 'package:untitled111/style/words.dart';
 import '../../city_pirogovskiy_details/dimensions.dart';
 
 import 'package:flutter/foundation.dart';
@@ -19,13 +26,13 @@ var _brack = '';
 
 
 
-class operatorButtle extends StatefulWidget {
-  const operatorButtle({super.key});
+class OperatorButtle extends StatefulWidget {
+  const OperatorButtle({super.key});
   @override
-  State<operatorButtle> createState() => _operatorButtle();
+  State<OperatorButtle> createState() => _OperatorButtle();
 }
 
-class _operatorButtle extends State<operatorButtle> {
+class _OperatorButtle extends State<OperatorButtle> {
 
   void initFireBase() async {
     await Firebase.initializeApp(
@@ -51,12 +58,15 @@ class _operatorButtle extends State<operatorButtle> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
+
               returnFirebaseStartSesion(),
               _blockStatePL1(), //PL1 и ее состояние
-              _operatorZakaz(),
-              _displayOrderForOperator(),
-              outMetod(),
-              
+              operatorZakaz(),
+              displayOrderForOperator(),
+              //ServiceMashine().remontTitle1(),
+              //ServiceMashine().buttonAddService2(),
+
+
               
 
             ],
@@ -67,7 +77,7 @@ class _operatorButtle extends State<operatorButtle> {
 
 
   // 01 блок текущего заказа
-  Widget _operatorZakaz() {
+  Widget operatorZakaz() {
     return Container(
       padding: const EdgeInsets.only(top: 15, left: 5, right: 5),
       margin: const EdgeInsets.only(top: 0, left: 5, right: 5),
@@ -77,21 +87,30 @@ class _operatorButtle extends State<operatorButtle> {
       child: Column(
         children: [
           stroka4(),
-          outMatodBaseOrderForOperator(),
+          //FirstIntOrder().firstIntOrder(),
+          //jobNow(),
+          (GiveOrderForOperator().giveBaseOrderForOperator()) ?? (forNull()), //заказ сколько надо сделать
+          displaySummaDataOrder(), // сделано и брак
           _buttonAddDataOrder(),
           _buttoCloseOfer(),
-          _displaySummaDataOrder()
+          //timeres(),
+          //timeOut222(),
+
 
         ],
       ),
     );
   }
+
+
+
+
 //
 //виджет отображения всего списка заказов, выбор для начала работы над ним
-  Widget _displayOrderForOperator() {
+  Widget displayOrderForOperator() {
     return StreamBuilder<QuerySnapshot>(
       //создание списка из базы данных
-        stream: FirebaseFirestore.instance.collection('zakaznew').snapshots(),
+        stream: FirebaseFirestore.instance.collection(zakazNew).snapshots(),
         builder: (context, snapshot) {
           var clientWidgets = [];
           var idList = [];
@@ -104,6 +123,7 @@ class _operatorButtle extends State<operatorButtle> {
               var _userLogo1 = client['logo'];
               var _userType1 = client['type'];
               var _userNetto1 = client['netto'];
+              var datePublishet ;
               var _userId = client['id'];
               var docId = client.id;
               clientWidgets.add(
@@ -122,7 +142,7 @@ class _operatorButtle extends State<operatorButtle> {
           return Container(
             width: double.infinity,
             height: 200,
-            margin: EdgeInsets.only(top: 5, left: 5, right: 5),
+            margin: EdgeInsets.only(top: 2, left: 5, right: 5),
             decoration: BoxDecoration(
                 color: Colors.grey[400],
                 borderRadius: const BorderRadius.all(Radius.circular(9))),
@@ -219,7 +239,7 @@ class _operatorButtle extends State<operatorButtle> {
   }
 
 
-  //--- ДИАЛОГОВОЕ ОКНО, изменение статуса состояния машины
+  //--- ДИАЛОГОВОЕ ОКНО, выполнение заказа
   Widget _confirmStartOrder() {
     return AlertDialog(
       title: const Text('Начать выполнение заказа'),
@@ -239,7 +259,7 @@ class _operatorButtle extends State<operatorButtle> {
                   });
 
                   //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
-                  Navigator.of(context).pop();
+                  Navigator.of(context as BuildContext).pop();
                 },
                 child: const Text('Да')),
 
@@ -253,13 +273,10 @@ class _operatorButtle extends State<operatorButtle> {
   }
 
 
-  Widget _operatorFutureZakaz() {
-    return Container();
-  }
 
 
    //02 виджет отображения суммы данных по определенному заказу
-  Widget _displaySummaDataOrder() {
+  Widget displaySummaDataOrder() {
     return Container(
 
       child: Column(
@@ -289,48 +306,44 @@ class _operatorButtle extends State<operatorButtle> {
                     brackFinish = int.parse(_brack2);
                     brackFinish2 = brackFinish2 + brackFinish;
 
-
-                    //    /clientWidgets.add(_userToDo1);
-                    //brackSt.add(_brack2);
-
-                    // список для отображения данных
                   }
                 }
-                //var fffgg = clientWidgets[0].toString();
-                //List<String> mylist = fffgg.split('');
-                //int intVal = int.parse(mylist[0]);
+                //FirstIntOrder intwert = FirstIntOrder();
+                // intwert2 = int.parse(intwert.firstIntOrder());
 
-                /* var startBrack =brackSt[0].toString();
-                List<String> mylist2 = startBrack.split('');
-                int brackFinish = int.parse(mylist2[0]);
+                //int intVal = int.parse(mylist[0]); //переменная первого числа - количества бут.
 
-                */
 
 
                 return Container(
                   alignment: Alignment.topLeft,
-                  height: 80,
+                  height: 45,
                   padding: EdgeInsets.only(top: 0, left: 5, right: 5),
 
                   child: ListView.builder(
                     padding: EdgeInsets.zero,
                     itemCount: 1, //clientWidgets.length,
                     itemBuilder: (BuildContext context, int index) {
+
                       return Column(
                           children: [
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
-                                  'Сделано: ${intVal2.toString()}, (${(intVal2 /
-                                      intVal2 * 100).truncate().toString()}%)'),
+                                  'Сделано: ${intVal2.toString()} шт.'),
                             ),
 
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text('Брак: ${brackFinish2
-                                  .toString()}, (${(intVal2 / intVal2 * 100)
-                                  .truncate()
-                                  .toString()}%)'),
+                                  .toString()} шт.'),
+
+                                /*('Брак: ${brackFinish2
+                                    .toString()}, (${(intVal2 / intVal2 * 100)
+                                    .truncate()
+                                    .toString()}%)')
+
+                                 */
                             ),
 
 
@@ -358,9 +371,67 @@ class _operatorButtle extends State<operatorButtle> {
           ),
         ),
       ),
-      onPressed: () {
+      onPressed: () async {
+
+
+        var collection = FirebaseFirestore.instance.collection('OrderProgress');
+        var snapshots = await collection.get();
+        for (var doc in snapshots.docs) {
+          await doc.reference.delete();
+        }
+
+       /*
+        var collection1 = FirebaseFirestore.instance.collection('variablBlocForOrder');
+        var snapshots1 = await collection1.get();
+        for (var doc in snapshots1.docs) {
+          await doc.reference.delete();
+        }
+
+        */
+
+
+
+        FirebaseFirestore.instance
+            .collection(
+            'variablBlocForOrder')
+            .doc(
+            'wOWxatVZnWr2s1kievXV')
+            .update({
+          'number': 'Нет выбранного заказа',
+          'brack': '0'
+        });
+
+
+
+
+
+
+/*
+        var kolichestvo ='111';
+        var brack ='111';
+
+        FirebaseFirestore.instance.collection('variablBlocForOrder').doc(
+            'wOWxatVZnWr2s1kievXV').add({
+          'number': kolichestvo,
+          'brack': brack,
+        });
+ */
+
+/*
+     FirebaseFirestore.instance
+            .collection(
+            'variablBlocForOrder')
+            .doc(
+            'wOWxatVZnWr2s1kievXV')
+            .update({'number': kolichestvo,
+                    'brack': brack,
+        });
+ */
+
 
       },
+
+
       child: const Text(
         'Закрыть заказ',
         style: TextStyle(color: Colors.black),
@@ -395,9 +466,13 @@ class _operatorButtle extends State<operatorButtle> {
   }
 
 
+  final buttonNo= new ButtonNo();
+
   //кнопка2 диалогового окна Добавить данные по заказу
   Widget _button2_DialogAddDataOrder() {
     var _controller;
+    _kolichestvo = '0';
+    _brack = '0';
     return Container(
       height: 200,
       child: AlertDialog(
@@ -459,11 +534,13 @@ class _operatorButtle extends State<operatorButtle> {
         actions: [
           Row(
             children: [
+
+
               ElevatedButton(
                   onPressed: () {
-                    ;
+
                     //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
-                    Navigator.of(context).pop();
+                    Navigator.of(context as BuildContext).pop();
                     _kolichestvo = '0';
                     _brack = '0';
                   },
@@ -478,7 +555,7 @@ class _operatorButtle extends State<operatorButtle> {
                     });
 
                     //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
-                    Navigator.of(context).pop();
+                    Navigator.of(context as BuildContext).pop();
                     _kolichestvo = '0';
                     _brack = '0';
                   },
@@ -492,51 +569,8 @@ class _operatorButtle extends State<operatorButtle> {
     );
   }
 
-//чтение данных из FireBase, статус машины
-  Widget read() {
-    CollectionReference student =
-    FirebaseFirestore.instance.collection('status');
-    return FutureBuilder<DocumentSnapshot>(
-        future: student.doc('MBCgykpboKR3gKg3YQ3c').get(),
-        builder:
-            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            Map<String, dynamic> data =
-            snapshot.data!.data() as Map<String, dynamic>;
 
-            var data1 = data['mes1'];
-            return Text('$data1',
-                style: TextStyle(fontSize: 15, color: Colors.orange));
-          }
 
-          return Text('', style: TextStyle(fontSize: 20, color: Colors.orange));
-        });
-  }
-
-  Widget read3() {
-    return StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('01').snapshots(),
-        builder: (context, snapshot) {
-          List<Row> clientWidgets = [];
-          if (snapshot.hasData) {
-            final clients = snapshot.data!.docs.reversed.toList();
-            for (var client in clients) {
-              final clientWidget = Row(
-                children: [
-                  Text(client['mes1']),
-                ],
-              );
-              clientWidgets.add(clientWidget);
-            }
-          }
-
-          return Expanded(
-            child: ListView(
-              children: clientWidgets,
-            ),
-          );
-        });
-  }
 
   // 01 фраза Текущий заказ
   Widget stroka4() {
@@ -555,7 +589,7 @@ class _operatorButtle extends State<operatorButtle> {
   //возвращает одну из кнопок: начать смену или закончить смену
   Widget returnFirebaseStartSesion() {
     CollectionReference student =
-    FirebaseFirestore.instance.collection('SesionStart');
+    FirebaseFirestore.instance.collection(sesionStart);
     return FutureBuilder<DocumentSnapshot>(
         future: student.doc('UtywjetxVdPDmV0E0TcF').get(),
         builder:
@@ -651,7 +685,7 @@ class _operatorButtle extends State<operatorButtle> {
             Container(
               padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
             ),
-            read(), //вывод статуса машины
+            GiveDataMashine().giveDataStatus(), //вывод статуса машины
             Container(
               padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
             ),
@@ -719,7 +753,7 @@ class _operatorButtle extends State<operatorButtle> {
               //FirebaseFirestore.instance.collection('/status').doc('MBCgykpboKR3gKg3YQ3c').add({'mes1': '$_userToDo'});
 
               //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
-              Navigator.of(context).pop();
+              Navigator.of(context as BuildContext).pop();
             },
             child: const Text('Отправить')),
       ],
@@ -770,7 +804,7 @@ class _operatorButtle extends State<operatorButtle> {
         return Dismissible(
           key: Key(todoList1[index]),
           child: SizedBox(
-            height: 45,
+            height: 15,
             child: Card(
               color: Colors.grey[300],
               child: ListTile(
@@ -834,4 +868,6 @@ class _operatorButtle extends State<operatorButtle> {
 
 
 }
+
+
 

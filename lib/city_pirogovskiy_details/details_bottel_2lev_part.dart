@@ -4,9 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:untitled111/01Operator/01OperButtle/clasesGiveDate.dart';
+import 'package:untitled111/01Operator/01OperButtle/forNull.dart';
+import 'package:untitled111/01Operator/01OperButtle/list.dart';
+import 'package:untitled111/01Operator/01OperButtle/serviceMashine.dart';
+import 'package:untitled111/data/dataPartOrder.dart';
+import 'package:untitled111/data/nameOperator.dart';
 import 'package:untitled111/firebase_options.dart';
 import 'package:flutter/foundation.dart';
+import 'package:untitled111/func/funcData.dart';
 import 'dimensions.dart';
+import 'serviceMashine.dart';
+import 'package:intl/intl.dart';
 
 
 
@@ -35,20 +43,16 @@ class MyTextPage111 extends StatefulWidget {
   const MyTextPage111({super.key});
 
   @override
-  State<MyTextPage111> createState() => _MyTextPage111State();
+  State<MyTextPage111> createState() => MyTextPage111State();
 }
 
-class _MyTextPage111State extends State<MyTextPage111> {
+class MyTextPage111State extends State<MyTextPage111> {
   @override
 
   void initFirebase() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
   }
-
-
-
-
 
   void initFireBase() async {
     await Firebase.initializeApp(
@@ -101,12 +105,10 @@ class _MyTextPage111State extends State<MyTextPage111> {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(9))),
                     child: Column(
-                      //mainAxisAlignment: MainAxisAlignment.center,
-                      //mainAxisSize: MainAxisSize.max,
-                      //  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
                       children: [
                         //строка с названием машины
-                        _stroka1(),
+                        readStatus(),
 
                         //фраза 'Данные по выпуску продукции'
                         Container(
@@ -121,10 +123,10 @@ class _MyTextPage111State extends State<MyTextPage111> {
                           child: Column(
                             children: [
                               _stroka6(),
-                              _stroka4Oper(),
-                              stroka2(),
-                              _stroka8(),
-                              _stroka3(), // процент готовой продукции
+                              nameOperator11(),
+                              orderNow(),
+                              GiveOrderForOperator().giveBaseOrderForOperator() , //заказ сколько надо сделать
+                              displaySummaDataOrder11(), // сделано и брак
 
                               _buttonOrder2()
                             ],
@@ -133,6 +135,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
 
                         // Блок добавления и вывода заказов
                         blockZakaz(),
+                        //ServiceMashine().remontTitle1(),
 
                         //блок по записи ремонтных работ с машиной
                         Container(
@@ -143,9 +146,10 @@ class _MyTextPage111State extends State<MyTextPage111> {
                           child: Column(
                             children: [
                               _remontTitle(),
-                              _remontBriefly(),
-                              _buttonOrder2(),
-                              outMetod(),
+                              buttonServiceAdd(),
+                              buttonServiceRead()
+                              //buttonServiceMashine1(),
+                              //GiveDataMashine().giveDataStatus(),
 
                             ],
                           ),
@@ -155,37 +159,12 @@ class _MyTextPage111State extends State<MyTextPage111> {
                       ],
                     )),
 
-                //ПРОБНЫЙ ПУСТОЙ БЛОК ДЛЯ ВЫВОДА ЛИСТ ВЬЮ
+
               ]),
         ),
       ),
     );
   }
-
-
-
-
-  final int _qqq = 0;
-
-  Widget _list3() {
-    return Scrollbar(
-      child: ListView(
-        children: [
-          // Text(todoList1[_count1()]),
-          Text(todoList1.first),
-          Text(todoList1[0]),
-          Text(todoList1[1]),
-          Text(todoList1[2]),
-          Text(todoList1.last),
-          Text(todoList1.last),
-          Text(todoList1[_aa - 3]),
-        ],
-      ),
-    );
-  }
-
-
-
 
 // Блок добавления и вывода заказов
 
@@ -265,7 +244,9 @@ class _MyTextPage111State extends State<MyTextPage111> {
           // List clientWidgets = [];
           if (snapshot.hasData) {
             final clients = snapshot.data!.docs.reversed.toList();
+
             for (var client in clients) {
+              int timeLine1 = client['timeLine'];
               var _userToDo1 = client['number'];
               var _userLogo1 = client['logo'];
               var _userType1 = client['type'];
@@ -273,10 +254,12 @@ class _MyTextPage111State extends State<MyTextPage111> {
               var _userId = client['id'];
               var docId = client.id;
               clientWidgets.add(
-                  '- $_userToDo1, $_userLogo1, $_userType1,  $_userNetto1'); // список для отображения данных
+                  '$timeLine1- $_userToDo1, $_userLogo1, $_userType1,  $_userNetto1'); // список для отображения данных
               idList.add(
                   docId); // список для id, потом по этому id происходит удаление.
             }
+
+
             for (var count in countindex) {
               var _count = count;
             }
@@ -341,7 +324,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return _dialog1(); //_dialog диалоговое окно
+                    return dialog(); //_dialog диалоговое окно
                   });
             },
             child: const Text(
@@ -406,7 +389,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return _dialog(); //_dialog диалоговое окно добавление нового заказа менеджером
+                    return dialog(); //_dialog диалоговое окно добавление нового заказа менеджером
                   });
             },
             child: const Text(
@@ -419,68 +402,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
     );
   }
 
-  //--- ДИАЛОГОВОЕ ОКНО, ПОДРОБНО ПРО ВЫПУСК ПРОДУКЦИИ
-  Widget _dialog1() {
-    return AlertDialog(
-      title: const Text('Выпуск продукции'),
-      //child: ListView(
-      content: ListView(
-        children: [
-          _itogSmeny(),
-          _addOrderTime3(),
-          _stroka4Oper(),
-          _addOrder2(),
-          _strokaDialogWindowOrder(),
-          _stroka3(),
-          _stroka__(),
-          //--------
-          _addOrderTime3(),
-          _stroka4Oper(),
-          _addOrder2(),
-          _strokaDialogWindowOrder(),
-          _stroka3(),
-          _stroka__(),
-          //---------
-          _addOrderTime1(),
-          _stroka4Oper(),
-          _addOrder2(),
-          _strokaDialogWindowOrder(),
-          _stroka3(),
-          _stroka__(),
-          //---------
 
-          _addOrder(),
-          _stroka4Oper(),
-          _addOrder2(),
-          _strokaDialogWindowOrder(),
-          _stroka3(),
-          _stroka__(),
-          //---------
-        ],
-      ),
-      // КНОПКА ВНИЗУ У ВСПЛЫВАЮЩЕГО ОКНА
-      actions: [
-        ElevatedButton(
-            onPressed: () {
-              //setState(() {
-              //if (_userToDo != '') {
-              //todoList1.add(
-              //    '- $_userToDo, $_userLogo, $_userType, $_userNetto');
-              // } else {
-
-              // }
-
-              //}
-              // );
-
-              //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
-              Navigator.of(context).pop();
-            },
-            child: const Text('Закрытm')),
-      ],
-      //--------------------------------------
-    );
-  }
 
 // 2ое диалоговое окно, информация вывод текста
   Widget _strokaDialogWindowOrder() {
@@ -490,7 +412,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
   }
 
   //--- ДИАЛОГОВОЕ ОКНО ДОБАВЛЕНИЕ ЗАКАЗА
-  Widget _dialog() {
+  Widget dialog() {
     return AlertDialog(
       title: const Text('Добавление заказа'),
 
@@ -543,12 +465,18 @@ class _MyTextPage111State extends State<MyTextPage111> {
                   intValue2.toString() +
                   intValue22.toString();
 
+              var timeNow = DateTime.now();
+              var timeNowString = timeres111();
+
+
               FirebaseFirestore.instance.collection('zakaznew').add({
                 'number': _userToDo,
                 'logo': _userLogo,
                 'type': _userType,
                 'netto': _userNetto,
                 'id': intValue3,
+                'time': timeNow,
+                'timeLine': timeNowString,
               });
 
               //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
@@ -618,70 +546,6 @@ class _MyTextPage111State extends State<MyTextPage111> {
     );
   }
 
-  Widget _stroka1() {
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
-          child: const Text('PL-1:',
-              style: TextStyle(fontSize: 20, color: Colors.red)),
-        ),
-        read(),
-
-      ],
-    );
-  }
-
-  //чтение данных из FireBase, статус машины
-  Widget read() {
-    CollectionReference student =
-        FirebaseFirestore.instance.collection('status');
-    return FutureBuilder<DocumentSnapshot>(
-        future: student.doc('MBCgykpboKR3gKg3YQ3c').get(),
-        builder:
-            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-           Map<String, dynamic> data =
-           snapshot.data!.data() as Map<String, dynamic>;
-           //-   ??{'mes1': "Tom1111"}) - эта часть возвращается если получает null.
-           // До этого было- snapshot.data!.data() as Map<String, dynamic>;
-                 var data1 = data['mes1'];
-
-            return Text('$data1',
-                style: TextStyle(fontSize: 15, color: Colors.orange));
-          }
-
-          return Text('Процесс загрузки...', style: TextStyle(fontSize: 20, color: Colors.orange));
-        });
-  }
-
-
-
-  Widget _stroka3() {
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
-          margin: const EdgeInsets.only(top: 0, left: 5, right: 5),
-          child: const Text('готово 50%, брак 12%',
-              style: TextStyle(fontSize: 13, color: Colors.black)),
-        ),
-      ],
-    );
-  }
-
-  Widget _stroka4Oper() {
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
-          margin: const EdgeInsets.only(top: 5, left: 5, right: 5),
-          child: const Text('Оператор: Иванов И.И.',
-              style: TextStyle(fontSize: 13, color: Colors.black)),
-        ),
-      ],
-    );
-  }
 
   //строка "Заказы в очереди"  itemCount: todoList.length,
   Widget _stroka5Order() {
@@ -690,7 +554,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
         Container(
           padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
           margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
-          child: Text('Заказы в очереди: $countOrder шт.',
+          child: Text('$orderInLine: $countOrder шт.',
               style: const TextStyle(fontSize: 18, color: Colors.black)),
         ),
       ],
@@ -704,7 +568,7 @@ class _MyTextPage111State extends State<MyTextPage111> {
         Container(
           padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
           margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
-          child: const Text('Данные по выпуску продукции:',
+          child: const Text('Данные по выпуску продукции: ',
               style: TextStyle(fontSize: 18, color: Colors.black)),
         ),
       ],
@@ -851,55 +715,286 @@ class _MyTextPage111State extends State<MyTextPage111> {
     );
   }
 
-  Widget _stroka8() {
+
+
+
+  // КНОПКА 'Добавить инф по сервису
+  Widget buttonServiceAdd() {
     return Container(
-      padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
-      margin: const EdgeInsets.only(top: 0, left: 5, right: 5),
+      margin: const EdgeInsets.only(left: 10.0, top: 2.0, bottom: 2.0),
       child: Row(
-          textDirection: TextDirection.ltr,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          verticalDirection: VerticalDirection.down,
-          children: <Widget>[
-            Container(
-              //padding: EdgeInsets.only(top: 0, left: 5, right: 5),
-              //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
-              child: const Expanded(
-                  child: Text(
-                      'Последнее добавление: 128 шт., брак - 15 шт, Время: 15:24, Дата: 21.03.2024',
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.black,
-                      ),
-                      textDirection: TextDirection.ltr)),
-            )
-          ]),
+        children: [
+          Container(
+            //width: double.infinity,
+            child: ElevatedButton(
+              style: ButtonStyle(
+                  textStyle:
+                  MaterialStateProperty.all(const TextStyle(fontSize: 20)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(9.0),
+                          side: const BorderSide(color: Colors.black12)))),
+              onPressed: () {
+                // ВСПЛЫВАЮЩЕЕ ОКНО ДЛЯ ВНЕСЕНИЯ ДАННЫХ
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return dataServiceAdd(); //_dialog диалоговое окно
+                    });
+              },
+              child: const Text(
+                'Добавить информацию',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 
-  Widget _remontBriefly() {
-    return Container(
-      padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
-      margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
-      child: Row(
-          textDirection: TextDirection.ltr,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          verticalDirection: VerticalDirection.down,
-          children: <Widget>[
-            Container(
-              //padding: EdgeInsets.only(top: 0, left: 5, right: 5),
-              //margin: EdgeInsets.only(top: 10, left: 5, right: 5),
-              child: const Expanded(
-                  child: Text(
-                      'Время: 15:24, Дата: 21.03.2024, Ремонт машины, тех.обслуживание, просушка сырья. 2 часа',
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.black,
-                      ),
-                      textDirection: TextDirection.ltr)),
-            )
-          ]),
+  Widget dataServiceAdd() {
+    return AlertDialog(
+      backgroundColor: Colors.orange,
+      title: const Text('Ремонт и обслуживании'),
+      content: TextFormField(
+        decoration: const InputDecoration(
+          icon: Icon(Icons.medical_services),
+          //hintText: 'Какие работы проводились?',
+          labelText: 'Добавить информацию',
+        ),
+        minLines: 1,
+        maxLines: 5,
+        onChanged: (String value) {
+          _userToDo = value;
+        },
+        //decoration: const InputDecoration(hintText: "Количество"),
+        textAlign: TextAlign.center,
+      ),
+
+      actions: [
+        Container(
+          width: double.infinity,
+          child: ElevatedButton(
+              onPressed: () {
+
+                var timeNow = DateTime.now();
+                var timeNowString = timeres111();
+                final mark = DateTime.timestamp();
+
+                //var operator = '';
+
+
+                String timestamp;
+                DateTime now = DateTime.now();
+                String formatDate = DateFormat('Дата: yyyy-MM-dd \n Время: kk:mm').format(now);
+                timestamp = formatDate;
+
+                FirebaseFirestore.instance.collection('/service').add({
+                 //'timestamp':DateTime.now,
+
+                  'number': _userToDo,
+                  //'time': timeNow,
+                  //'timeLine': timeNowString,
+                  'time11' : timestamp,
+                  'operator' : nameOperator,
+                });
+
+                //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
+                Navigator.of(context).pop();
+                _userToDo = '';
+
+              },
+              child: const Text('ОТПРАВИТЬ22')),
+        ),
+      ],
     );
   }
+
+
+  // КНОПКА 'читать инф ПО сервису
+  Widget buttonServiceRead() {
+    return Container(
+      width: double.maxFinite,
+      margin: const EdgeInsets.only(left: 10.0, top: 10.0, bottom: 10.0),
+      child: Row(
+        children: [
+          ElevatedButton(
+            style: ButtonStyle(
+                textStyle:
+                MaterialStateProperty.all(const TextStyle(fontSize: 20)),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(9.0),
+                        side: const BorderSide(color: Colors.black12)))),
+            onPressed: () {
+              // ВСПЛЫВАЮЩЕЕ ОКНО ДЛЯ ВНЕСЕНИЯ ДАННЫХ
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return dataServiceRead(); //_dialog диалоговое окно
+                  });
+            },
+            child: const Text(
+              'Все записи',
+              style: TextStyle(color: Colors.black),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget dataServiceRead() {
+    return AlertDialog(
+      backgroundColor: Colors.orange,
+      title: const Text('Ремонт и обслуживании'),
+      content:
+      dataServiceList22(),
+
+      actions: [
+        Container(
+          width: double.infinity,
+          child: ElevatedButton(
+              onPressed: () {
+
+                var timeNow = DateTime.now();
+                var timeNowString = timeres111();
+
+                //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
+                Navigator.of(context).pop();
+                _userToDo = '';
+
+              },
+              child: const Text('закрыть')),
+        ),
+      ],
+    );
+  }
+
+  // микс, отображение обслуживание машины из базы данных
+  Widget dataServiceList() {
+    return StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('/service').snapshots(),
+        builder: (context, snapshot) {
+          var clientWidgets = [];
+          var idList = [];
+          var countindex = [];
+          // List clientWidgets = [];
+          if (snapshot.hasData) {
+            final clients = snapshot.data!.docs.reversed.toList();
+
+            for (var client in clients) {
+              int timeLine1 = client['timeLine'];
+              var _userToDo1 = client['number'];
+              var _userLogo1 = client['time'];
+
+              var docId = client.id;
+              clientWidgets.add(
+                  '$timeLine1- $_userToDo1, $_userLogo1, $timeLine1'); // список для отображения данных
+              idList.add(
+                  docId); // список для id, потом по этому id происходит удаление.
+            }
+
+
+            for (var count in countindex) {
+              var _count = count;
+            }
+          }
+
+          return ListView.separated(
+            itemCount: clientWidgets.length,
+            separatorBuilder: (BuildContext context, int index) {
+              return const SizedBox(height: height2);
+            },
+            itemBuilder: (BuildContext context, int index) {
+              return ListView(
+                key: Key(clientWidgets[index]),
+                prototypeItem: Container(
+                  margin: const EdgeInsets.only(
+                      left: 5.0, right: 5.0, top: 2.0, bottom: 2.0),
+                  //padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+
+                  //height: 45,
+
+                  child: Card(
+                    margin: const EdgeInsets.only(
+                        left: 1.0, right: 1.0, top: 1.0, bottom: 1.0),
+                    //padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+                    color: Colors.grey[300],
+                    child: ListTile(
+                      title: Text(clientWidgets[index]),
+                    ),
+                  ),
+                ),
+
+              );
+            },
+          );
+        });
+  }
+
+  Widget dataServiceList22() {
+    return StreamBuilder<QuerySnapshot>(
+      //создание списка из базы данных
+        stream: FirebaseFirestore.instance.collection('/service').snapshots(),
+        builder: (context, snapshot) {
+          var clientWidgets = [];
+          var idList = [];
+          var countindex = [];
+
+          // List clientWidgets = [];
+          if (snapshot.hasData) {
+            final clients = snapshot.data!.docs.reversed.toList();
+            for (var client in clients) {
+              String timeLine1 = client['time11'];
+              var _userToDo1 = client['number'];
+              var _operatorName = client['operator'];
+              //var time11 = client['time11'];
+
+              var docId = client.id;
+              clientWidgets.add(
+                  '$timeLine1 \n $_userToDo1 \n оператор: $_operatorName'); // список для отображения данных
+              idList.add(docId);
+            }
+            for (var count in countindex) {
+              var _count = count;
+            }
+          }else{
+            return Text('Процесс загрузки...',
+                style: TextStyle(fontSize: 20, color: Colors.orange));
+          }
+
+          //возвращает вид в виде списка, также удаляет выбранный заказ и перемещает в текущий
+          return Container(
+            width: double.infinity,
+            //height: 200,
+            margin: EdgeInsets.only(top: 2, left: 2, right: 2),
+            decoration: BoxDecoration(
+                color: Colors.grey[400],
+                borderRadius: const BorderRadius.all(Radius.circular(9))),
+
+            child: ListView.builder(
+              itemCount: clientWidgets.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Column(
+                  children: [
+                    Container(
+                        margin: const EdgeInsets.only(top: 5, left: 5, right: 15),
+                        child: Text(clientWidgets[index],
+                    )),
+                    Container(
+                      height: 2,
+                      color: Colors.orange[600],
+                    )
+                  ],
+                );
+              },
+            ),
+          );
+        });
+  }
 }
+
 
 

@@ -32,6 +32,8 @@ class GiveDataMashine {
   }
 }
 
+
+
 //вывод числа
 class FirstIntOrder {
   CollectionReference student = FirebaseFirestore.instance.collection('variablBlocForOrder');

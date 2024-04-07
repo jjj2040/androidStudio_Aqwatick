@@ -14,7 +14,7 @@ class ButtonNo{
         onPressed: () {
           //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
 
-         // Navigator.of(context).pop();
+         //Navigator.of(context).pop();
         },
         child: const Text('Нет'));
   }

@@ -5,14 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:untitled111/01Operator/01OperButtle/buttons.dart';
 import 'package:untitled111/01Operator/01OperButtle/clasesGiveDate.dart';
 import 'package:untitled111/01Operator/01OperButtle/forNull.dart';
+import 'package:untitled111/city_pirogovskiy_details/details_bottel_2lev_part.dart';
 import 'package:untitled111/city_pirogovskiy_details/serviceMashine.dart';
-import 'package:untitled111/data/nameOperator.dart';
+import 'package:untitled111/nameOperator.dart';
 
 
 import 'package:untitled111/firebase_options.dart';
+import 'package:untitled111/func/funcData.dart';
 import 'package:untitled111/style/words.dart';
 import '../../city_pirogovskiy_details/dimensions.dart';
 
@@ -26,6 +29,7 @@ var _brack = '';
 
 
 
+
 class OperatorButtle extends StatefulWidget {
   const OperatorButtle({super.key});
   @override
@@ -33,6 +37,8 @@ class OperatorButtle extends StatefulWidget {
 }
 
 class _OperatorButtle extends State<OperatorButtle> {
+  //String nameOperator = 'Ивановf И.И.';
+
 
   void initFireBase() async {
     await Firebase.initializeApp(
@@ -51,36 +57,33 @@ class _OperatorButtle extends State<OperatorButtle> {
     return Scaffold(
       body: Container(
           margin: const EdgeInsets.only(top: 35, left: 10, right: 10),
-          padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
+          padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
           decoration: BoxDecoration(
               color: Colors.grey[300],
               borderRadius: const BorderRadius.all(Radius.circular(9))),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
 
-              returnFirebaseStartSesion(),
-              _blockStatePL1(), //PL1 и ее состояние
-              operatorZakaz(),
-              displayOrderForOperator(),
-              //ServiceMashine().remontTitle1(),
-              //ServiceMashine().buttonAddService2(),
+                returnFirebaseStartSesion(),
+                _blockStatePL1(), //PL1 и ее состояние
+                operatorZakaz(),
+                displayOrderForOperator1(),
+                blockService(),
 
-
-              
-
-            ],
+              ],
+            ),
           )),
     );
   }
-
 
 
   // 01 блок текущего заказа
   Widget operatorZakaz() {
     return Container(
       padding: const EdgeInsets.only(top: 15, left: 5, right: 5),
-      margin: const EdgeInsets.only(top: 0, left: 5, right: 5),
+      margin: const EdgeInsets.only(top: 5, left: 5, right: 5),
       decoration: BoxDecoration(
           color: Colors.grey[400],
           borderRadius: const BorderRadius.all(Radius.circular(9))),
@@ -89,9 +92,9 @@ class _OperatorButtle extends State<OperatorButtle> {
           stroka4(),
           //FirstIntOrder().firstIntOrder(),
           //jobNow(),
-          (GiveOrderForOperator().giveBaseOrderForOperator()) ?? (forNull()), //заказ сколько надо сделать
+          (GiveOrderForOperator().giveBaseOrderForOperator()) , //заказ сколько надо сделать
           displaySummaDataOrder(), // сделано и брак
-          _buttonAddDataOrder(),
+          _buttonAddDataOrder(), //добавить данные по текущему заказу
           _buttoCloseOfer(),
           //timeres(),
           //timeOut222(),
@@ -102,15 +105,60 @@ class _OperatorButtle extends State<OperatorButtle> {
     );
   }
 
+  // 01 блок по обслуживанию машины
+  Widget blockService() {
+    return Container(
+      padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
+      margin: const EdgeInsets.only(top: 5, left: 5, right: 5),
+      decoration: BoxDecoration(
+          color: Colors.grey[400],
+          borderRadius: const BorderRadius.all(Radius.circular(9))),
+      child: Column(
+        children: [
+          MyTextPage111State().remontTitle(),
+          buttonServiceAddOper(),
+          buttonServiceReadOper(),
+        ],
+      ),
+    );
+  }
 
 
 
-//
+
+
+
+Widget displayOrderForOperator1() {
+    return Container(
+      alignment: Alignment.bottomLeft,
+      padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
+      margin: const EdgeInsets.only(top: 5, left: 5, right: 5),
+      decoration: BoxDecoration(
+          color: Colors.grey[400],
+          borderRadius: const BorderRadius.all(Radius.circular(9))),
+      child: Column(
+              children: <Widget>[
+          Container(
+            width: double.infinity,
+            margin: const EdgeInsets.only(left: 10),
+            child: Text('Заказы в очереди:', textAlign: TextAlign.left,
+                style: TextStyle(fontSize: 20.0),
+              ),
+
+          ),
+          displayOrderForOperator()
+
+        ],
+      ),
+    );
+  }
+
+
 //виджет отображения всего списка заказов, выбор для начала работы над ним
   Widget displayOrderForOperator() {
     return StreamBuilder<QuerySnapshot>(
       //создание списка из базы данных
-        stream: FirebaseFirestore.instance.collection(zakazNew).snapshots(),
+        stream: FirebaseFirestore.instance.collection(zakazNew).orderBy('time', descending: true).snapshots(),
         builder: (context, snapshot) {
           var clientWidgets = [];
           var idList = [];
@@ -142,12 +190,13 @@ class _OperatorButtle extends State<OperatorButtle> {
           return Container(
             width: double.infinity,
             height: 200,
-            margin: EdgeInsets.only(top: 2, left: 5, right: 5),
+            //margin: EdgeInsets.only(top: 2, left: 5, right: 5),
             decoration: BoxDecoration(
-                color: Colors.grey[400],
+                color: Colors.grey[440],
                 borderRadius: const BorderRadius.all(Radius.circular(9))),
 
             child: ListView.builder(
+              padding: EdgeInsets.only(top: 0, left: 5, right: 5),
               itemCount: clientWidgets.length,
               itemBuilder: (BuildContext context, int index) {
                 return Column(
@@ -156,7 +205,7 @@ class _OperatorButtle extends State<OperatorButtle> {
 
                       children: <Widget>[
                         IconButton(
-                            icon: const Icon(Icons.start_outlined),
+                            icon: const Icon(Icons.safety_check),
 
                             onPressed: () {
                               showDialog(
@@ -372,62 +421,40 @@ class _OperatorButtle extends State<OperatorButtle> {
         ),
       ),
       onPressed: () async {
-
-
+        var db = FirebaseFirestore.instance;
+        final docRef = db.collection("/SesionStart").doc("UtywjetxVdPDmV0E0TcF");
         var collection = FirebaseFirestore.instance.collection('OrderProgress');
         var snapshots = await collection.get();
-        for (var doc in snapshots.docs) {
-          await doc.reference.delete();
-        }
+        docRef.get().then(
+                (DocumentSnapshot doc) {
+              final data = doc.data() as Map<String, dynamic>;
+              var data11 = data['name'];
+              if (nameOperator == data11) {
+                setState(() {
+                  for (var doc in snapshots.docs) {
+                    doc.reference.delete();
+                  }
+                  FirebaseFirestore.instance
+                      .collection(
+                      'variablBlocForOrder')
+                      .doc(
+                      'wOWxatVZnWr2s1kievXV')
+                      .update({
+                    'number': 'Нет выбранного заказа',
+                    'brack': '0'
+                  });
 
-       /*
-        var collection1 = FirebaseFirestore.instance.collection('variablBlocForOrder');
-        var snapshots1 = await collection1.get();
-        for (var doc in snapshots1.docs) {
-          await doc.reference.delete();
-        }
-
-        */
-
-
-
-        FirebaseFirestore.instance
-            .collection(
-            'variablBlocForOrder')
-            .doc(
-            'wOWxatVZnWr2s1kievXV')
-            .update({
-          'number': 'Нет выбранного заказа',
-          'brack': '0'
-        });
-
-
-
-
-
-
-/*
-        var kolichestvo ='111';
-        var brack ='111';
-
-        FirebaseFirestore.instance.collection('variablBlocForOrder').doc(
-            'wOWxatVZnWr2s1kievXV').add({
-          'number': kolichestvo,
-          'brack': brack,
-        });
- */
-
-/*
-     FirebaseFirestore.instance
-            .collection(
-            'variablBlocForOrder')
-            .doc(
-            'wOWxatVZnWr2s1kievXV')
-            .update({'number': kolichestvo,
-                    'brack': brack,
-        });
- */
-
+                                  });
+              }else{ //ссобщение которое выводится, если закончить смену пытается не тот оператор
+                return showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return  massageCloseJob(context);
+                    });
+              }
+              // ...
+            }
+        );
 
       },
 
@@ -451,12 +478,35 @@ class _OperatorButtle extends State<OperatorButtle> {
         ),
       ),
       onPressed: () {
-        showDialog(
-            context: context,
+        var db = FirebaseFirestore.instance;
+        final docRef = db.collection("/SesionStart").doc("UtywjetxVdPDmV0E0TcF");
+        docRef.get().then(
+              (DocumentSnapshot doc) {
+            final data = doc.data() as Map<String, dynamic>;
+            var data11 = data['name'];
+            if (nameOperator == data11) {
+              setState(() {
+                showDialog(
+                    context: context,
 
-            builder: (BuildContext context) {
-              return _button2_DialogAddDataOrder(); //_dialog диалоговое окно
-            });
+                    builder: (BuildContext context) {
+                      return _button2_DialogAddDataOrder(); //_dialog диалоговое окно
+                    });
+              });
+            }else{ //ссобщение которое выводится, если закончить смену пытается не тот оператор
+              return showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return  massageCloseJob(context);
+                  });
+            }
+            // ...
+          },
+          onError: (e) => print("Error getting document"),
+        );
+
+
+
       },
       child: const Text(
         'Добавить данные по заказу',
@@ -588,8 +638,7 @@ class _OperatorButtle extends State<OperatorButtle> {
 
   //возвращает одну из кнопок: начать смену или закончить смену
   Widget returnFirebaseStartSesion() {
-    CollectionReference student =
-    FirebaseFirestore.instance.collection(sesionStart);
+    CollectionReference student = FirebaseFirestore.instance.collection(sesionStart);
     return FutureBuilder<DocumentSnapshot>(
         future: student.doc('UtywjetxVdPDmV0E0TcF').get(),
         builder:
@@ -599,13 +648,15 @@ class _OperatorButtle extends State<OperatorButtle> {
             snapshot.data!.data() as Map<String, dynamic>;
 
             String data1 = data['start'];
+            var nameFromFirebase = data['name'];
+
             // var qwerf = ReturnTrue2();
             //var name = returnNameFile();
 
-            if (data1 == 'true') {
-              return Visibility(visible: true, child: _button01());
-            } else {
+            if (data1 == 'false') {
               return Visibility(visible: true, child: _button02());
+            } else {
+              return Visibility(visible: true, child: _button01());
             }
           }
           return Visibility(
@@ -614,14 +665,19 @@ class _OperatorButtle extends State<OperatorButtle> {
         });
   }
 
+
+  //get nameOperator1 => nameOperator;
+
   //кнопка начать смену
   Widget _button01() {
     //returnFirebaseStartSesion();
+
     return Container(
+        height: 60,
         child: ElevatedButton(
           style: ButtonStyle(
             backgroundColor: MaterialStatePropertyAll<Color>(Colors.blue[600]!),
-            textStyle: MaterialStateProperty.all(const TextStyle(fontSize: 20)),
+            textStyle: MaterialStateProperty.all(const TextStyle(fontSize: 25)),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(9.0),
@@ -633,8 +689,9 @@ class _OperatorButtle extends State<OperatorButtle> {
               FirebaseFirestore.instance
                   .collection('/SesionStart')
                   .doc('UtywjetxVdPDmV0E0TcF')
-                  .update({'start': 'false'});
+                  .update({'start': 'false', 'name': '$nameOperator'});
             });
+
           },
           child: const Text(
             'Начать смену',
@@ -645,28 +702,58 @@ class _OperatorButtle extends State<OperatorButtle> {
 
   //кнопка закончить смену
   Widget _button02() {
-    return ElevatedButton(
-      style: ButtonStyle(
-        backgroundColor: const MaterialStatePropertyAll<Color>(Colors.green),
-        textStyle: MaterialStateProperty.all(const TextStyle(fontSize: 20)),
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(9.0),
+    return Column(
+      children: [
+        Container(
+          width: double.infinity,
+          height: 60,
+          child: ElevatedButton (
+        
+            style: ButtonStyle(
+        
+              backgroundColor: const MaterialStatePropertyAll<Color>(Colors.green),
+              textStyle: MaterialStateProperty.all(const TextStyle(fontSize: 25)),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(9.0),
+                ),
+              ),
+            ),
+            onPressed: () async{
+              var db = FirebaseFirestore.instance;
+              final docRef = db.collection("/SesionStart").doc("UtywjetxVdPDmV0E0TcF");
+              docRef.get().then(
+                    (DocumentSnapshot doc) {
+                  final data = doc.data() as Map<String, dynamic>;
+                  var data11 = data['name'];
+                  if (nameOperator == data11) {
+                    setState(() {
+                      FirebaseFirestore.instance
+                          .collection('/SesionStart')
+                          .doc('UtywjetxVdPDmV0E0TcF')
+                          .update({'start': 'true', 'name': '---'});
+                    });
+                  }else{ //ссобщение которое выводится, если закончить смену пытается не тот оператор
+                    return showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return  massageCloseJob(context);
+                        });
+                  }
+                  // ...
+                },
+                onError: (e) => print("Error getting document"),
+              );
+            },
+            child: const Text(
+              'Закончить смену',
+              style: TextStyle(color: Colors.black),
+            ),
           ),
         ),
-      ),
-      onPressed: () async {
-        setState(() {
-          FirebaseFirestore.instance
-              .collection('/SesionStart')
-              .doc('UtywjetxVdPDmV0E0TcF')
-              .update({'start': 'true'});
-        });
-      },
-      child: const Text(
-        'Закончить смену',
-        style: TextStyle(color: Colors.black),
-      ),
+        nameOperator11(),
+        //Text('Оператор: $nameOperator')
+      ],
     );
   }
 
@@ -863,6 +950,234 @@ class _OperatorButtle extends State<OperatorButtle> {
         ),
       ],
     );
+  }
+
+  //----------------------------------------
+
+
+  // КНОПКА 'Добавить инф по сервису
+  Widget buttonServiceAddOper() {
+    return Container(
+      margin: const EdgeInsets.only(left: 10.0, top: 2.0, bottom: 2.0),
+      child: Row(
+        children: [
+          Container(
+            //width: double.infinity,
+            child: ElevatedButton(
+              style: ButtonStyle(
+                  textStyle:
+                  MaterialStateProperty.all(const TextStyle(fontSize: 20)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(9.0),
+                          side: const BorderSide(color: Colors.black12)))),
+              onPressed: () {
+                // ВСПЛЫВАЮЩЕЕ ОКНО ДЛЯ ВНЕСЕНИЯ ДАННЫХ
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return dataServiceAddOper(); //_dialog диалоговое окно
+                    });
+              },
+              child: const Text(
+                'Добавить информацию',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget dataServiceAddOper() {
+    return AlertDialog(
+      backgroundColor: Colors.orange,
+      title: const Text('Ремонт и обслуживании'),
+      content: TextFormField(
+        decoration: const InputDecoration(
+          icon: Icon(Icons.medical_services),
+          //hintText: 'Какие работы проводились?',
+          labelText: 'Добавить информацию',
+        ),
+        minLines: 1,
+        maxLines: 5,
+        onChanged: (String value) {
+          _userToDo = value;
+        },
+        //decoration: const InputDecoration(hintText: "Количество"),
+        textAlign: TextAlign.center,
+      ),
+
+      actions: [
+        Container(
+          width: double.infinity,
+          margin: const EdgeInsets.only(left: 10.0, top: 2.0, bottom: 2.0),
+          child: ElevatedButton(
+              onPressed: () {
+
+                var timeNow = DateTime.now();
+                var timeNowString = timeres111();
+                final mark = DateTime.timestamp();
+
+                //var operator = '';
+
+
+                String timestamp;
+                DateTime now = DateTime.now();
+                String formatDate = DateFormat('Дата: yyyy-MM-dd \nВремя: kk:mm').format(now);
+                timestamp = formatDate;
+
+                FirebaseFirestore.instance.collection('/service').add({
+                  //'timestamp':DateTime.now,
+
+                  'number': _userToDo,
+                  //'time': timeNow,
+                  //'timeLine': timeNowString,
+                  'time11' : timestamp,
+                  'operator' : nameOperator,
+                });
+
+                //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
+                Navigator.of(context).pop();
+                _userToDo = '';
+
+              },
+              child: const Text('ОТПРАВИТЬ')),
+        ),
+      ],
+    );
+  }
+
+
+  // КНОПКА 'читать инф ПО сервису
+  Widget buttonServiceReadOper() {
+    return Container(
+      width: double.maxFinite,
+      margin: const EdgeInsets.only(left: 10.0, top: 10.0, bottom: 10.0),
+      child: Row(
+        children: [
+          ElevatedButton(
+            style: ButtonStyle(
+                textStyle:
+                MaterialStateProperty.all(const TextStyle(fontSize: 20)),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(9.0),
+                        side: const BorderSide(color: Colors.black12)))),
+            onPressed: () {
+              // ВСПЛЫВАЮЩЕЕ ОКНО ДЛЯ ВНЕСЕНИЯ ДАННЫХ
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return dataServiceReadOper(); //_dialog диалоговое окно
+                  });
+            },
+            child: const Text(
+              'Все записи',
+              style: TextStyle(color: Colors.black),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget dataServiceReadOper() {
+    return AlertDialog(
+      backgroundColor: Colors.orange,
+      title: const Text('Ремонт и обслуживании'),
+      content:
+      dataServiceList22Oper(),
+
+      actions: [
+        Container(
+          width: double.infinity,
+          child: ElevatedButton(
+              onPressed: () {
+
+                var timeNow = DateTime.now();
+                var timeNowString = timeres111();
+
+                //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
+                Navigator.of(context).pop();
+                _userToDo = '';
+
+              },
+              child: const Text('закрыть')),
+        ),
+      ],
+    );
+  }
+
+  //отображение обслуживание машины из базы данных - показывает все записи
+  Widget dataServiceList22Oper() {
+    return StreamBuilder<QuerySnapshot>(
+      //создание списка из базы данных
+        stream: FirebaseFirestore.instance.collection('/service').orderBy("time").snapshots(),
+        builder: (context, snapshot) {
+          var clientWidgets = [];
+          var idList = [];
+          var countindex = [];
+
+          // List clientWidgets = [];
+          if (snapshot.hasData) {
+            final clients = snapshot.data!.docs.reversed.toList();
+            for (var client in clients) {
+              String timeLine1 = client['time11'];
+              var _userToDo1 = client['number'];
+              var _operatorName = client['operator'];
+              //var time11 = client['time11'];
+
+              var docId = client.id;
+              clientWidgets.add(
+                  '$timeLine1 \n$_userToDo1 \nоператор: $_operatorName'); // список для отображения данных
+              idList.add(docId);
+            }
+            for (var count in countindex) {
+              var _count = count;
+            }
+          }else{
+            return Text('Процесс загрузки...',
+                style: TextStyle(fontSize: 20, color: Colors.orange));
+          }
+
+          //возвращает вид в виде списка
+          return Container(
+            alignment: Alignment.bottomLeft,
+            //width: double.infinity,
+            //height: 200,
+            margin: EdgeInsets.only(top: 2, left: 2, right: 2),
+            decoration: BoxDecoration(
+                color: Colors.grey[400],
+                borderRadius: const BorderRadius.all(Radius.circular(9))),
+
+            child: ListView.builder(
+              itemCount: clientWidgets.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Column(
+                  children: [
+                    Container(
+                        alignment: Alignment.bottomLeft,
+                        margin: const EdgeInsets.only(top: 5, left: 5, right: 15),
+                        child: Text(clientWidgets[index],
+                        )),
+                    Container(
+                      height: 2,
+                      color: Colors.orange[600],
+                    )
+                  ],
+                );
+              },
+            ),
+          );
+        });
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('nameOperator', nameOperator));
   }
 
 

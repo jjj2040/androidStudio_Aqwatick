@@ -3,7 +3,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:untitled111/01Operator/01OperButtle/clasesGiveDate.dart';
 import 'package:untitled111/01Operator/01OperButtle/operatorButtle.dart';
 import 'package:untitled111/data/dataPartOrder.dart';
-import 'package:untitled111/data/nameOperator.dart';
+import 'package:untitled111/nameOperator.dart';
 
 import '../../city_pirogovskiy_details/details_bottel_2lev_part.dart';
 

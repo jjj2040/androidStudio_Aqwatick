@@ -3,12 +3,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
 import 'package:untitled111/01Operator/01OperButtle/clasesGiveDate.dart';
 import 'package:untitled111/01Operator/01OperButtle/forNull.dart';
 import 'package:untitled111/01Operator/01OperButtle/list.dart';
 import 'package:untitled111/01Operator/01OperButtle/serviceMashine.dart';
 import 'package:untitled111/data/dataPartOrder.dart';
-import 'package:untitled111/data/nameOperator.dart';
+import 'package:untitled111/nameOperator.dart';
 import 'package:untitled111/firebase_options.dart';
 import 'package:flutter/foundation.dart';
 import 'package:untitled111/func/funcData.dart';
@@ -107,7 +108,7 @@ class MyTextPage111State extends State<MyTextPage111> {
                     child: Column(
 
                       children: [
-                        //строка с названием машины
+                        //строка с названием машины и ее статусом
                         readStatus(),
 
                         //фраза 'Данные по выпуску продукции'
@@ -145,7 +146,7 @@ class MyTextPage111State extends State<MyTextPage111> {
                                   const BorderRadius.all(Radius.circular(9))),
                           child: Column(
                             children: [
-                              _remontTitle(),
+                              remontTitle(),
                               buttonServiceAdd(),
                               buttonServiceRead()
                               //buttonServiceMashine1(),
@@ -178,7 +179,7 @@ class MyTextPage111State extends State<MyTextPage111> {
 
       child: Column(
         children: [
-          _stroka5Order(),
+          stroka5Order(),
 
           //окно вывода существующих заказов
           Container(
@@ -233,10 +234,13 @@ class MyTextPage111State extends State<MyTextPage111> {
     );
   }
 
+  var coundInList = '0';
+
   // микс, отображение заказов из базы данных, основа c интернета, все новое, но дизайн старый
   Widget newlist() {
     return StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('zakaznew').snapshots(),
+        stream: FirebaseFirestore.instance.collection('zakaznew').orderBy('time', descending: true).snapshots(),
+
         builder: (context, snapshot) {
           var clientWidgets = [];
           var idList = [];
@@ -246,7 +250,7 @@ class MyTextPage111State extends State<MyTextPage111> {
             final clients = snapshot.data!.docs.reversed.toList();
 
             for (var client in clients) {
-              int timeLine1 = client['timeLine'];
+              //int timeLine1 = client['timeLine'];
               var _userToDo1 = client['number'];
               var _userLogo1 = client['logo'];
               var _userType1 = client['type'];
@@ -254,19 +258,21 @@ class MyTextPage111State extends State<MyTextPage111> {
               var _userId = client['id'];
               var docId = client.id;
               clientWidgets.add(
-                  '$timeLine1- $_userToDo1, $_userLogo1, $_userType1,  $_userNetto1'); // список для отображения данных
+                  '$_userToDo1, $_userLogo1, $_userType1,  $_userNetto1'); // список для отображения данных
               idList.add(
                   docId); // список для id, потом по этому id происходит удаление.
             }
 
 
             for (var count in countindex) {
-              var _count = count;
             }
           }
 
+
           return ListView.separated(
+
             itemCount: clientWidgets.length,
+
             separatorBuilder: (BuildContext context, int index) {
               return const SizedBox(height: height2);
             },
@@ -276,9 +282,6 @@ class MyTextPage111State extends State<MyTextPage111> {
                 child: Container(
                   margin: const EdgeInsets.only(
                       left: 5.0, right: 5.0, top: 2.0, bottom: 2.0),
-                  //padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
-
-                  //height: 45,
 
                   child: Card(
                     margin: const EdgeInsets.only(
@@ -299,8 +302,9 @@ class MyTextPage111State extends State<MyTextPage111> {
                 },
               );
             },
-          );
-        });
+                      );
+        }
+        );
   }
 
 
@@ -413,19 +417,33 @@ class MyTextPage111State extends State<MyTextPage111> {
 
   //--- ДИАЛОГОВОЕ ОКНО ДОБАВЛЕНИЕ ЗАКАЗА
   Widget dialog() {
+    var _controller;
     return AlertDialog(
       title: const Text('Добавление заказа'),
 
       //child: ListView(
       content: ListView(
         children: <Widget>[
-          TextField(
-            onChanged: (String value) {
-              _userToDo = value;
-            },
-            decoration: const InputDecoration(hintText: "Количество"),
-            textAlign: TextAlign.center,
+          TextFormField(
+              onChanged: (String value) {
+                _userToDo = value;
+              },
+              controller: _controller,
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                // for below version 2 use this
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+// for version 2 and greater youcan also use this
+                FilteringTextInputFormatter.digitsOnly
+
+              ],
+              decoration: InputDecoration(
+                  labelText: "Количество бутылей",
+                  //hintText: "whatever you want",
+                  icon: Icon(Icons.opacity)
+              )
           ),
+
           TextField(
             onChanged: (String value) {
               _userLogo = value;
@@ -486,7 +504,7 @@ class MyTextPage111State extends State<MyTextPage111> {
               _userType = '-';
               _userNetto = '-';
             },
-            child: const Text('ОТПРАВИТЬ11')),
+            child: const Text('ОТПРАВИТЬ')),
       ],
       //--------------------------------------
     );
@@ -547,14 +565,15 @@ class MyTextPage111State extends State<MyTextPage111> {
   }
 
 
-  //строка "Заказы в очереди"  itemCount: todoList.length,
-  Widget _stroka5Order() {
-    return Row(
+  //строка "Заказы в очереди"
+   @override
+  Widget stroka5Order() {
+        return Row(
       children: [
         Container(
           padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
           margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
-          child: Text('$orderInLine: $countOrder шт.',
+          child: Text('$orderInLine:',
               style: const TextStyle(fontSize: 18, color: Colors.black)),
         ),
       ],
@@ -576,7 +595,7 @@ class MyTextPage111State extends State<MyTextPage111> {
   }
 
   //строка "Данные по обслуживанию PL-1"
-  Widget _remontTitle() {
+  Widget remontTitle() {
     return Row(
       children: [
         Container(
@@ -775,6 +794,7 @@ class MyTextPage111State extends State<MyTextPage111> {
       actions: [
         Container(
           width: double.infinity,
+          margin: const EdgeInsets.only(left: 10.0, top: 2.0, bottom: 2.0),
           child: ElevatedButton(
               onPressed: () {
 
@@ -787,17 +807,17 @@ class MyTextPage111State extends State<MyTextPage111> {
 
                 String timestamp;
                 DateTime now = DateTime.now();
-                String formatDate = DateFormat('Дата: yyyy-MM-dd \n Время: kk:mm').format(now);
+                String formatDate = DateFormat('Дата: yyyy-MM-dd \nВремя: kk:mm').format(now);
                 timestamp = formatDate;
 
                 FirebaseFirestore.instance.collection('/service').add({
                  //'timestamp':DateTime.now,
 
                   'number': _userToDo,
-                  //'time': timeNow,
                   //'timeLine': timeNowString,
                   'time11' : timestamp,
                   'operator' : nameOperator,
+                  'time': timeNow,
                 });
 
                 //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
@@ -805,7 +825,7 @@ class MyTextPage111State extends State<MyTextPage111> {
                 _userToDo = '';
 
               },
-              child: const Text('ОТПРАВИТЬ22')),
+              child: const Text('ОТПРАВИТЬ')),
         ),
       ],
     );
@@ -872,72 +892,14 @@ class MyTextPage111State extends State<MyTextPage111> {
     );
   }
 
-  // микс, отображение обслуживание машины из базы данных
-  Widget dataServiceList() {
-    return StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('/service').snapshots(),
-        builder: (context, snapshot) {
-          var clientWidgets = [];
-          var idList = [];
-          var countindex = [];
-          // List clientWidgets = [];
-          if (snapshot.hasData) {
-            final clients = snapshot.data!.docs.reversed.toList();
-
-            for (var client in clients) {
-              int timeLine1 = client['timeLine'];
-              var _userToDo1 = client['number'];
-              var _userLogo1 = client['time'];
-
-              var docId = client.id;
-              clientWidgets.add(
-                  '$timeLine1- $_userToDo1, $_userLogo1, $timeLine1'); // список для отображения данных
-              idList.add(
-                  docId); // список для id, потом по этому id происходит удаление.
-            }
 
 
-            for (var count in countindex) {
-              var _count = count;
-            }
-          }
 
-          return ListView.separated(
-            itemCount: clientWidgets.length,
-            separatorBuilder: (BuildContext context, int index) {
-              return const SizedBox(height: height2);
-            },
-            itemBuilder: (BuildContext context, int index) {
-              return ListView(
-                key: Key(clientWidgets[index]),
-                prototypeItem: Container(
-                  margin: const EdgeInsets.only(
-                      left: 5.0, right: 5.0, top: 2.0, bottom: 2.0),
-                  //padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
-
-                  //height: 45,
-
-                  child: Card(
-                    margin: const EdgeInsets.only(
-                        left: 1.0, right: 1.0, top: 1.0, bottom: 1.0),
-                    //padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
-                    color: Colors.grey[300],
-                    child: ListTile(
-                      title: Text(clientWidgets[index]),
-                    ),
-                  ),
-                ),
-
-              );
-            },
-          );
-        });
-  }
-
+  //обслуживание машины из базы данных - показывает все записи
   Widget dataServiceList22() {
     return StreamBuilder<QuerySnapshot>(
       //создание списка из базы данных
-        stream: FirebaseFirestore.instance.collection('/service').snapshots(),
+        stream: FirebaseFirestore.instance.collection("service").orderBy("time").snapshots(),
         builder: (context, snapshot) {
           var clientWidgets = [];
           var idList = [];
@@ -950,11 +912,11 @@ class MyTextPage111State extends State<MyTextPage111> {
               String timeLine1 = client['time11'];
               var _userToDo1 = client['number'];
               var _operatorName = client['operator'];
-              //var time11 = client['time11'];
+              var time = client['time'];
 
               var docId = client.id;
               clientWidgets.add(
-                  '$timeLine1 \n $_userToDo1 \n оператор: $_operatorName'); // список для отображения данных
+                  '$timeLine1 \nОператор: $_operatorName\n$_userToDo1 '); // список для отображения данных
               idList.add(docId);
             }
             for (var count in countindex) {
@@ -965,9 +927,10 @@ class MyTextPage111State extends State<MyTextPage111> {
                 style: TextStyle(fontSize: 20, color: Colors.orange));
           }
 
-          //возвращает вид в виде списка, также удаляет выбранный заказ и перемещает в текущий
+          //возвращает вид в виде списка
           return Container(
-            width: double.infinity,
+            alignment: Alignment.bottomLeft,
+            //width: double.infinity,
             //height: 200,
             margin: EdgeInsets.only(top: 2, left: 2, right: 2),
             decoration: BoxDecoration(
@@ -980,6 +943,7 @@ class MyTextPage111State extends State<MyTextPage111> {
                 return Column(
                   children: [
                     Container(
+                      alignment: Alignment.bottomLeft,
                         margin: const EdgeInsets.only(top: 5, left: 5, right: 15),
                         child: Text(clientWidgets[index],
                     )),

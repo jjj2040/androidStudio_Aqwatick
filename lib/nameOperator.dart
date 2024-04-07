@@ -16,6 +16,33 @@ Widget nameOperator11(){
   ;
 }
 
+//сообщение AlertDialog для оператора, если пытается закрыть не тот, кто открыл
+Widget massageCloseJob(context){
+  return AlertDialog(
+    title: const Text('Сообщение'),
+
+    //child: ListView(
+    content: Container(
+      child: Text('Производить действие может только тот оператор, который открыл смену.'),
+    ),
+
+
+    // КНОПКА ВНИЗУ У ВСПЛЫВАЮЩЕГО ОКНА
+    actions: [
+      ElevatedButton(
+          onPressed: () async {           
+
+            //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
+            Navigator.of(context).pop();
+          },
+          child: const Text('Закрыть')),
+    ],
+    //--------------------------------------
+  );
+}
+
+
+
 Widget jobNow(){
   return Container(
     width: double.infinity,
@@ -129,10 +156,10 @@ Widget displaySummaDataOrder11() {
 
 //чтение данных из FireBase, статус машины
 Widget readStatus() {
-  CollectionReference student =
-  FirebaseFirestore.instance.collection('status');
+  //CollectionReference student =
+  //FirebaseFirestore.instance.collection('status');
   return FutureBuilder<DocumentSnapshot>(
-      future: student.doc('MBCgykpboKR3gKg3YQ3c').get(),
+      future: FirebaseFirestore.instance.collection('status').doc('MBCgykpboKR3gKg3YQ3c').get(),
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {

@@ -545,7 +545,7 @@ class MyTextPage111State extends State<MyTextPage111> {
   }
 
 
-  //строка "Заказы в очереди"
+  //строка "Заказы в очереди"---
    @override
   Widget stroka5Order() {
         return Row(

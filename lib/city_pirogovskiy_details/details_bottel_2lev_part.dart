@@ -1,13 +1,11 @@
-import 'dart:math';
+
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
-import 'package:untitled111/01Operator/01OperButtle/clasesGiveDate.dart';
-import 'package:untitled111/01Operator/01OperButtle/forNull.dart';
-import 'package:untitled111/01Operator/01OperButtle/list.dart';
-import 'package:untitled111/01Operator/01OperButtle/serviceMashine.dart';
+import 'package:untitled111/01_Operator_PL1/01OperButtle/FireBase/clasesGiveDate.dart';
+import 'package:untitled111/01_Operator_PL1/01OperButtle/widgets/list.dart';
 import 'package:untitled111/data/dataPartOrder.dart';
 import 'package:untitled111/nameOperator.dart';
 import 'package:untitled111/firebase_options.dart';
@@ -185,8 +183,7 @@ class MyTextPage111State extends State<MyTextPage111> {
           Container(
             child: ConstrainedBox(
               constraints: const BoxConstraints(
-                //minHeight: 50.0,
-                maxHeight: 90.0,
+              maxHeight: 90.0,
               ),
 
               child: newlist(),
@@ -255,7 +252,7 @@ class MyTextPage111State extends State<MyTextPage111> {
               var _userLogo1 = client['logo'];
               var _userType1 = client['type'];
               var _userNetto1 = client['netto'];
-              var _userId = client['id'];
+              //var _userId = client['id'];
               var docId = client.id;
               clientWidgets.add(
                   '$_userToDo1, $_userLogo1, $_userType1,  $_userNetto1'); // список для отображения данных
@@ -389,7 +386,7 @@ class MyTextPage111State extends State<MyTextPage111> {
                         side: const BorderSide(color: Colors.black12)))),
             onPressed: () {
               // ВСПЛЫВАЮЩЕЕ ОКНО ДЛЯ ВНЕСЕНИЯ ДАННЫХ
-              var intValue = Random().nextInt(10);
+              //var intValue = Random().nextInt(10);
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -472,16 +469,6 @@ class MyTextPage111State extends State<MyTextPage111> {
       actions: [
         ElevatedButton(
             onPressed: () {
-              int intValue1;
-              intValue1 = Random().nextInt(100000000);
-              int intValue2;
-              intValue2 = Random().nextInt(100000000);
-              int intValue22;
-              intValue22 = Random().nextInt(100000000);
-              var intValue3 = '';
-              intValue3 = intValue1.toString() +
-                  intValue2.toString() +
-                  intValue22.toString();
 
               var timeNow = DateTime.now();
               var timeNowString = timeres111();
@@ -492,7 +479,6 @@ class MyTextPage111State extends State<MyTextPage111> {
                 'logo': _userLogo,
                 'type': _userType,
                 'netto': _userNetto,
-                'id': intValue3,
                 'time': timeNow,
                 'timeLine': timeNowString,
               });

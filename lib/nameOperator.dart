@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 String nameOperator = 'Иванов И.И.';
 
+
 Widget nameOperator11(){
   return Container(
     width: double.infinity,
@@ -10,7 +11,7 @@ Widget nameOperator11(){
     margin: const EdgeInsets.only(top: 5, left: 5, right: 5),
     child: Text('На смене оператор: $nameOperator',
       textAlign: TextAlign.left,
-    style: TextStyle(fontSize: 15, color: Colors.black),
+      style: TextStyle(fontSize: 15, color: Colors.black),
     ),
   )
   ;

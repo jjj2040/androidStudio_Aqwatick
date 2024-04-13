@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:untitled111/01_Operator_PL1/01OperButtle/operatorButtle.dart';
 
 
 
-class Stylename extends StatelessWidget {
+
+class Stylename extends OperatorButtle {
   const Stylename ({super.key});
 
   @override
@@ -20,3 +22,15 @@ class Stylename extends StatelessWidget {
     );
   }
 }
+
+
+const textStyleFontSize15_Orange = TextStyle(fontSize: 15, color: Colors.orange);
+const textStyleFontSize20_Orange = TextStyle(fontSize: 20, color: Colors.orange);
+
+
+const textStyleColorBlack = TextStyle(color: Colors.black);
+
+
+
+
+

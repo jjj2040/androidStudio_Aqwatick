@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:untitled111/01Operator/01OperButtle/clasesGiveDate.dart';
-import 'package:untitled111/01Operator/01OperButtle/operatorButtle.dart';
+import 'package:untitled111/01_Operator_PL1/01OperButtle/FireBase/clasesGiveDate.dart';
 import 'package:untitled111/data/dataPartOrder.dart';
 import 'package:untitled111/nameOperator.dart';
 

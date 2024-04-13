@@ -1,14 +1,11 @@
-
-
-
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:untitled111/01Operator/01OperButtle/operatorButtle.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:untitled111/firebase_options.dart';
-
+import 'package:untitled111/01_Operator_PL1/01OperButtle/operatorButtle.dart';
 import 'bottomnavbar.dart';
+
+
+
+
 
 void main() {
   runApp(
@@ -22,6 +19,8 @@ void main() {
 // first display
 class Password extends StatelessWidget {
   const Password({super.key});
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -56,12 +55,7 @@ class Password extends StatelessWidget {
 
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            //crossAxisAlignment: CrossAxisAlignment.stretch,
-
-
-
             children: [
-
               //first input text
               Container(
                 margin: const EdgeInsets.only(left: 40.0, right: 40.0, top: 40.0, bottom: 10.0),

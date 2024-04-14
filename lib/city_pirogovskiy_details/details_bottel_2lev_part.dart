@@ -236,7 +236,7 @@ class MyTextPage111State extends State<MyTextPage111> {
   // микс, отображение заказов из базы данных, основа c интернета, все новое, но дизайн старый
   Widget newlist() {
     return StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('zakaznew').orderBy('time', descending: true).snapshots(),
+        stream: FireBaseVar('zakaznew').orderBy('time', descending: true).snapshots(),
 
         builder: (context, snapshot) {
           var clientWidgets = [];

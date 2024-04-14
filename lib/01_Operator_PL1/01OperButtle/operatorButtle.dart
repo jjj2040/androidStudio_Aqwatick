@@ -23,6 +23,7 @@ import '../../city_pirogovskiy_details/dimensions.dart';
 import 'package:flutter/foundation.dart';
 
 import 'widgets/buttons.dart';
+import 'widgets/widgets.dart';
 
 
 
@@ -70,8 +71,8 @@ class _OperatorButtle extends State<OperatorButtle> {
                 returnFirebaseStartSesion(),
                 _blockStatePL1(), //PL1 и ее состояние
                 operatorZakaz(),
-                displayOrderForOperator1(),
-                displaySmena(),
+                displayOrderForOperator1(), //заказы в очереди
+                displaySmena(), // блок - сделано за смену
                 blockService(),
 
               ],
@@ -124,7 +125,8 @@ class _OperatorButtle extends State<OperatorButtle> {
       alignment: Alignment.bottomLeft,
       padding: padding_5_5_5_0,
       margin: margin_5_5_5_0,
-      decoration: styleBoxDecorationContainerGrey400,
+      //decoration: styleBoxDecorationContainerGrey400,
+      color: Colors.grey[400],
       child: Column(
         children: <Widget>[
           Container(
@@ -142,6 +144,7 @@ class _OperatorButtle extends State<OperatorButtle> {
     );
   }
 
+  //
   Widget displaySmena() {
     return Container(
       alignment: Alignment.bottomLeft,
@@ -158,6 +161,7 @@ class _OperatorButtle extends State<OperatorButtle> {
             ),
 
           ),
+          WidgetsForOperator().displayDayCount(),
           buttonAddDataSmena(),
 
         ],
@@ -257,85 +261,89 @@ class _OperatorButtle extends State<OperatorButtle> {
 
           //возвращает вид в виде списка, также удаляет выбранный заказ и перемещает в текущий
           return Container(
-            width: widthDoubleInfinity,
-            height: height200,
+            //color: Colors.yellow,
+            width: double.infinity,
+            constraints: BoxConstraints(minHeight: 100, maxHeight: 200 ),
+            //constraints: BoxConstraints(minHeight: 100),
+            //height: height200,
             decoration: styleBoxDecorationContainerGrey440,
 
             child: ListView.builder(
-              padding: padding_0_5_5_0,
+              padding: padding_5_5_5_5,
               itemCount: clientWidgets.length,
               itemBuilder: (BuildContext context, int index) {
-                return Column(
-                  children: [
-                    Row(
+                return Container(
+                  color: Colors.grey[500],
+                  margin: EdgeInsets.only(top: 2, left: 2, right: 2),
 
-                      children: <Widget>[
-                        IconButton(
-                            icon: const Icon(Icons.safety_check),
+                  child: Row(
+                    children: [
 
-                            onPressed: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: const Text(
-                                          'Начать выполнение заказа'),
-                                      //child: ListView(
-                                      content: Container(
-                                        width: widthDoubleInfinity,
-                                        height: height100,
-                                        child: ListView(
-                                          children: [
-                                          ],
+                          IconButton(
+                              icon: const Icon(Icons.safety_check),
+
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text(
+                                            'Начать выполнение заказа'),
+                                        //child: ListView(
+                                        content: Container(
+                                          width: widthDoubleInfinity,
+                                          height: height100,
+                                          child: ListView(
+                                            children: [
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      // КНОПКА ВНИЗУ У ВСПЛЫВАЮЩЕГО ОКНА
-                                      actions: [
-                                        Row(
-                                          children: [
-                                            ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                    fixedSize: const Size(
-                                                        110, 50)
-                                                ),
-                                                onPressed: () {
-                                                  //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: const Text('Нет')),
-                                            ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                    fixedSize: const Size(
-                                                        110, 50)
-                                                ),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    FireBaseVar("variablBlocForOrder").doc('wOWxatVZnWr2s1kievXV')
-                                                        .update({
-                                                      'number': clientWidgets[index]
+                                        // КНОПКА ВНИЗУ У ВСПЛЫВАЮЩЕГО ОКНА
+                                        actions: [
+                                          Row(
+                                            children: [
+                                              ElevatedButton(
+                                                  style: ElevatedButton.styleFrom(
+                                                      fixedSize: const Size(
+                                                          110, 50)
+                                                  ),
+                                                  onPressed: () {
+                                                    //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text('Нет')),
+                                              ElevatedButton(
+                                                  style: ElevatedButton.styleFrom(
+                                                      fixedSize: const Size(
+                                                          110, 50)
+                                                  ),
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      FireBaseVar("variablBlocForOrder").doc('wOWxatVZnWr2s1kievXV')
+                                                          .update({
+                                                        'number': clientWidgets[index]
+                                                      });
+
+                                                      FireBaseVar("zakaznew")
+                                                          .doc(idList[index])
+                                                          .delete();
                                                     });
 
-                                                    FireBaseVar("zakaznew")
-                                                        .doc(idList[index])
-                                                        .delete();
-                                                  });
+                                                    //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text('Да')),
+                                            ],
+                                          ),
+                                        ],
+                                      ); //_dialog диалоговое окно
+                                    });
+                              }),
+                          Flexible(child: Text(clientWidgets[index])),
 
-                                                  //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: const Text('Да')),
-                                          ],
-                                        ),
-                                      ],
-                                    ); //_dialog диалоговое окно
-                                  });
-                            }),
-                        Text(clientWidgets[index]),
-
-                      ],
-                    ),
-                    Divider(),
-                  ],
+                      //Divider(),
+                    ],
+                  ),
                 );
               },
             ),
@@ -650,10 +658,32 @@ class _OperatorButtle extends State<OperatorButtle> {
 
               ElevatedButton(
                   onPressed: () {
+
+                    String timestamp;
+                    DateTime now = DateTime.now();
+                    String formatDate = DateFormat('Дата: yyyy-MM-dd \nВремя: kk:mm').format(now);
+                    String formatDate1 = DateFormat('yyyy-MM-dd').format(now);
+                    timestamp = formatDate;
+                    String timestamp1 = formatDate1;
+
+                    //отправка сделано в заказе
                     FireBaseVar('OrderProgress').add({
                       'number': _kolichestvo,
                       'brack': _brack,
+                      'time11' : timestamp,
+                      'time111' : timestamp1 ,
+                      'name' : nameOperator,
                     });
+
+                    //отправка в сделанное за смену
+                    FireBaseVar('smenaOperatorov/dayCount/day').add({
+                      'number': _kolichestvo,
+                      'brack': _brack,
+                      'time11' : timestamp,
+                      'time111' : timestamp1 ,
+                      'name' : nameOperator,
+                    });
+
 
                     //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
                     Navigator.of(context as BuildContext).pop();
@@ -729,8 +759,8 @@ class _OperatorButtle extends State<OperatorButtle> {
                   var data11 = data['name'];
                   if (nameOperator == data11) {
                     setState(() {
-                      FireBaseVar('SesionStart').doc('UtywjetxVdPDmV0E0TcF')
-                          .update({'start': 'true', 'name': '---'});
+
+
                     });
                   }else{ //ссобщение которое выводится, если закончить смену пытается не тот оператор
                     return showDialog(

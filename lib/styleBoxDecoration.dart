@@ -43,6 +43,7 @@ const padding_5_10_10_0 = EdgeInsets.only(top: 5, left: 5, right: 5);
 const padding_15_5_5_0 = EdgeInsets.only(top: 15, left: 5, right: 5);
 const padding_5_5_5_0 = EdgeInsets.only(top: 5, left: 5, right: 5);
 const padding_0_5_5_0 = EdgeInsets.only(top: 0, left: 5, right: 5);
+const padding_5_5_5_5 = EdgeInsets.only(top: 5, left: 5, right: 5, bottom: 5);
 
 
 //----------------------------------

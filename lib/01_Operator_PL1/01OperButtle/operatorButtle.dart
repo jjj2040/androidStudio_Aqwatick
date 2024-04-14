@@ -759,8 +759,9 @@ class _OperatorButtle extends State<OperatorButtle> {
                   var data11 = data['name'];
                   if (nameOperator == data11) {
                     setState(() {
-
-
+                      FireBaseVar('SesionStart').doc('UtywjetxVdPDmV0E0TcF')
+                          .update({'start': 'true', 'name': '---'});
+                    //FireBaseVar("zakaznew").doc(idList[index])        .delete();    });
                     });
                   }else{ //ссобщение которое выводится, если закончить смену пытается не тот оператор
                     return showDialog(

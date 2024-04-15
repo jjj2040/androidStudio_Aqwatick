@@ -89,6 +89,7 @@ class _OperatorButtle extends State<OperatorButtle> {
       margin: margin_5_5_5_0,
       decoration: styleBoxDecorationContainerGrey400,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           stroka4(),
           GiveOrderForOperator().giveBaseOrderForOperator(),
@@ -108,8 +109,10 @@ class _OperatorButtle extends State<OperatorButtle> {
     return Container(
       padding: padding_5_5_5_0,
       margin: margin_5_5_5_0,
-      decoration: styleBoxDecorationContainerGrey400,
+      decoration: styleBoxDecorationContainerblueGrey200,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           MyTextPage111State().remontTitle(),
           buttonServiceAddOper(),
@@ -125,8 +128,8 @@ class _OperatorButtle extends State<OperatorButtle> {
       alignment: Alignment.bottomLeft,
       padding: padding_5_5_5_0,
       margin: margin_5_5_5_0,
-      //decoration: styleBoxDecorationContainerGrey400,
-      color: Colors.grey[400],
+      decoration: styleBoxDecorationContainerGrey400,
+      //color: Colors.grey[400],
       child: Column(
         children: <Widget>[
           Container(
@@ -147,11 +150,13 @@ class _OperatorButtle extends State<OperatorButtle> {
   //
   Widget displaySmena() {
     return Container(
+
       alignment: Alignment.bottomLeft,
       padding: padding_5_5_5_0,
       margin: margin_5_5_5_0,
-      decoration: styleBoxDecorationContainerGrey400,
+      decoration: styleBoxDecorationContainerblueGrey200,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Container(
             width: double.infinity,
@@ -214,8 +219,8 @@ class _OperatorButtle extends State<OperatorButtle> {
 
       },
       child: const Text(
-        'Добавить данные по заказу',
-        style: TextStyle(color: Colors.black),
+        'Информация по другим сменам',
+        style: textStyleFontSize16_Black,
       ),
     );
   }
@@ -537,7 +542,6 @@ class _OperatorButtle extends State<OperatorButtle> {
         ),
       ),
       onPressed: () {
-
         final docRef = FireBaseVar('/SesionStart').doc('UtywjetxVdPDmV0E0TcF');
         docRef.get().then(
               (DocumentSnapshot doc) {
@@ -761,8 +765,10 @@ class _OperatorButtle extends State<OperatorButtle> {
                     setState(() {
                       FireBaseVar('SesionStart').doc('UtywjetxVdPDmV0E0TcF')
                           .update({'start': 'true', 'name': '---'});
-                    //FireBaseVar("zakaznew").doc(idList[index])        .delete();    });fgfgf vv
+
                     });
+                    getNullForSmena1();
+
                   }else{ //ссобщение которое выводится, если закончить смену пытается не тот оператор
                     return showDialog(
                         context: context,
@@ -979,8 +985,10 @@ class _OperatorButtle extends State<OperatorButtle> {
   // КНОПКА 'Добавить инф по сервису
   Widget buttonServiceAddOper() {
     return Container(
-      margin: margin_2_10_0_2,
-      child: Row(
+      //margin: margin_2_10_0_2,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
             //width: double.infinity,
@@ -1002,7 +1010,7 @@ class _OperatorButtle extends State<OperatorButtle> {
               },
               child: const Text(
                 'Добавить информацию',
-                style: TextStyle(color: Colors.black),
+                style: textStyleFontSize16_Black,
               ),
             ),
           )
@@ -1071,13 +1079,15 @@ class _OperatorButtle extends State<OperatorButtle> {
   Widget buttonServiceReadOper() {
     return Container(
       width: widthDoubleMaxFinite,
-      margin: margin_10_10_0_10,
-      child: Row(
+      //margin: margin_0_5_0_0,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           ElevatedButton(
             style: ButtonStyle(
                 textStyle:
-                MaterialStateProperty.all(const TextStyle(fontSize: 20)),
+                MaterialStateProperty.all(const TextStyle(fontSize: 18)),
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(9.0),
@@ -1092,7 +1102,7 @@ class _OperatorButtle extends State<OperatorButtle> {
             },
             child: const Text(
               'Все записи',
-              style: textStyleColorBlack,
+              style: textStyleFontSize16_Black
             ),
           )
         ],
@@ -1101,10 +1111,11 @@ class _OperatorButtle extends State<OperatorButtle> {
   }
 
   Widget dataServiceReadOper() {
-    return AlertDialog(
+    return AlertDialog (
       backgroundColor: colorOrangeStyle,
       title: const Text('Ремонт и обслуживании'),
       content:
+      //getServiceMashine(),
       dataServiceList22Oper(),
 
       actions: [
@@ -1145,15 +1156,15 @@ class _OperatorButtle extends State<OperatorButtle> {
               var _userToDo1 = client['number'];
               var _operatorName = client['operator'];
               //var time11 = client['time11'];
-
               var docId = client.id;
+
               clientWidgets.add(
                   '$timeLine1 \n$_userToDo1 \nоператор: $_operatorName'); // список для отображения данных
               idList.add(docId);
             }
-            for (var count in countindex) {
-              var _count = count;
-            }
+           // for (var count in countindex) {
+             // var _count = count;
+            //}
           }else{
             return Text('Процесс загрузки...',
                 style: TextStyle(fontSize: 20, color: Colors.orange));
@@ -1171,6 +1182,7 @@ class _OperatorButtle extends State<OperatorButtle> {
                 return Column(
                   children: [
                     Container(
+                        //height: 20,
                         alignment: Alignment.bottomLeft,
                         margin: margin_5_5_5_0,
                         child: Text(clientWidgets[index],

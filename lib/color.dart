@@ -8,14 +8,13 @@ class StyleColor extends OperatorButtle{
 }
 
 var colorGrey400 = Colors.grey[400];
-
 var colorGrey300 = Colors.grey[300];
-
 var colorGrey440 = Colors.grey[440];
 
 var colorOrangeStyle = Colors.orange;
-
 var colorOrangeStyle600 = Colors.orange[600];
+
+var colorblueGreyStyle200 = Colors.blueGrey[200];
 
 var colorBlack = Colors.black;
 var colorBlack_12 = Colors.black12;

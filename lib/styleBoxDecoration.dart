@@ -23,12 +23,17 @@ BoxDecoration(
     color: colorGrey440 ,
     borderRadius: const BorderRadius.all(Radius.circular(9)));
 
+BoxDecoration styleBoxDecorationContainerblueGrey200 =
+BoxDecoration(
+    color: colorblueGreyStyle200 ,
+    borderRadius: const BorderRadius.all(Radius.circular(9)));
+
 //----------------------------------
 
 const margin_35_10_10_0 =  EdgeInsets.only(top: 35, left: 10, right: 10);
 const margin_5_5_5_0 =  EdgeInsets.only(top: 5, left: 5, right: 5);
 const margin_10_10_0_10 =  EdgeInsets.only(top: 10.0, left: 10.0, right: 0, bottom: 10.0);
-
+const margin_0_5_0_0 =  EdgeInsets.only(top: 0, left: 5, right: 0);
 const margin_0_10_0_0 =  EdgeInsets.only(top: 0, left: 10, right: 0);
 const margin_7_1_1_7 =  EdgeInsets.only(top: 7.0, left: 1.0, right: 1.0, bottom: 7.0);
 const margin_2_10_0_2 =  EdgeInsets.only(top: 2.0, left: 10.0, right: 0, bottom: 2.0);
@@ -62,6 +67,14 @@ const double height2 = 02;
 
 
 var styleBorderRadius9 = BorderRadius.circular(9.0);
+
+const textStyleFontSize15_Orange = TextStyle(fontSize: 15, color: Colors.orange);
+const textStyleFontSize20_Orange = TextStyle(fontSize: 20, color: Colors.orange);
+
+const textStyleFontSize16_Black = TextStyle(color: Colors.black, fontSize: 16);
+
+
+const textStyleColorBlack = TextStyle(color: Colors.black);
 
 
 

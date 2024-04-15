@@ -24,6 +24,7 @@ class WidgetsForOperator extends OperatorButtle{
                 var brackSt = [];
                 int intVal2 = 0;
                 int brackFinish2 = 0;
+
                 if (snapshot.hasData) {
                   final clients = snapshot.data!.docs.reversed.toList();
                   for (var client in clients) {

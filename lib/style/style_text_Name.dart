@@ -24,11 +24,6 @@ class Stylename extends OperatorButtle {
 }
 
 
-const textStyleFontSize15_Orange = TextStyle(fontSize: 15, color: Colors.orange);
-const textStyleFontSize20_Orange = TextStyle(fontSize: 20, color: Colors.orange);
-
-
-const textStyleColorBlack = TextStyle(color: Colors.black);
 
 
 

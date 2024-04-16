@@ -764,10 +764,14 @@ class _OperatorButtle extends State<OperatorButtle> {
                   if (nameOperator == data11) {
                     setState(() {
                       FireBaseVar('SesionStart').doc('UtywjetxVdPDmV0E0TcF')
-                          .update({'start': 'true', 'name': '---'});
+                          .update({
+                        'start': 'true',
+                        'name': '---'
+                          });
 
                     });
-                    getNullForSmena1();
+                    getAllCountsForSmena(); //перезаписывание временных данных по смене, в постоянные
+                    getNullForSmena1(); //очистка временных данных по смене
 
                   }else{ //ссобщение которое выводится, если закончить смену пытается не тот оператор
                     return showDialog(

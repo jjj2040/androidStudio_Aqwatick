@@ -793,7 +793,7 @@ class MyTextPage111State extends State<MyTextPage111> {
 
                 String timestamp;
                 DateTime now = DateTime.now();
-                String formatDate = DateFormat('Дата: yyyy-MM-dd \nВремя: kk:mm').format(now);
+                String formatDate = DateFormat('Дата: dd-MM-yyyy \nВремя: kk:mm').format(now);
                 timestamp = formatDate;
 
                 FirebaseFirestore.instance.collection('/service').add({

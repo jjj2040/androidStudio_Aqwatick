@@ -1021,7 +1021,7 @@ class _OperatorButtle extends State<OperatorButtle> {
 
   Widget dataServiceAddOper() {
     return AlertDialog(
-      backgroundColor: colorOrangeStyle,
+      backgroundColor: Colors.orange,
       title: const Text('Ремонт и обслуживании'),
       content: TextFormField(
         decoration: const InputDecoration(
@@ -1041,7 +1041,7 @@ class _OperatorButtle extends State<OperatorButtle> {
       actions: [
         Container(
           width: double.infinity,
-          margin: margin_2_10_0_2,
+          margin: const EdgeInsets.only(left: 10.0, top: 2.0, bottom: 2.0),
           child: ElevatedButton(
               onPressed: () {
 
@@ -1054,13 +1054,17 @@ class _OperatorButtle extends State<OperatorButtle> {
 
                 String timestamp;
                 DateTime now = DateTime.now();
-                String formatDate = DateFormat('Дата: yyyy-MM-dd \nВремя: kk:mm').format(now);
+                String formatDate = DateFormat('Дата: dd-MM-yyyy \nВремя: kk:mm').format(now);
                 timestamp = formatDate;
 
-                FireBaseVar('service').add({
+                FirebaseFirestore.instance.collection('/service').add({
+                  //'timestamp':DateTime.now,
+
                   'number': _userToDo,
+                  //'timeLine': timeNowString,
                   'time11' : timestamp,
                   'operator' : nameOperator,
+                  'time': timeNow,
                 });
 
                 //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
@@ -1111,16 +1115,14 @@ class _OperatorButtle extends State<OperatorButtle> {
   }
 
   Widget dataServiceReadOper() {
-    return AlertDialog (
-      backgroundColor: colorOrangeStyle,
+    return AlertDialog(
+      backgroundColor: Colors.orange,
       title: const Text('Ремонт и обслуживании'),
-      content:
-      //getServiceMashine(),
-      dataServiceList22Oper(),
+      content:dataServiceList22Oper(),
 
       actions: [
         Container(
-          width: widthDoubleInfinity,
+          width: double.infinity,
           child: ElevatedButton(
               onPressed: () {
 
@@ -1132,17 +1134,18 @@ class _OperatorButtle extends State<OperatorButtle> {
                 _userToDo = '';
 
               },
-              child: const Text('закрыть')),
+              child: const Text('Закрыть')),
         ),
       ],
     );
   }
 
-  //отображение обслуживание машины из базы данных - показывает все записи
+
+  //обслуживание машины из базы данных - показывает все записи
   Widget dataServiceList22Oper() {
     return StreamBuilder<QuerySnapshot>(
       //создание списка из базы данных
-        stream: FireBaseVar('service').orderBy("time").snapshots(),
+        stream: FirebaseFirestore.instance.collection("service").orderBy("time").snapshots(),
         builder: (context, snapshot) {
           var clientWidgets = [];
           var idList = [];
@@ -1155,16 +1158,16 @@ class _OperatorButtle extends State<OperatorButtle> {
               String timeLine1 = client['time11'];
               var _userToDo1 = client['number'];
               var _operatorName = client['operator'];
-              //var time11 = client['time11'];
-              var docId = client.id;
+              var time = client['time'];
 
+              var docId = client.id;
               clientWidgets.add(
-                  '$timeLine1 \n$_userToDo1 \nоператор: $_operatorName'); // список для отображения данных
+                  '$timeLine1 \nОператор: $_operatorName\n$_userToDo1 '); // список для отображения данных
               idList.add(docId);
             }
-           // for (var count in countindex) {
-             // var _count = count;
-            //}
+            for (var count in countindex) {
+              var _count = count;
+            }
           }else{
             return Text('Процесс загрузки...',
                 style: TextStyle(fontSize: 20, color: Colors.orange));
@@ -1173,8 +1176,12 @@ class _OperatorButtle extends State<OperatorButtle> {
           //возвращает вид в виде списка
           return Container(
             alignment: Alignment.bottomLeft,
-            margin: margin_2_2_2_0,
-            decoration: styleBoxDecorationContainerGrey400,
+            //width: double.infinity,
+            //height: 200,
+            margin: EdgeInsets.only(top: 2, left: 2, right: 2),
+            decoration: BoxDecoration(
+                color: Colors.grey[400],
+                borderRadius: const BorderRadius.all(Radius.circular(9))),
 
             child: ListView.builder(
               itemCount: clientWidgets.length,
@@ -1182,14 +1189,13 @@ class _OperatorButtle extends State<OperatorButtle> {
                 return Column(
                   children: [
                     Container(
-                        //height: 20,
                         alignment: Alignment.bottomLeft,
-                        margin: margin_5_5_5_0,
+                        margin: const EdgeInsets.only(top: 5, left: 5, right: 15),
                         child: Text(clientWidgets[index],
                         )),
                     Container(
                       height: 2,
-                      color: colorOrangeStyle600,
+                      color: Colors.orange[600],
                     )
                   ],
                 );
@@ -1199,11 +1205,11 @@ class _OperatorButtle extends State<OperatorButtle> {
         });
   }
 
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('nameOperator', nameOperator));
-  }
+  //@override
+  //void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  //  super.debugFillProperties(properties);
+ //   properties.add(DiagnosticsProperty('nameOperator', nameOperator));
+  //}
 
 
 

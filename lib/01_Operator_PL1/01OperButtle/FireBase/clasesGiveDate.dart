@@ -18,6 +18,11 @@ Future<void> getNullForSmena1() async {
     onError: (e) => print("Ошибка"),
   );
 }
+
+
+
+
+
 //получение данных о всех сервисах машины
 Future<void> getServiceMashine() async {
   var clientWidgets = [];

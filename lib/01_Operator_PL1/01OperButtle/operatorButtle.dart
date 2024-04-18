@@ -70,9 +70,10 @@ class _OperatorButtle extends State<OperatorButtle> {
 
                 returnFirebaseStartSesion(),
                 _blockStatePL1(), //PL1 и ее состояние
+                displaySmena(), // блок - сделано за смену
                 operatorZakaz(),
                 displayOrderForOperator1(), //заказы в очереди
-                displaySmena(), // блок - сделано за смену
+
                 blockService(),
 
               ],
@@ -147,7 +148,8 @@ class _OperatorButtle extends State<OperatorButtle> {
     );
   }
 
-  //
+  //  сделано за смену
+  @override
   Widget displaySmena() {
     return Container(
 
@@ -167,7 +169,7 @@ class _OperatorButtle extends State<OperatorButtle> {
 
           ),
           WidgetsForOperator().displayDayCount(),
-          buttonAddDataSmena(),
+          buttonViewGetDataSmenaOperator(),
 
         ],
       ),
@@ -1034,7 +1036,7 @@ class _OperatorButtle extends State<OperatorButtle> {
           labelText: 'Добавить информацию',
         ),
         minLines: 1,
-        maxLines: 5,
+        maxLines: 1,
         onChanged: (String value) {
           _userToDo = value;
         },
@@ -1045,7 +1047,7 @@ class _OperatorButtle extends State<OperatorButtle> {
       actions: [
         Container(
           width: double.infinity,
-          margin: const EdgeInsets.only(left: 10.0, top: 2.0, bottom: 2.0),
+          margin: const EdgeInsets.only(left: 2.0, top: 2.0, bottom: 2.0),
           child: ElevatedButton(
               onPressed: () {
 
@@ -1120,12 +1122,16 @@ class _OperatorButtle extends State<OperatorButtle> {
 
   Widget dataServiceReadOper() {
     return AlertDialog(
+
+
       backgroundColor: Colors.orange,
       title: const Text('Ремонт и обслуживании'),
       content:dataServiceList22Oper(),
 
       actions: [
         Container(
+          padding: EdgeInsets.only(top: 0, left: 0, right: 0, bottom: 0),
+          margin: EdgeInsets.only(top: 0, left: 0, right: 0, bottom: 0),
           width: double.infinity,
           child: ElevatedButton(
               onPressed: () {
@@ -1180,7 +1186,7 @@ class _OperatorButtle extends State<OperatorButtle> {
           //возвращает вид в виде списка
           return Container(
             alignment: Alignment.bottomLeft,
-            //width: double.infinity,
+            width: double.infinity,
             //height: 200,
             margin: EdgeInsets.only(top: 2, left: 2, right: 2),
             decoration: BoxDecoration(
@@ -1193,8 +1199,143 @@ class _OperatorButtle extends State<OperatorButtle> {
                 return Column(
                   children: [
                     Container(
+                        width: double.infinity,
                         alignment: Alignment.bottomLeft,
                         margin: const EdgeInsets.only(top: 5, left: 5, right: 15),
+                        child: Text(clientWidgets[index],
+                        )),
+                    Container(
+                      height: 2,
+                      color: Colors.orange[600],
+                    )
+                  ],
+                );
+              },
+            ),
+          );
+        });
+  }
+
+
+
+
+//---------------------------------------------
+  // КНОПКА СМОТРЕТЬ ИНФОРМАЦИЮ ПО ДРУГИМ СМЕНАМ, СКОЛЬКО СДЕЛАНО
+  Widget buttonViewGetDataSmenaOperator() {
+    return Container(
+      width: widthDoubleMaxFinite,
+      //margin: margin_0_5_0_0,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          ElevatedButton(
+            style: ButtonStyle(
+                textStyle:
+                MaterialStateProperty.all(const TextStyle(fontSize: 18)),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(9.0),
+                        side: const BorderSide(color: Colors.black12)))),
+            onPressed: () {
+              // ВСПЛЫВАЮЩЕЕ ОКНО ДЛЯ ВНЕСЕНИЯ ДАННЫХ
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return getDataSmenaOperatorAlertDialog(); //_dialog диалоговое окно
+                  });
+            },
+            child: const Text(
+                'Произведено в другие смены',
+                style: textStyleFontSize16_Black
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget getDataSmenaOperatorAlertDialog() {
+    return AlertDialog(
+
+
+      backgroundColor: Colors.orange,
+      title: const Text('Общее количество '),
+      content: getDataSmenaOperator(),
+
+      actions: [
+        Container(
+          padding: EdgeInsets.only(top: 0, left: 0, right: 0, bottom: 0),
+          margin: EdgeInsets.only(top: 0, left: 0, right: 0, bottom: 0),
+          width: double.infinity,
+          child: ElevatedButton(
+              onPressed: () {
+
+                //var timeNow = DateTime.now();
+                //var timeNowString = timeres111();
+
+                //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
+                Navigator.of(context).pop();
+                _userToDo = '';
+
+              },
+              child: const Text('Закрыть')),
+        ),
+      ],
+    );
+  }
+
+
+  //получение данных по всем сменам, сколько сделано
+  Widget getDataSmenaOperator() {
+    return StreamBuilder<QuerySnapshot>(
+      //создание списка из базы данных
+        stream: FirebaseFirestore.instance.collection("/smenaOperatorov/allCount/all").orderBy("data").snapshots(),
+        builder: (context, snapshot) {
+          var clientWidgets = [];
+          var idList = [];
+          var countindex = [];
+
+          // List clientWidgets = [];
+          if (snapshot.hasData) {
+            final clients = snapshot.data!.docs.reversed.toList();
+            for (var client in clients) {
+              String nameOperator = client['name'];
+              var numberButles = client['number'];
+              var defectiveButles = client['brack'];
+              var time = client['dataForm'];
+
+
+              clientWidgets.add(
+                  '$time \nОператор: $nameOperator\nСделано: $numberButles\nБрак: $defectiveButles'); // список для отображения данных
+
+            }
+
+          }else{
+            return Text('Процесс загрузки...',
+                style: TextStyle(fontSize: 20, color: Colors.orange));
+          }
+
+          //возвращает вид в виде списка
+          return Container(
+            alignment: Alignment.bottomLeft,
+            width: double.infinity,
+            //height: 200,
+            margin: EdgeInsets.only(top: 2, left: 2, right: 2),
+            padding:EdgeInsets.only(top: 2, left: 2, right: 2),
+            decoration: BoxDecoration(
+                color: Colors.grey[400],
+                borderRadius: const BorderRadius.all(Radius.circular(9))),
+
+            child: ListView.builder(
+              itemCount: clientWidgets.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Column(
+                  children: [
+                    Container(
+                        width: double.infinity,
+                        alignment: Alignment.bottomLeft,
+                        margin: const EdgeInsets.only(top: 5, left: 5, right: 5),
                         child: Text(clientWidgets[index],
                         )),
                     Container(

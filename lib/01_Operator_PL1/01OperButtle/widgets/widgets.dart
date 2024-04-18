@@ -9,47 +9,6 @@ import 'package:untitled111/styleBoxDecoration.dart';
 class WidgetsForOperator extends OperatorButtle{
 
 
-  Widget allGetServiceMashine(){
-    var clientWidgets = [];
-    FireBaseVar("service").get().then(
-            (querySnapshot) {
-              print("Successfully completed");
-              for (var docSnapshot in querySnapshot.docs) {
-                String timeLine1 = docSnapshot['time11'];
-                var _userToDo1 = docSnapshot['number'];
-                var _operatorName = docSnapshot['operator'];
-                clientWidgets.add(
-                    '$timeLine1 \n$_userToDo1 \nоператор: $_operatorName');
-
-//print('${docSnapshot.id} => ${docSnapshot.data()}');
-              }
-            }
-            );
-
-    var listGetFireBase = getServiceMashine();
-    return ListView.builder(
-        itemCount: clientWidgets.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-            color: Colors.grey[500],
-            margin: EdgeInsets.only(top: 2, left: 2, right: 2),
-
-            child: Row(
-              children: [
-
-                Flexible(child: Text(clientWidgets[index])),
-
-                //Divider(),
-              ],
-            ),
-          );
-        }
-    );
-   }
-
-
-
-
 //02 виджет отображения сколько сделано операторм за эту смену
   Widget displayDayCount() {
     return Container(

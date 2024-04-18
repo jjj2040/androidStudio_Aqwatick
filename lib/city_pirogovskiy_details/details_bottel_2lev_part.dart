@@ -5,12 +5,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:untitled111/01_Operator_PL1/01OperButtle/FireBase/clasesGiveDate.dart';
+import 'package:untitled111/01_Operator_PL1/01OperButtle/operatorButtle.dart';
 import 'package:untitled111/01_Operator_PL1/01OperButtle/widgets/list.dart';
+import 'package:untitled111/01_Operator_PL1/01OperButtle/widgets/widgets.dart';
+import 'package:untitled111/city_pirogovskiy_details/Widgets/widgets.dart';
 import 'package:untitled111/data/dataPartOrder.dart';
 import 'package:untitled111/nameOperator.dart';
 import 'package:untitled111/firebase_options.dart';
 import 'package:flutter/foundation.dart';
 import 'package:untitled111/func/funcData.dart';
+import 'package:untitled111/styleBoxDecoration.dart';
 import 'dimensions.dart';
 import 'serviceMashine.dart';
 import 'package:intl/intl.dart';
@@ -84,75 +88,26 @@ class MyTextPage111State extends State<MyTextPage111> {
                 const Text(
                   'Пироговский, цех бутыли',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20,
-                    //decoration: TextDecoration.underline,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
+                  style: textStyleFontSize20_Black_Bold
                 ),
 
-                //блок  с названием машины и ПОЛНЫМ СОДЕРЖАНИЕМ ЗАКАЗОВ
-
                 Container(
-                    //margin: const EdgeInsets.only(
-                    //   left: 1.0, right: 1.0, top: 5.0, bottom: 5.0),
-                    padding: const EdgeInsets.only(
-                        left: 5.0, right: 5.0, top: 5.0, bottom: 5.0),
-                    decoration: BoxDecoration(
-                        color: Colors.grey[100],
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(9))),
+                    padding: padding_5_5_5_5,
+                    decoration: styleBoxDecorationContainerGrey100,
                     child: Column(
 
                       children: [
-                        //строка с названием машины и ее статусом
-                        readStatus(),
+                        readStatus(), //строка с названием машины и ее статусом
 
-                        //фраза 'Данные по выпуску продукции'
-                        Container(
-                          margin: const EdgeInsets.only(
-                              left: 1.0, right: 1.0, top: 7.0, bottom: 7.0),
-                          padding:
-                              const EdgeInsets.only(top: 0, left: 5, right: 5),
-                          decoration: BoxDecoration(
-                              color: Colors.grey[400],
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(9))),
-                          child: Column(
-                            children: [
-                              _stroka6(),
-                              nameOperator11(),
-                              orderNow(),
-                              GiveOrderForOperator().giveBaseOrderForOperator() , //заказ сколько надо сделать
-                              displaySummaDataOrder11(), // сделано и брак
+                        displaySmena(), // блок - сделано за смену
 
-                              _buttonOrder2()
-                            ],
-                          ),
-                        ),
+                        dataFinishProduct(),  //'Данные по выпуску продукции'
 
-                        // Блок добавления и вывода заказов
-                        blockZakaz(),
+                        blockZakaz(), // Заказы в очереди
+
                         //ServiceMashine().remontTitle1(),
 
-                        //блок по записи ремонтных работ с машиной
-                        Container(
-                          decoration: BoxDecoration(
-                              color: Colors.grey[400],
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(9))),
-                          child: Column(
-                            children: [
-                              remontTitle(),
-                              buttonServiceAdd(),
-                              buttonServiceRead()
-                              //buttonServiceMashine1(),
-                              //GiveDataMashine().giveDataStatus(),
-
-                            ],
-                          ),
-                        ),
+                        remontMashin(), //Данные по обслуживанию PL1
 
                         _analitic()
                       ],
@@ -164,6 +119,54 @@ class MyTextPage111State extends State<MyTextPage111> {
       ),
     );
   }
+
+  //'Данные по выпуску продукции'
+  Widget dataFinishProduct(){
+    return Container(
+      margin: const EdgeInsets.only(
+          left: 1.0, right: 1.0, top: 7.0, bottom: 7.0),
+      padding:
+      const EdgeInsets.only(top: 0, left: 5, right: 5),
+      decoration: BoxDecoration(
+          color: Colors.grey[400],
+          borderRadius:
+          const BorderRadius.all(Radius.circular(9))),
+      child: Column(
+        children: [
+          _stroka6(),
+          nameOperator11(),
+          orderNow(),
+          GiveOrderForOperator().giveBaseOrderForOperator() , //заказ сколько надо сделать
+          displaySummaDataOrder11(), // сделано и брак
+
+          _buttonOrder2()
+        ],
+      ),
+    );
+  }
+
+
+
+  //блок по записи ремонтных работ с машиной
+  Widget remontMashin(){
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.grey[400],
+          borderRadius:
+          const BorderRadius.all(Radius.circular(9))),
+      child: Column(
+        children: [
+          remontTitle(),
+          buttonServiceAdd(),
+          buttonServiceRead()
+          //buttonServiceMashine1(),
+          //GiveDataMashine().giveDataStatus(),
+
+        ],
+      ),
+    );
+  }
+
 
 // Блок добавления и вывода заказов
 
@@ -203,7 +206,7 @@ class MyTextPage111State extends State<MyTextPage111> {
     return ListView.separated(
       itemCount: todoList1.length,
       separatorBuilder: (BuildContext context, int index) {
-        return const SizedBox(height: height2);
+        return const SizedBox(height: 2);
       },
       itemBuilder: (BuildContext context, int index) {
         return Dismissible(
@@ -217,15 +220,6 @@ class MyTextPage111State extends State<MyTextPage111> {
               ),
             ),
           ),
-
-          /*   onDismissed:(direction){
-          setState((){
-            countOrder --;
-            todoList1.removeAt(index);
-          });
-        },
-
-     */
         );
       },
     );
@@ -271,7 +265,7 @@ class MyTextPage111State extends State<MyTextPage111> {
             itemCount: clientWidgets.length,
 
             separatorBuilder: (BuildContext context, int index) {
-              return const SizedBox(height: height2);
+              return const SizedBox(height: 2);
             },
             itemBuilder: (BuildContext context, int index) {
               return Dismissible(
@@ -573,7 +567,7 @@ class MyTextPage111State extends State<MyTextPage111> {
         Container(
           padding: const EdgeInsets.only(top: 0, left: 5, right: 5),
           margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
-          child: const Text('Данные по выпуску продукции: ',
+          child: const Text('Текущий заказ: ',
               style: TextStyle(fontSize: 18, color: Colors.black)),
         ),
       ],
@@ -944,6 +938,168 @@ class MyTextPage111State extends State<MyTextPage111> {
           );
         });
   }
+
+  //------------------------------------------------------
+
+
+  Widget displaySmena() {
+    return Container(
+
+      alignment: Alignment.bottomLeft,
+      padding: padding_5_5_5_0,
+      margin: margin_5_5_5_0,
+      decoration: styleBoxDecorationContainerblueGrey200,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Container(
+            width: double.infinity,
+            margin: margin_0_10_0_0,
+            child: Text('Сделано за смену:', textAlign: TextAlign.left,
+              style: TextStyle(fontSize: 20.0),
+            ),
+
+          ),
+          WidgetsForOperator().displayDayCount(),
+          buttonViewGetDataSmenaOperator(),
+
+        ],
+      ),
+    );
+  }
+  // КНОПКА СМОТРЕТЬ ИНФОРМАЦИЮ ПО ДРУГИМ СМЕНАМ, СКОЛЬКО СДЕЛАНО
+  Widget buttonViewGetDataSmenaOperator() {
+    return Container(
+      width: widthDoubleMaxFinite,
+      //margin: margin_0_5_0_0,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          ElevatedButton(
+            style: ButtonStyle(
+                textStyle:
+                MaterialStateProperty.all(const TextStyle(fontSize: 18)),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(9.0),
+                        side: const BorderSide(color: Colors.black12)))),
+            onPressed: () {
+              // ВСПЛЫВАЮЩЕЕ ОКНО ДЛЯ ВНЕСЕНИЯ ДАННЫХ
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return getDataSmenaOperatorAlertDialog(); //_dialog диалоговое окно
+                  });
+            },
+            child: const Text(
+                'Произведено в другие смены',
+                style: textStyleFontSize16_Black
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget getDataSmenaOperatorAlertDialog() {
+    return AlertDialog(
+
+
+      backgroundColor: Colors.orange,
+      title: const Text('Общее количество '),
+      content: getDataSmenaOperator(),
+
+      actions: [
+        Container(
+          padding: EdgeInsets.only(top: 0, left: 0, right: 0, bottom: 0),
+          margin: EdgeInsets.only(top: 0, left: 0, right: 0, bottom: 0),
+          width: double.infinity,
+          child: ElevatedButton(
+              onPressed: () {
+
+                //var timeNow = DateTime.now();
+                //var timeNowString = timeres111();
+
+                //ЗАКРЫТИЕ ВСПЛЫВАЮЩЕГО ОКНА
+                Navigator.of(context).pop();
+                _userToDo = '';
+
+              },
+              child: const Text('Закрыть')),
+        ),
+      ],
+    );
+  }
+
+
+//получение данных по всем сменам, сколько сделано
+  Widget getDataSmenaOperator() {
+    return StreamBuilder<QuerySnapshot>(
+      //создание списка из базы данных
+        stream: FirebaseFirestore.instance.collection("/smenaOperatorov/allCount/all").orderBy("data").snapshots(),
+        builder: (context, snapshot) {
+          var clientWidgets = [];
+          var idList = [];
+          var countindex = [];
+
+          // List clientWidgets = [];
+          if (snapshot.hasData) {
+            final clients = snapshot.data!.docs.reversed.toList();
+            for (var client in clients) {
+              String nameOperator = client['name'];
+              var numberButles = client['number'];
+              var defectiveButles = client['brack'];
+              var time = client['dataForm'];
+
+
+              clientWidgets.add(
+                  '$time \nОператор: $nameOperator\nСделано: $numberButles\nБрак: $defectiveButles'); // список для отображения данных
+
+            }
+
+          }else{
+            return Text('Процесс загрузки...',
+                style: TextStyle(fontSize: 20, color: Colors.orange));
+          }
+
+          //возвращает вид в виде списка
+          return Container(
+            alignment: Alignment.bottomLeft,
+            width: double.infinity,
+            //height: 200,
+            margin: EdgeInsets.only(top: 2, left: 2, right: 2),
+            padding:EdgeInsets.only(top: 2, left: 2, right: 2),
+            decoration: BoxDecoration(
+                color: Colors.grey[400],
+                borderRadius: const BorderRadius.all(Radius.circular(9))),
+
+            child: ListView.builder(
+              itemCount: clientWidgets.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Column(
+                  children: [
+                    Container(
+                        width: double.infinity,
+                        alignment: Alignment.bottomLeft,
+                        margin: const EdgeInsets.only(top: 5, left: 5, right: 5),
+                        child: Text(clientWidgets[index],
+                        )),
+                    Container(
+                      height: 2,
+                      color: Colors.orange[600],
+                    )
+                  ],
+                );
+              },
+            ),
+          );
+        });
+  }
+
+
+
+
 }
 
 

@@ -27,84 +27,41 @@ Future<void> getAllCountsForSmena() async {
             (querySnapshot) {
           print("Successfully completed");
           var rrrr = '' ;
-          var myInt2 = 0 ;
+          int myInt2 = 0 ;
+
+          var brack1 = '' ;
+          int brack2 = 0 ;
 
           for (var docSnapshot in querySnapshot.docs) {
 
             rrrr = docSnapshot['number'];
             int myInt = int.parse(rrrr as String);
             myInt2 = myInt2 + myInt;
-            //print('${docSnapshot.id} => ${docSnapshot.data()}');
+
+            brack1 = docSnapshot['brack'];
+            int myIntBrack = int.parse(brack1 as String);
+            brack2 = brack2 + myIntBrack;
+
+
+
           }
+
+          DateTime nowMyTime = DateTime.now();
+          String formatDate = DateFormat('Дата: yyyy-MM-dd \nВремя: kk:mm').format(nowMyTime);
 
           FireBaseVar('/smenaOperatorov/allCount/all').add({
             'number': myInt2,
-            'brack': 'fgfgf',
+            'brack': brack2,
+            'data' : nowMyTime,
+            'dataForm' : formatDate,
+            'name' : nameOperator,
+
 
           });
         },
         onError: (e) => print("Error completing: $e"),
       );
-
-
-
-/*
-  StreamBuilder<QuerySnapshot>(
-      //создание списка из базы данных
-        stream: FireBaseVar('smenaOperatorov/dayCount/day')
-            .snapshots(),
-        builder: (context, snapshot) {
-          var clientWidgets = [];
-          var brackSt = [];
-          int intVal2 = 0;
-          int brackFinish2 = 0;
-
-          if (snapshot.hasData) {
-            final clients = snapshot.data!.docs.reversed.toList();
-            for (var client in clients) {
-              int intVal1 = 0;
-              int brackFinish = 0;
-
-              var _userToDo1 = client['number'];
-              intVal1 = int.parse(_userToDo1);
-              intVal2 = intVal2 + intVal1;
-
-              var _brack2 = client['brack'];
-              brackFinish = int.parse(_brack2);
-              brackFinish2 = brackFinish2 + brackFinish;
-
-              var nameOperator = client['name'];
-
-            }
-
-            DateTime now = DateTime.now();
-            String formatDate = DateFormat('Дата: yyyy-MM-dd \nВремя: kk:mm').format(now);
-
-            FireBaseVar('/smenaOperatorov/allCount/all').add({
-              'number': 'intVal2',
-              'brack': brackFinish2,
-              'time11' : nameOperator,
-              'time111' : now ,
-              'name' : nameOperator,
-            });
-
-
-          }
-
-
-          return Container(
-
-
-          );
-        }
-        );
-
- */
 }
-
-
-
-
 
 //получение данных о всех сервисах машины
 Future<void> getServiceMashine() async {

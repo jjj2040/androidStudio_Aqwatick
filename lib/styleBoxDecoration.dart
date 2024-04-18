@@ -8,6 +8,11 @@ class StyleBoxDecorationContainer extends OperatorButtle{
 }
 
 
+BoxDecoration styleBoxDecorationContainerGrey100 =
+BoxDecoration(
+    color: colorGrey100,
+    borderRadius: const BorderRadius.all(Radius.circular(9)));
+
 BoxDecoration styleBoxDecorationContainerGrey300 =
 BoxDecoration(
     color: colorGrey300,
@@ -28,6 +33,21 @@ BoxDecoration(
     color: colorblueGreyStyle200 ,
     borderRadius: const BorderRadius.all(Radius.circular(9)));
 
+
+ButtonStyle styleButtonInputPassword1 =
+ButtonStyle(
+  padding: const MaterialStatePropertyAll(EdgeInsets.all(20)),
+  backgroundColor: MaterialStateProperty.all(Colors.cyanAccent),
+  overlayColor: MaterialStateProperty.all(Colors.green),
+  textStyle: MaterialStateProperty.all(
+    const TextStyle(fontSize: 20),
+  ),
+  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+    RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(9.0),
+    ),
+  ),
+);
 //----------------------------------
 
 const margin_35_10_10_0 =  EdgeInsets.only(top: 35, left: 10, right: 10);
@@ -49,6 +69,7 @@ const padding_15_5_5_0 = EdgeInsets.only(top: 15, left: 5, right: 5);
 const padding_5_5_5_0 = EdgeInsets.only(top: 5, left: 5, right: 5);
 const padding_0_5_5_0 = EdgeInsets.only(top: 0, left: 5, right: 5);
 const padding_5_5_5_5 = EdgeInsets.only(top: 5, left: 5, right: 5, bottom: 5);
+
 
 
 //----------------------------------
@@ -75,6 +96,9 @@ const textStyleFontSize16_Black = TextStyle(color: Colors.black, fontSize: 16);
 
 
 const textStyleColorBlack = TextStyle(color: Colors.black);
+
+const textStyleFontSize20_Black_Bold = TextStyle(
+fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black);
 
 
 

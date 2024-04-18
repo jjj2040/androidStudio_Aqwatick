@@ -7,6 +7,7 @@ import 'package:untitled111/01_Operator_PL1/01OperButtle/operatorButtle.dart';
 class StyleColor extends OperatorButtle{
 }
 
+var colorGrey100 = Colors.grey[100];
 var colorGrey400 = Colors.grey[400];
 var colorGrey300 = Colors.grey[300];
 var colorGrey440 = Colors.grey[440];
